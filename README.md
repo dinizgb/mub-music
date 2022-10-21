@@ -1,2 +1,1 @@
-# mub-music
-Mub Music (mubmusic.com) front-end code repository.
+# Mub music is on the way...
