@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "date": "2022-04-28T14:40:50",
+    "modified": "2022-04-28T15:12:45",
+    "slug": "Chart-post-1",
+    "title": {
+      "rendered": "Chart Post 1"
+    },
+    "excerpt": {
+      "rendered": "<p>This is the excerpt to Chart Post 1.</p>\n"
+    },
+    "featured_media_url": "https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+    "ACF": {
+      "chart_category_data": {
+        "ID": 74,
+        "post_date": "2022-04-27 18:56:59",
+        "post_date_gmt": "2022-04-27 18:56:59",
+        "post_title": "People",
+        "post_name": "people",
+        "post_modified": "2022-04-27 18:58:12",
+        "post_type": "chart_category"
+      }
+    }
+  },
+  {
+    "id": 2,
+    "date": "2022-04-28T14:40:50",
+    "modified": "2022-04-28T15:12:45",
+    "slug": "Chart-post-2",
+    "title": {
+      "rendered": "Chart Post 2"
+    },
+    "excerpt": {
+      "rendered": "<p>This is the excerpt to Chart Post 2.</p>\n"
+    },
+    "featured_media_url": "https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+    "ACF": {
+      "chart_category_data": {
+        "ID": 74,
+        "post_date": "2022-04-27 18:56:59",
+        "post_date_gmt": "2022-04-27 18:56:59",
+        "post_title": "People",
+        "post_name": "people",
+        "post_modified": "2022-04-27 18:58:12",
+        "post_type": "chart_category"
+      }
+    }
+  }
+]
