@@ -1,0 +1,64 @@
+[
+  {
+    "id": 1,
+    "date": "2022-04-28T14:40:50",
+    "modified": "2022-04-28T15:12:45",
+    "slug": "test-post-1",
+    "title": {
+      "rendered": "Test Post 1"
+    },
+    "excerpt": {
+      "rendered": "<p>This is the excerpt to Test Post 1.</p>\n"
+    },
+    "featured_media_url": "https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+    "categories_data": [
+      {
+        "category_name": "Tech",
+        "category_slug": "tech"
+      }
+    ],
+    "tags_data": [
+      {
+        "term_id": 23,
+        "name": "Google",
+        "slug": "google"
+      },
+      {
+        "term_id": 23,
+        "name": "Facebook",
+        "slug": "facebook"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "date": "2022-04-28T14:40:40",
+    "modified": "2022-04-28T15:12:40",
+    "slug": "test-post-2",
+    "title": {
+      "rendered": "Test Post 2"
+    },
+    "excerpt": {
+      "rendered": "<p>This is the excerpt to Test Post 2.</p>\n"
+    },
+    "featured_media_url": "https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+    "categories_data": [
+      {
+        "category_name": "Tech",
+        "category_slug": "tech"
+      }
+    ],
+    "tags_data": [
+      {
+        "term_id": 23,
+        "name": "Google",
+        "slug": "google"
+      },
+      {
+        "term_id": 23,
+        "name": "Facebook",
+        "slug": "facebook"
+      }
+    ]
+  }
+]
