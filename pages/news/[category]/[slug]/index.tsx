@@ -2,7 +2,7 @@
 import React from "react";
 import ArticleFormat from "layouts/ArticleFormat";
 import { fetchQuery } from "services/graphql/fetchQuery";
-import getNewsBySlug from "services/graphql/queries/getNewsBySlug";
+import getNewsBy from "services/graphql/queries/getNewsBy";
 import getAllNews from "services/graphql/queries/getAllNews";
 import { fetchPaths } from "services/core/fetchPaths";
 import htmlTagCleaner from "utils/htmlTagCleaner";
@@ -38,7 +38,7 @@ export async function getStaticProps(context) {
   const getNewsParam: QueryParameters = {
     slug: context.params.slug,
   };
-  const getNewsReq = await fetchQuery(getNewsBySlug(getNewsParam));
+  const getNewsReq = await fetchQuery(getNewsBy(getNewsParam));
   const getNewsResponse = getNewsReq.props.data.postBy;
 
   return {
@@ -55,5 +55,10 @@ export async function getStaticPaths() {
   };
   const getAllNewsReq = await fetchQuery(getAllNews(getAllNewsParams));
   const getAllNewsResponse = getAllNewsReq.props.data.posts.nodes;
-  return fetchPaths(getAllNewsResponse, 2);
+
+  const paths = getAllNewsResponse.map((item) => ({
+    params: { category: item.categories.nodes[0].slug, slug: item.slug },
+  }));
+
+  return fetchPaths(paths);
 }

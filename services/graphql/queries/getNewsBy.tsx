@@ -6,9 +6,9 @@ import formatGraphqlQueryParams from "utils/formatGraphqlQueryParams";
  * @param {QueryParameters} props to the component.
  * @return {string}: With the query.
  */
-export default function getNewsBySlug(props: QueryParameters) {
+export default function getNewsBy(props: QueryParameters) {
   const query = `
-    query getNewsBySlug {
+    query getNewsBy {
       postBy(${formatGraphqlQueryParams(props)}) {
         id
         slug

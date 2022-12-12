@@ -144,10 +144,10 @@ export default function ArticleFormat(props: ArticleFormatProps) {
                   fontType={"MainTitle"}
                   fontColor={({ theme }) => theme.colors.text_4}
                   fontWeight={400}
-                  fontSize={76}
-                  lineHeight={100}
-                  xsFontSize={60}
-                  xsLineHeight={70}
+                  fontSize={60}
+                  lineHeight={85}
+                  xsFontSize={40}
+                  xsLineHeight={60}
                   margin={0}
                 >
                   {props.articleTitle}

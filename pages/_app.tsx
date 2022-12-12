@@ -13,7 +13,7 @@ export const theme = {
     primary: "#b27d3c",
     primary_hover: "#F5B100",
     secondary: "#20232E",
-    secondary_hover: "#232733",
+    secondary_hover: "#252936",
     subtitle: "#999",
     subtitle_2: "#999",
     text_1: "#333",

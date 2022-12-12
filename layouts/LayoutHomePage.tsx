@@ -1,16 +1,20 @@
 import React from "react";
 import Head from "next/head";
+// MUI
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+// COMPONENTS
 import Header from "components/Tags/Header";
 import Footer from "components/Tags/Footer";
 import { H2, P } from "components/Texts/Typographies";
 import { WhiteButton } from "components/Inputs/Buttons";
 import BigHorizontalCardList from "components/Lists/BigHorizontalCardList";
+import ProductCardList from "components/Lists/ProductCardList";
 
 type LayoutHomePageProps = {
   postData: any;
+  productData: any;
   layoutDescription: string;
 };
 
@@ -103,7 +107,25 @@ export default function LayoutHomePage(props: LayoutHomePageProps) {
               columnSpacing={{ xs: 1, sm: 3, md: 5 }}
               style={{ marginTop: 80 }}
             >
-              <Grid item xs={12} sm={12} md={8}>
+              <Grid item xs={12} sm={12} md={9}>
+                <Grid item xs={12} style={{ marginTop: 40 }}>
+                  <H2
+                    fontColor={({ theme }) => theme.colors.text_4}
+                    fontWeight={600}
+                    fontSize={22}
+                    lineHeight={21}
+                    xsFontSize={21}
+                    xsLineHeight={24}
+                    margin={`0 0 35px 0`}
+                  >
+                    Featured Products
+                  </H2>
+                </Grid>
+                <Grid item xs={12}>
+                  <ProductCardList productList={props.productData} />
+                </Grid>
+              </Grid>
+              <Grid item xs={12} sm={12} md={9}>
                 <Grid container>
                   <Grid item xs={12} style={{ marginTop: 40 }}>
                     <H2
@@ -118,14 +140,14 @@ export default function LayoutHomePage(props: LayoutHomePageProps) {
                       Latest News
                     </H2>
                     <BigHorizontalCardList postList={props.postData} />
-                    <Grid item xs={12} className="desktop-only">
+                    <Grid item xs={12}>
                       <div style={{ display: "flex" }}>
                         <WhiteButton
                           href="/news/"
                           width={`100%`}
                           margin={`0 0 30px 0`}
                         >
-                          See More
+                          More news
                         </WhiteButton>
                       </div>
                     </Grid>

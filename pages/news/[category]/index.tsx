@@ -3,7 +3,7 @@ import React from "react";
 import LayoutListWithAside from "layouts/LayoutListWithAside";
 import { fetchQuery } from "services/graphql/fetchQuery";
 import getAllNews from "services/graphql/queries/getAllNews";
-import getAllCategories from "services/graphql/queries/getAllCategories";
+import getAllNewsCategories from "services/graphql/queries/getAllNewsCategories";
 import { fetchPaths } from "services/core/fetchPaths";
 
 import { QueryParameters } from "types/queryParams";
@@ -46,8 +46,13 @@ export async function getStaticProps(context) {
 
 // eslint-disable-next-line require-jsdoc
 export async function getStaticPaths() {
-  const getAllCategoriesReq = await fetchQuery(getAllCategories());
-  const getAllCategoriesResponse =
-    getAllCategoriesReq.props.data.categories.nodes;
-  return fetchPaths(getAllCategoriesResponse, 1);
+  const getAllNewsCategoriesReq = await fetchQuery(getAllNewsCategories());
+  const getAllNewsCategoriesResponse =
+    getAllNewsCategoriesReq.props.data.categories.nodes;
+
+  const paths = getAllNewsCategoriesResponse.map((item) => ({
+    params: { category: item.slug },
+  }));
+
+  return fetchPaths(paths);
 }

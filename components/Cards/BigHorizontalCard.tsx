@@ -1,6 +1,6 @@
 import React from "react";
-import styled from "styled-components";
 import Image from "next/image";
+import styled from "styled-components";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import { H3, H4, Span } from "components/Texts/Typographies";
@@ -51,11 +51,11 @@ const BigHorizontalCardAuthor = styled.div`
 
 const BigHorizontalCardThumb = styled.div`
   width: 90%;
-  height: 250px;
+  height: 280px;
   position: relative;
   margin-top: 40px;
   margin-bottom: 40px;
-  background: #222;
+  background: ${({ theme }) => theme.colors.secondary};
   img {
     border-radius: 8px;
   }
