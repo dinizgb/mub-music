@@ -1,7 +1,8 @@
 export interface whereParams {
-  categoryName?: string;
   brandSlug?: string;
+  categoryName?: string;
   catSlug?: string;
-  subCatSlug?: string;
+  parentCategory?: string;
   priceAverageSlug?: string;
+  subCatSlug?: string;
 }

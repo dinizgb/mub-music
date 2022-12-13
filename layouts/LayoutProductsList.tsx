@@ -22,6 +22,7 @@ import ProductCardList from "components/Lists/ProductCardList";
 type LayoutProductsListProps = {
   productData: any;
   productCategoriesData: any;
+  productCategoryData: any;
   productSubCategories: any;
   layoutDescription: string;
 };
@@ -102,7 +103,11 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                       <FormControl>
                         <RadioGroup
                           aria-labelledby="demo-radio-buttons-group-label"
-                          defaultValue="female"
+                          defaultValue={
+                            props.productCategoryData
+                              ? props.productCategoryData
+                              : ""
+                          }
                           name="radio-buttons-group"
                         >
                           {props.productCategoriesData.map(
@@ -133,7 +138,6 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                       <FormControl>
                         <RadioGroup
                           aria-labelledby="demo-radio-buttons-group-label"
-                          defaultValue="female"
                           name="radio-buttons-group"
                         >
                           {props.productSubCategories.map(({ title, slug }) => {

@@ -16,6 +16,7 @@ export default function ProductsHomePage(props: any) {
     <LayoutProductsList
       productData={props.lastProducts}
       productCategoriesData={props.productCategories}
+      productCategoryData={null}
       productSubCategories={props.productSubCategories}
       layoutDescription={
         "Find the best deals on Guitars, Bass, Drums, Amps, DJ, Keyboards, Pro-Audio and much more."
@@ -26,17 +27,25 @@ export default function ProductsHomePage(props: any) {
 
 // eslint-disable-next-line require-jsdoc
 export async function getStaticProps() {
+  // PRODUCTS
   const lastProductsParams: QueryParameters = {
     first: 11,
   };
   const lastProducts = await fetchQuery(getAllProducts(lastProductsParams));
   const lastProductsResponse = lastProducts.props.data.products.nodes;
 
+  // PRODUCTS CATEGORIES
   const productCategories = await fetchQuery(getAllProductCategories());
   const productCategoriesResponse =
     productCategories.props.data.productCategories.nodes;
 
-  const productSubCategories = await fetchQuery(getAllProductSubCategories());
+  // PRODUCTS SUBCATEGORIES
+  const productSubCategoriesParams: QueryParameters = {
+    first: 50,
+  };
+  const productSubCategories = await fetchQuery(
+    getAllProductSubCategories(productSubCategoriesParams)
+  );
   const productSubCategoriesResponse =
     productSubCategories.props.data.prodSubCategories.nodes;
 
