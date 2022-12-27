@@ -63,6 +63,26 @@ const GlobalStyle = createGlobalStyle`
             display: block;
         }
     }
+    .accordion{
+        background-color: ${() => theme.colors.secondary};
+        border-radius: 8px;
+        color: ${() => theme.colors.text_4};
+        margin: 0 0 20px 0;
+        svg{
+            color: ${() => theme.colors.text_4};
+        }
+        span{
+            font-size: 17px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+        .MuiCollapse-root{
+            background-color: ${() => theme.colors.secondary_hover} !important;
+            color: ${() => theme.colors.text_4} !important;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+    }
 `;
 
 export default GlobalStyle;
