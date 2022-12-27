@@ -26,7 +26,7 @@ export default function Header() {
         <meta name="viewport" content="width-device-width, initial-scale=1.0" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://mubmusic.com/" />
-        <meta property="og:site_name" content="datamundy" />
+        <meta property="og:site_name" content="Mub Music" />
         <meta property="og:image" content="images/favicon-1.ico?w=64" />
         <meta property="og:locale" content="en" />
         <link

@@ -1,3 +1,4 @@
+/* eslint-disable new-cap */
 import React from "react";
 import Head from "next/head";
 // MUI
@@ -18,15 +19,21 @@ import Footer from "components/Tags/Footer";
 import { H2, H3, P } from "components/Texts/Typographies";
 import { WhiteButton } from "components/Inputs/Buttons";
 import ProductCardList from "components/Lists/ProductCardList";
+// SERVICES
+import SEOTagsConstructor from "services/SEO/SEOTagsConstructor";
+// TYPES
+import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
 
 type LayoutProductsListProps = {
   productData: any;
   productCategoriesData: any;
   productCategoryData: any;
   productSubCategories: any;
-  layoutDescription: string;
+  productSubCategoryData: any;
+  productBrandsData: any;
+  productPriceAverageData: any;
+  seoData: SEOTagsConstructorTypes;
 };
-
 /**
  * Layout Products List Component.
  * @param {any} props to the component.
@@ -36,40 +43,8 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
   return (
     <>
       <Head>
-        <title>{`Mub Music | Products`}</title>
-        <meta name="description" content={props.layoutDescription} />
-        <meta
-          property="og:title"
-          content={`Mub Music | Products`}
-          key="title"
-        />
-        <meta property="og:description" content={props.layoutDescription} />
-        <meta
-          property="og:url"
-          content={`https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/products/`}
-        />
-        <meta
-          property="og:image"
-          content={`https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/images/mub-logo-icon.png`}
-        />
-        <meta property="og:image:width" content="400" />
-        <meta property="og:image:height" content="200" />
-        <meta property="og:image:alt" content={props.layoutDescription} />
-        <meta name="twitter:text:title" content={`Mub Music | Products`} />
-        <meta
-          name="twitter:image"
-          content={`https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/images/mub-logo-icon.png`}
-        />
-        <meta name="twitter:image:alt" content={props.layoutDescription} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <link
-          itemProp="thumbnailUrl"
-          href={`https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/images/mub-logo-icon.png`}
-        />
-        <link
-          rel="canonical"
-          href={`https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/products/`}
-        />
+        <title>{`${props.seoData.pageTitle} | Mub Music`}</title>
+        {SEOTagsConstructor(props.seoData)}
       </Head>
       <Header />
       <main>
@@ -102,13 +77,13 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                     <AccordionDetails>
                       <FormControl>
                         <RadioGroup
-                          aria-labelledby="demo-radio-buttons-group-label"
+                          aria-labelledby="category-group-label"
                           defaultValue={
                             props.productCategoryData
                               ? props.productCategoryData
                               : ""
                           }
-                          name="radio-buttons-group"
+                          name="category-group"
                         >
                           {props.productCategoriesData.map(
                             ({ title, slug }) => {
@@ -137,8 +112,13 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                     <AccordionDetails>
                       <FormControl>
                         <RadioGroup
-                          aria-labelledby="demo-radio-buttons-group-label"
-                          name="radio-buttons-group"
+                          aria-labelledby="subcategory-group-label"
+                          name="subcategory-group"
+                          defaultValue={
+                            props.productSubCategoryData
+                              ? props.productSubCategoryData
+                              : ""
+                          }
                         >
                           {props.productSubCategories.map(({ title, slug }) => {
                             return (
@@ -162,7 +142,30 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                     >
                       <span>Brands</span>
                     </AccordionSummary>
-                    <AccordionDetails>Cc</AccordionDetails>
+                    <AccordionDetails>
+                      <FormControl>
+                        <RadioGroup
+                          aria-labelledby="brand-group-label"
+                          defaultValue={
+                            props.productBrandsData
+                              ? props.productBrandsData
+                              : ""
+                          }
+                          name="brand-group"
+                        >
+                          {props.productBrandsData.map(({ title, slug }) => {
+                            return (
+                              <FormControlLabel
+                                key={slug}
+                                value={slug}
+                                control={<Radio />}
+                                label={title}
+                              />
+                            );
+                          })}
+                        </RadioGroup>
+                      </FormControl>
+                    </AccordionDetails>
                   </Accordion>
                   <Accordion className="accordion">
                     <AccordionSummary
@@ -172,7 +175,32 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                     >
                       <span>Price Average</span>
                     </AccordionSummary>
-                    <AccordionDetails>Dd</AccordionDetails>
+                    <AccordionDetails>
+                      <FormControl>
+                        <RadioGroup
+                          aria-labelledby="price-average-group-label"
+                          defaultValue={
+                            props.productPriceAverageData
+                              ? props.productPriceAverageData
+                              : ""
+                          }
+                          name="price-average-group"
+                        >
+                          {props.productPriceAverageData.map(
+                            ({ title, slug }) => {
+                              return (
+                                <FormControlLabel
+                                  key={slug}
+                                  value={slug}
+                                  control={<Radio />}
+                                  label={title}
+                                />
+                              );
+                            }
+                          )}
+                        </RadioGroup>
+                      </FormControl>
+                    </AccordionDetails>
                   </Accordion>
                 </Grid>
               </Grid>
@@ -187,7 +215,7 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                     xsLineHeight={30}
                     margin={`0`}
                   >
-                    Products
+                    {props.seoData.pageTitle}
                   </H2>
                   <P
                     fontColor={({ theme }) => theme.colors.subtitle}
@@ -198,7 +226,7 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                     xsLineHeight={36}
                     margin={`5px 0 15px 0`}
                   >
-                    {props.layoutDescription}
+                    {props.seoData.pageExcerpt}
                   </P>
                 </Grid>
                 <Grid item xs={12}>

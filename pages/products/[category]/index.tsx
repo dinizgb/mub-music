@@ -5,7 +5,9 @@ import getAllProducts from "services/graphql/queries/getAllProducts";
 import getAllProductCategories from "services/graphql/queries/getAllProductCategories";
 import getAllProductSubCategories from "services/graphql/queries/getAllProductSubCategories";
 import { fetchPaths } from "services/core/fetchPaths";
+import removeDuplicatesObjectsFromArray from "utils/removeDuplicatesObjectsFromArray";
 import { QueryParameters } from "types/queryParams";
+import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
 
 /**
  * Products Category Page.
@@ -19,9 +21,10 @@ export default function ProductsCategoryPage(props: any) {
       productCategoriesData={props.productCategoriesData}
       productCategoryData={props.productCategoryData}
       productSubCategories={props.productSubCategories}
-      layoutDescription={
-        "Find the best deals on Guitars, Bass, Drums, Amps, DJ, Keyboards, Pro-Audio and much more."
-      }
+      productSubCategoryData={null}
+      productBrandsData={props.productBrands}
+      productPriceAverageData={props.priceAverage}
+      seoData={props.seoData}
     />
   );
 }
@@ -53,12 +56,69 @@ export async function getStaticProps(context) {
   const productSubCategoriesResponse =
     productSubCategories.props.data.prodSubCategories.nodes;
 
+  // BRANDS
+  const brands = lastProductsResponse.map((obj) => obj.product_info.brand);
+  const filteredBrands = removeDuplicatesObjectsFromArray(brands);
+
+  // PRICE AVERAGE
+  const priceAverage = lastProductsResponse.map(
+    (obj) => obj.product_info.priceAverage
+  );
+  const filteredpriceAverage = removeDuplicatesObjectsFromArray(priceAverage);
+
+  // SEO DATA
+  const productsPrefix = lastProductsResponse[0];
+  const seoData: SEOTagsConstructorTypes = {
+    pageTitle: `${
+      productsPrefix
+        ? productsPrefix.product_info.category.title
+        : category.toUpperCase()
+    }`,
+    pageExcerpt: `Find the best deals on ${
+      productsPrefix
+        ? productsPrefix.product_info.category.title
+        : category.toUpperCase()
+    }.`,
+    pageType: "product",
+    pagePath: `products/${category}`,
+    pageThumb: productsPrefix
+      ? productsPrefix.product_info.backgroundImage.sourceUrl
+      : "",
+    breadcrumbItemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Products",
+        item: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/products/`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: `${
+          productsPrefix
+            ? productsPrefix.product_info.category.title
+            : category.toUpperCase()
+        }`,
+        item: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/products/${category}/`,
+      },
+    ],
+  };
+
   return {
     props: {
       lastProducts: lastProductsResponse,
       productCategoryData: category,
       productCategoriesData: productCategoriesResponse,
       productSubCategories: productSubCategoriesResponse,
+      productBrands: filteredBrands,
+      priceAverage: filteredpriceAverage,
+      seoData: seoData,
     },
   };
 }
