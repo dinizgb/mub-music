@@ -25,6 +25,7 @@ export default function ProductsCategoryPage(props: any) {
       productBrandsData={props.productBrands}
       productPriceAverageData={props.priceAverage}
       seoData={props.seoData}
+      totalCount={props.totalCount}
     />
   );
 }
@@ -83,7 +84,7 @@ export async function getStaticProps(context) {
     pageType: "product",
     pagePath: `products/${category}/${subCategory}`,
     pageThumb: productsPrefix
-      ? productsPrefix.product_info.backgroundImage.sourceUrl
+      ? productsPrefix.product_info.thumbnail.sourceUrl
       : "",
     breadcrumbItemListElement: [
       {
@@ -131,6 +132,8 @@ export async function getStaticProps(context) {
       productBrands: filteredBrands,
       priceAverage: filteredpriceAverage,
       seoData: seoData,
+      totalCount:
+        lastProducts.props.data.products.pageInfo.offsetPagination.total,
     },
   };
 }

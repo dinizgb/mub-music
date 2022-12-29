@@ -1,3 +1,5 @@
+import { OffsetPaginationTypes } from "types/offsetPaginationTypes";
+
 export interface whereParams {
   brandSlug?: string;
   categoryName?: string;
@@ -5,4 +7,5 @@ export interface whereParams {
   parentCategory?: string;
   priceAverageSlug?: string;
   subCatSlug?: string;
+  offsetPagination?: OffsetPaginationTypes;
 }

@@ -20,11 +20,10 @@ export default function ProductCardList(props: any) {
         : props.productList.map(({ title, slug, product_info }) => {
             return (
               <>
-                <Grid item xs={12} sm={6} md={3}>
+                <Grid item xs={12} sm={6} md={3} key={slug}>
                   <ProductCard
-                    key={slug}
                     cardTitle={title}
-                    cardImage={product_info.backgroundImage.sourceUrl}
+                    cardImage={product_info.thumbnail.sourceUrl}
                     cardBrandLogo={
                       product_info.brand.brand_info.thumbnail.sourceUrl
                     }

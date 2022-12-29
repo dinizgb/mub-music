@@ -26,7 +26,7 @@ const ProductCardWrapper = styled.div<ProductCardCssProps>`
 
 const ProductCardThumb = styled.div`
   width: 100%;
-  height: 150px;
+  height: 165px;
   position: relative;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
@@ -47,7 +47,7 @@ const ProductCardBrandLogo = styled.div<ProductCardBrandLogoProps>`
   width: 54px;
   height: 54px;
   position: absolute;
-  top: 125px;
+  top: 140px;
   right: 25px;
   background: ${(props) => props.backgroundColor};
   border-radius: 50%;

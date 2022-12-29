@@ -15,13 +15,6 @@ export default function getAllProducts(props: QueryParameters) {
           slug
           title(format: RENDERED)
           product_info {
-            rating
-            price
-            backgroundImage {
-              sourceUrl(size: LARGE)
-              altText
-              title
-            }
             brand {
               ... on Brand {
                 id
@@ -43,6 +36,12 @@ export default function getAllProducts(props: QueryParameters) {
                 slug
               }
             }
+            colors
+            thumbnail {
+              sourceUrl(size: LARGE)
+              altText
+              title
+            }
             subcategory {
               ... on ProdSubCategory {
                 id
@@ -50,6 +49,8 @@ export default function getAllProducts(props: QueryParameters) {
                 slug
               }
             }
+            rating
+            price
             priceAverage {
               ... on PriceAverage {
                 id
@@ -57,6 +58,13 @@ export default function getAllProducts(props: QueryParameters) {
                 slug
               }
             }
+          }
+        }
+        pageInfo {
+          offsetPagination {
+            hasMore
+            hasPrevious
+            total
           }
         }
       }

@@ -4,6 +4,7 @@ import { fetchQuery } from "services/graphql/fetchQuery";
 import getAllProducts from "services/graphql/queries/getAllProducts";
 import getAllProductCategories from "services/graphql/queries/getAllProductCategories";
 import removeDuplicatesObjectsFromArray from "utils/removeDuplicatesObjectsFromArray";
+import paginationOffsetFormatter from "utils/paginationOffsetFormatter";
 import { QueryParameters } from "types/queryParams";
 import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
 
@@ -23,15 +24,21 @@ export default function ProductsHomePage(props: any) {
       productBrandsData={props.productBrands}
       productPriceAverageData={props.priceAverage}
       seoData={props.seoData}
+      totalCount={props.totalCount}
     />
   );
 }
 
 // eslint-disable-next-line require-jsdoc
-export async function getStaticProps() {
+export async function getServerSideProps(context) {
+  // PAGINATION SETTINGS
+  const offset = context.query.page
+    ? paginationOffsetFormatter(context.query.page)
+    : 0;
+
   // PRODUCTS
   const lastProductsParams: QueryParameters = {
-    first: 11,
+    where: { offsetPagination: { size: 20, offset: offset } },
   };
   const lastProducts = await fetchQuery(getAllProducts(lastProductsParams));
   const lastProductsResponse = lastProducts.props.data.products.nodes;
@@ -89,6 +96,8 @@ export async function getStaticProps() {
       productBrands: filteredBrands,
       priceAverage: filteredpriceAverage,
       seoData: seoData,
+      totalCount:
+        lastProducts.props.data.products.pageInfo.offsetPagination.total,
     },
   };
 }
