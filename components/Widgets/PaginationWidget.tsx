@@ -9,10 +9,46 @@ const PaginationWidgetWrapper = styled.div`
   margin: 0 auto;
 `;
 
+export const PaginationBullet = styled.a<PaginationBulletProps>`
+  width: 18px;
+  height: 18px;
+  font-family: "Open Sans", sans-serif;
+  background: ${(props) =>
+    props.active
+      ? ({ theme }) => theme.colors.primary_hover
+      : ({ theme }) => theme.colors.background};
+  border: 2px solid
+    ${(props) =>
+      props.active
+        ? ({ theme }) => theme.colors.primary_hover
+        : ({ theme }) => theme.colors.subtitle};
+  border-radius: 50%;
+  color: ${(props) =>
+    props.active
+      ? ({ theme }) => theme.colors.background
+      : ({ theme }) => theme.colors.text_4};
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0 0 0 10px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    background: ${({ theme }) => theme.colors.primary_hover};
+    color: ${({ theme }) => theme.colors.background};
+    border: 2px solid ${({ theme }) => theme.colors.primary_hover};
+  }
+`;
+
 type PaginationWidgetProps = {
   totalItens: number;
   currentPage: number;
   range: number;
+};
+
+type PaginationBulletProps = {
+  active: boolean;
 };
 
 /**
@@ -24,7 +60,7 @@ export default function PaginationWidget(props: PaginationWidgetProps) {
   const hasPages: boolean = props.totalItens > props.range ? true : false;
   const totalPages: number = Math.floor(props.totalItens / props.range);
   const smallerPaginationsRule: Array<number> = Array.from(
-    { length: props.totalItens / props.range },
+    { length: Math.ceil(props.totalItens / props.range) },
     (_, i) => i + 1
   );
   const biggerPaginationsRule: Array<any> =
@@ -50,19 +86,29 @@ export default function PaginationWidget(props: PaginationWidgetProps) {
       {hasPages ? (
         <PaginationWidgetWrapper>
           {pagination.map((item) => {
-            return (
-              <Span
+            return !isNaN(item) ? (
+              <PaginationBullet
                 key={item}
-                fontColor={({ theme }) => theme.colors.text_2}
-                fontWeight={600}
-                fontSize={17}
-                lineHeight={24}
-                xsFontSize={17}
-                xsLineHeight={24}
-                margin={`0 0 0 10px`}
+                active={props.currentPage == item}
+                href="#"
               >
                 {item}
-              </Span>
+              </PaginationBullet>
+            ) : (
+              <>
+                <Span
+                  fontColor={({ theme }) => theme.colors.subtitle}
+                  hoverColor={({ theme }) => theme.colors.subtitle}
+                  fontWeight={400}
+                  fontSize={16}
+                  lineHeight={24}
+                  xsFontSize={16}
+                  xsLineHeight={24}
+                  margin={`5px 4px 0 13px`}
+                >
+                  {item}
+                </Span>
+              </>
             );
           })}
         </PaginationWidgetWrapper>

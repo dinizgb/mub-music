@@ -4,8 +4,8 @@ import { fetchQuery } from "services/graphql/fetchQuery";
 import getAllProducts from "services/graphql/queries/getAllProducts";
 import getAllProductCategories from "services/graphql/queries/getAllProductCategories";
 import getAllProductSubCategories from "services/graphql/queries/getAllProductSubCategories";
-import { fetchPaths } from "services/core/fetchPaths";
 import removeDuplicatesObjectsFromArray from "utils/removeDuplicatesObjectsFromArray";
+import paginationOffsetFormatter from "utils/paginationOffsetFormatter";
 import { QueryParameters } from "types/queryParams";
 import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
 
@@ -26,18 +26,28 @@ export default function ProductsCategoryPage(props: any) {
       productPriceAverageData={props.priceAverage}
       seoData={props.seoData}
       totalCount={props.totalCount}
+      currentPage={props.currentPage}
     />
   );
 }
 
 // eslint-disable-next-line require-jsdoc
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   const category = context.params.category;
+
+  // PAGINATION SETTINGS
+  const offset = context.query.page
+    ? paginationOffsetFormatter(context.query.page)
+    : 0;
+  const currentPage = context.query.page ? parseInt(context.query.page) : 1;
 
   // PRODUCTS
   const lastProductsParams: QueryParameters = {
     first: 10,
-    where: { catSlug: category },
+    where: {
+      catSlug: category,
+      offsetPagination: { size: 20, offset: offset },
+    },
   };
   const lastProducts = await fetchQuery(getAllProducts(lastProductsParams));
   const lastProductsResponse = lastProducts.props.data.products.nodes;
@@ -122,19 +132,7 @@ export async function getStaticProps(context) {
       seoData: seoData,
       totalCount:
         lastProducts.props.data.products.pageInfo.offsetPagination.total,
+      currentPage: currentPage,
     },
   };
-}
-
-// eslint-disable-next-line require-jsdoc
-export async function getStaticPaths() {
-  const productCategories = await fetchQuery(getAllProductCategories());
-  const productCategoriesResponse =
-    productCategories.props.data.productCategories.nodes;
-
-  const paths = productCategoriesResponse.map((item) => ({
-    params: { category: item.slug },
-  }));
-
-  return fetchPaths(paths);
 }

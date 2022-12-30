@@ -45,6 +45,7 @@ type LayoutProductsListProps = {
   productPriceAverageData: any;
   seoData: SEOTagsConstructorTypes;
   totalCount: number;
+  currentPage: number;
 };
 /**
  * Layout Products List Component.
@@ -103,7 +104,13 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                                 <FormControlLabel
                                   key={slug}
                                   value={slug}
-                                  control={<Radio />}
+                                  control={
+                                    <Radio
+                                      onClick={() =>
+                                        (window.location.href = `/products/${slug}`)
+                                      }
+                                    />
+                                  }
                                   label={title}
                                 />
                               );
@@ -113,93 +120,70 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                       </FormControl>
                     </AccordionDetails>
                   </Accordion>
-                  <Accordion className="accordion">
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon />}
-                      aria-controls="subcategories-acc"
-                      id="subcategories-acc"
-                    >
-                      <span>Subcategories</span>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <FormControl>
-                        <RadioGroup
-                          aria-labelledby="subcategory-group-label"
-                          name="subcategory-group"
-                          defaultValue={
-                            props.productSubCategoryData
-                              ? props.productSubCategoryData
-                              : ""
-                          }
-                        >
-                          {props.productSubCategories.map(({ title, slug }) => {
-                            return (
-                              <FormControlLabel
-                                key={slug}
-                                value={slug}
-                                control={<Radio />}
-                                label={title}
-                              />
-                            );
-                          })}
-                        </RadioGroup>
-                      </FormControl>
-                    </AccordionDetails>
-                  </Accordion>
-                  <Accordion className="accordion">
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon />}
-                      aria-controls="brands-acc"
-                      id="brands-acc"
-                    >
-                      <span>Brands</span>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <FormControl>
-                        <RadioGroup
-                          aria-labelledby="brand-group-label"
-                          defaultValue={
-                            props.productBrandsData
-                              ? props.productBrandsData
-                              : ""
-                          }
-                          name="brand-group"
-                        >
-                          {props.productBrandsData.map(({ title, slug }) => {
-                            return (
-                              <FormControlLabel
-                                key={slug}
-                                value={slug}
-                                control={<Radio />}
-                                label={title}
-                              />
-                            );
-                          })}
-                        </RadioGroup>
-                      </FormControl>
-                    </AccordionDetails>
-                  </Accordion>
-                  <Accordion className="accordion">
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon />}
-                      aria-controls="price-average-acc"
-                      id="price-average-acc"
-                    >
-                      <span>Price Average</span>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <FormControl>
-                        <RadioGroup
-                          aria-labelledby="price-average-group-label"
-                          defaultValue={
-                            props.productPriceAverageData
-                              ? props.productPriceAverageData
-                              : ""
-                          }
-                          name="price-average-group"
-                        >
-                          {props.productPriceAverageData.map(
-                            ({ title, slug }) => {
+                  {props.productCategoryData && props.productData.length ? (
+                    <Accordion className="accordion">
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="subcategories-acc"
+                        id="subcategories-acc"
+                      >
+                        <span>Subcategories</span>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <FormControl>
+                          <RadioGroup
+                            aria-labelledby="subcategory-group-label"
+                            name="subcategory-group"
+                            defaultValue={
+                              props.productSubCategoryData
+                                ? props.productSubCategoryData
+                                : ""
+                            }
+                          >
+                            {props.productSubCategories.map(
+                              ({ title, slug }) => {
+                                return (
+                                  <FormControlLabel
+                                    key={slug}
+                                    value={slug}
+                                    control={
+                                      <Radio
+                                        onClick={() =>
+                                          (window.location.href = `/products/${props.productCategoryData}/${slug}`)
+                                        }
+                                      />
+                                    }
+                                    label={title}
+                                  />
+                                );
+                              }
+                            )}
+                          </RadioGroup>
+                        </FormControl>
+                      </AccordionDetails>
+                    </Accordion>
+                  ) : null}
+                  {props.productData.length ? (
+                    <Accordion className="accordion">
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="brands-acc"
+                        id="brands-acc"
+                      >
+                        <span>Brands</span>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <FormControl>
+                          <RadioGroup
+                            aria-labelledby="brand-group-label"
+                            defaultValue={
+                              props.productBrandsData
+                                ? props.productBrandsData
+                                : ""
+                            }
+                            name="brand-group"
+                          >
+                            {props.productBrandsData.map(({ title, slug }) => {
                               return (
                                 <FormControlLabel
                                   key={slug}
@@ -208,12 +192,49 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                                   label={title}
                                 />
                               );
+                            })}
+                          </RadioGroup>
+                        </FormControl>
+                      </AccordionDetails>
+                    </Accordion>
+                  ) : null}
+                  {props.productData.length ? (
+                    <Accordion className="accordion">
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="price-average-acc"
+                        id="price-average-acc"
+                      >
+                        <span>Price Average</span>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <FormControl>
+                          <RadioGroup
+                            aria-labelledby="price-average-group-label"
+                            defaultValue={
+                              props.productPriceAverageData
+                                ? props.productPriceAverageData
+                                : ""
                             }
-                          )}
-                        </RadioGroup>
-                      </FormControl>
-                    </AccordionDetails>
-                  </Accordion>
+                            name="price-average-group"
+                          >
+                            {props.productPriceAverageData.map(
+                              ({ title, slug }) => {
+                                return (
+                                  <FormControlLabel
+                                    key={slug}
+                                    value={slug}
+                                    control={<Radio />}
+                                    label={title}
+                                  />
+                                );
+                              }
+                            )}
+                          </RadioGroup>
+                        </FormControl>
+                      </AccordionDetails>
+                    </Accordion>
+                  ) : null}
                 </Grid>
               </Grid>
               <Grid item xs={12} sm={12} md={9}>
@@ -263,8 +284,8 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                 </Grid>
                 <Grid item xs={12} style={{ marginTop: 30 }}>
                   <PaginationWidget
-                    totalItens={9543}
-                    currentPage={7}
+                    totalItens={props.totalCount}
+                    currentPage={props.currentPage}
                     range={20}
                   />
                 </Grid>

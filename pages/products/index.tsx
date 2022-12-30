@@ -25,6 +25,7 @@ export default function ProductsHomePage(props: any) {
       productPriceAverageData={props.priceAverage}
       seoData={props.seoData}
       totalCount={props.totalCount}
+      currentPage={props.currentPage}
     />
   );
 }
@@ -35,6 +36,7 @@ export async function getServerSideProps(context) {
   const offset = context.query.page
     ? paginationOffsetFormatter(context.query.page)
     : 0;
+  const currentPage = context.query.page ? parseInt(context.query.page) : 1;
 
   // PRODUCTS
   const lastProductsParams: QueryParameters = {
@@ -48,7 +50,7 @@ export async function getServerSideProps(context) {
   const productCategoriesResponse =
     productCategories.props.data.productCategories.nodes;
 
-  // PRODUCTS SUBCATEGORIES
+  // PRODUCTS SUBCATEGORIES - TODO: CREATE A GRAPHQL QUERY WITH ONLY THE SUBCATEGORIES, BRANDS E PRICE_AVG USING THE TOTAL REGISTER
   const productSubCategories = lastProductsResponse.map(
     (obj) => obj.product_info.subcategory
   );
@@ -98,6 +100,7 @@ export async function getServerSideProps(context) {
       seoData: seoData,
       totalCount:
         lastProducts.props.data.products.pageInfo.offsetPagination.total,
+      currentPage: currentPage,
     },
   };
 }
