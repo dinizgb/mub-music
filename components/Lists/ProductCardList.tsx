@@ -1,8 +1,26 @@
 /* eslint-disable camelcase */
 import React from "react";
+import styled from "styled-components";
 import ProductCard from "components/Cards/ProductCard";
-import Grid from "@mui/material/Grid";
 import { Span } from "components/Texts/Typographies";
+
+const ProductCardGrid = styled.div`
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 1fr;
+  grid-column-gap: 30px;
+  grid-row-gap: 30px;
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (max-width: 600px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 450px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+`;
 
 /**
  * Component that renders a list of Big Horizontal Cards.
@@ -11,11 +29,7 @@ import { Span } from "components/Texts/Typographies";
  */
 export default function ProductCardList(props: any) {
   return (
-    <Grid
-      container
-      columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-      rowSpacing={{ xs: 1, sm: 2, md: 3 }}
-    >
+    <ProductCardGrid>
       {props.productList.length == 0 ? (
         <Span
           fontColor={({ theme }) => theme.colors.text_3}
@@ -32,26 +46,24 @@ export default function ProductCardList(props: any) {
         props.productList.map(({ title, slug, product_info }) => {
           return (
             <>
-              <Grid item xs={12} sm={6} md={3} key={slug}>
-                <ProductCard
-                  cardTitle={title}
-                  cardImage={product_info.thumbnail.sourceUrl}
-                  cardBrandLogo={
-                    product_info.brand.brand_info.thumbnail.sourceUrl
-                  }
-                  cardBrandLogoBgColor={
-                    product_info.brand.brand_info.backgroundColor
-                  }
-                  cardLink={`/products/${product_info.category.slug}/${product_info.subcategory.slug}/${slug}`}
-                  cardRating={product_info.rating}
-                  cardPrice={product_info.price}
-                  margin={0}
-                />
-              </Grid>
+              <ProductCard
+                cardTitle={title}
+                cardImage={product_info.thumbnail.sourceUrl}
+                cardBrandLogo={
+                  product_info.brand.brand_info.thumbnail.sourceUrl
+                }
+                cardBrandLogoBgColor={
+                  product_info.brand.brand_info.backgroundColor
+                }
+                cardLink={`/products/${product_info.category.slug}/${product_info.subcategory.slug}/${slug}`}
+                cardRating={product_info.rating}
+                cardPrice={product_info.price}
+                margin={0}
+              />
             </>
           );
         })
       )}
-    </Grid>
+    </ProductCardGrid>
   );
 }

@@ -43,7 +43,6 @@ export async function getServerSideProps(context) {
 
   // PRODUCTS
   const lastProductsParams: QueryParameters = {
-    first: 10,
     where: {
       catSlug: category,
       offsetPagination: { size: 20, offset: offset },

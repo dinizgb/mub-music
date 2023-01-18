@@ -38,10 +38,21 @@ export async function getServerSideProps(context) {
     : 0;
   const currentPage = context.query.page ? parseInt(context.query.page) : 1;
 
-  // PRODUCTS
-  const lastProductsParams: QueryParameters = {
+  // PARAMS OPTIONS
+  const lastProductsDefaultParams: QueryParameters = {
     where: { offsetPagination: { size: 20, offset: offset } },
   };
+  const lastProductsParamsOnlyByBrand: QueryParameters = {
+    where: {
+      offsetPagination: { size: 20, offset: offset },
+      brandSlug: context.query.brand,
+    },
+  };
+  const lastProductsParams: QueryParameters = context.query.brand
+    ? lastProductsParamsOnlyByBrand
+    : lastProductsDefaultParams;
+
+  // PRODUCTS
   const lastProducts = await fetchQuery(getAllProducts(lastProductsParams));
   const lastProductsResponse = lastProducts.props.data.products.nodes;
 
@@ -50,7 +61,7 @@ export async function getServerSideProps(context) {
   const productCategoriesResponse =
     productCategories.props.data.productCategories.nodes;
 
-  // PRODUCTS SUBCATEGORIES - TODO: CREATE A GRAPHQL QUERY WITH ONLY THE SUBCATEGORIES, BRANDS E PRICE_AVG USING THE TOTAL REGISTER
+  // PRODUCTS SUBCATEGORIES - TODO: CREATE A GRAPHQL QUERY WITH ONLY THE SUBCATEGORIES, BRANDS E PRICE_AVG USING GATHERING ALL RECORDS
   const productSubCategories = lastProductsResponse.map(
     (obj) => obj.product_info.subcategory
   );

@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import React from "react";
 import styled from "styled-components";
+import { useRouter } from "next/router";
 import { Span } from "components/Texts/Typographies";
 
 const PaginationWidgetWrapper = styled.div`
@@ -57,6 +58,15 @@ type PaginationBulletProps = {
  * @return {TSX.Element}: The TSX code for the Pagination Widget Component.
  */
 export default function PaginationWidget(props: PaginationWidgetProps) {
+  const router = useRouter();
+  const currentRoute = router.asPath;
+  const bulletLink = (item: number) => {
+    return props.currentPage > 1 || router.query.page
+      ? currentRoute.replace(`page=${props.currentPage}`, `page=${item}`)
+      : Object.keys(router.query).length
+      ? currentRoute.concat(`&page=${item}`)
+      : currentRoute.concat(`?page=${item}`);
+  };
   const hasPages: boolean = props.totalItens > props.range ? true : false;
   const totalPages: number = Math.floor(props.totalItens / props.range);
   const smallerPaginationsRule: Array<number> = Array.from(
@@ -90,7 +100,7 @@ export default function PaginationWidget(props: PaginationWidgetProps) {
               <PaginationBullet
                 key={item}
                 active={props.currentPage == item}
-                href="#"
+                href={bulletLink(item)}
               >
                 {item}
               </PaginationBullet>

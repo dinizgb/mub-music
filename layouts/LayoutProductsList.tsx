@@ -1,6 +1,7 @@
 /* eslint-disable new-cap */
 import React from "react";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 // MUI
 import Container from "@mui/material/Container";
@@ -53,6 +54,16 @@ type LayoutProductsListProps = {
  * @return {TSX.Element}: The TSX code for the Layout Products List Component.
  */
 export default function LayoutProductsList(props: LayoutProductsListProps) {
+  const router = useRouter();
+  const currentRoute = router.asPath;
+  const hasQuery = Object.keys(router.query).length;
+  const brandHandler = (brand: string): string => {
+    const withQueriesHandler = hasQuery
+      ? currentRoute.replace(`brand=${router.query.length}`, `brand=${brand}`)
+      : currentRoute.concat(`&brand=${brand}`);
+    const withoutQueriesHandler = currentRoute.concat(`?brand=${brand}`);
+    return hasQuery ? withQueriesHandler : withoutQueriesHandler;
+  };
   return (
     <>
       <Head>
@@ -188,7 +199,14 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                                 <FormControlLabel
                                   key={slug}
                                   value={slug}
-                                  control={<Radio />}
+                                  control={
+                                    <Radio
+                                      onClick={() =>
+                                        (window.location.href =
+                                          brandHandler(slug))
+                                      }
+                                    />
+                                  }
                                   label={title}
                                 />
                               );
@@ -198,7 +216,7 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                       </AccordionDetails>
                     </Accordion>
                   ) : null}
-                  {props.productData.length ? (
+                  {props.productCategoryData && props.productData.length ? (
                     <Accordion className="accordion">
                       <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
