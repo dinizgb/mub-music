@@ -56,14 +56,23 @@ type LayoutProductsListProps = {
 export default function LayoutProductsList(props: LayoutProductsListProps) {
   const router = useRouter();
   const currentRoute = router.asPath;
+
+  // ROUTER QUERY CLEANUP
+  delete router.query.category;
+  delete router.query.subcategory;
   const hasQuery = Object.keys(router.query).length;
+  console.log("CURRENT: ", router.query);
+
+  // BRAND FILTER
+  const hasBrand = router.query.brand;
   const brandHandler = (brand: string): string => {
-    const withQueriesHandler = hasQuery
+    const withQueriesHandler = hasBrand
       ? currentRoute.replace(`brand=${router.query.length}`, `brand=${brand}`)
       : currentRoute.concat(`&brand=${brand}`);
     const withoutQueriesHandler = currentRoute.concat(`?brand=${brand}`);
     return hasQuery ? withQueriesHandler : withoutQueriesHandler;
   };
+
   return (
     <>
       <Head>
@@ -187,11 +196,7 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                         <FormControl>
                           <RadioGroup
                             aria-labelledby="brand-group-label"
-                            defaultValue={
-                              props.productBrandsData
-                                ? props.productBrandsData
-                                : ""
-                            }
+                            defaultValue={hasBrand}
                             name="brand-group"
                           >
                             {props.productBrandsData.map(({ title, slug }) => {

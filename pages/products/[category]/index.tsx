@@ -41,13 +41,25 @@ export async function getServerSideProps(context) {
     : 0;
   const currentPage = context.query.page ? parseInt(context.query.page) : 1;
 
-  // PRODUCTS
-  const lastProductsParams: QueryParameters = {
+  // PARAMS OPTIONS
+  const lastProductsDefaultParams: QueryParameters = {
     where: {
       catSlug: category,
       offsetPagination: { size: 20, offset: offset },
     },
   };
+  const lastProductsByBrandParams: QueryParameters = {
+    where: {
+      brandSlug: context.query.brand,
+      catSlug: category,
+      offsetPagination: { size: 20, offset: offset },
+    },
+  };
+  const lastProductsParams: QueryParameters = context.query.brand
+    ? lastProductsByBrandParams
+    : lastProductsDefaultParams;
+
+  // PRODUCTS
   const lastProducts = await fetchQuery(getAllProducts(lastProductsParams));
   const lastProductsResponse = lastProducts.props.data.products.nodes;
 

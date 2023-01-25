@@ -59,6 +59,7 @@ export default function ProductCardList(props: any) {
                 cardRating={product_info.rating}
                 cardPrice={product_info.price}
                 margin={0}
+                key={product_info.category.slug}
               />
             </>
           );
