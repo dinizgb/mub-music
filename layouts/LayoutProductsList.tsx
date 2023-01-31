@@ -61,7 +61,6 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
   delete router.query.category;
   delete router.query.subcategory;
   const hasQuery = Object.keys(router.query).length;
-  console.log("CURRENT: ", router.query);
 
   // BRAND FILTER
   const hasBrand = router.query.brand;

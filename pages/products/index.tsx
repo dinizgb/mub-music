@@ -1,10 +1,15 @@
 import React from "react";
 import LayoutProductsList from "layouts/LayoutProductsList";
+// SERVICES
 import { fetchQuery } from "services/graphql/fetchQuery";
 import getAllProducts from "services/graphql/queries/getAllProducts";
 import getAllProductCategories from "services/graphql/queries/getAllProductCategories";
+import getAllProductFiltersInfos from "services/graphql/queries/getAllProductFiltersInfos";
+import productFilterConstructor from "services/filters/productFilterConstructor";
+// UTILS
 import removeDuplicatesObjectsFromArray from "utils/removeDuplicatesObjectsFromArray";
 import paginationOffsetFormatter from "utils/paginationOffsetFormatter";
+// TYPES
 import { QueryParameters } from "types/queryParams";
 import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
 
@@ -56,6 +61,22 @@ export async function getServerSideProps(context) {
   const lastProducts = await fetchQuery(getAllProducts(lastProductsParams));
   const lastProductsResponse = lastProducts.props.data.products.nodes;
 
+  // PRODUCT FILTERS
+  const lastProductsTotalRecords =
+    lastProducts.props.data.products.pageInfo.offsetPagination.total;
+  const productsFiltersParams: QueryParameters = {
+    where: {
+      offsetPagination: {
+        size: lastProductsTotalRecords,
+        offset: 1,
+      },
+    },
+  };
+  const productsFilters = await fetchQuery(
+    getAllProductFiltersInfos(productsFiltersParams)
+  );
+  const productsFiltersResponse = productsFilters.props.data.products.nodes;
+
   // PRODUCTS CATEGORIES
   const productCategories = await fetchQuery(getAllProductCategories());
   const productCategoriesResponse =
@@ -71,6 +92,10 @@ export async function getServerSideProps(context) {
   // BRANDS
   const brands = lastProductsResponse.map((obj) => obj.product_info.brand);
   const filteredBrands = removeDuplicatesObjectsFromArray(brands);
+  console.log(
+    "FILTERS",
+    productFilterConstructor(productsFiltersResponse, "brand")
+  );
 
   // PRICE AVERAGE
   const priceAverage = lastProductsResponse.map(
@@ -109,8 +134,7 @@ export async function getServerSideProps(context) {
       productBrands: filteredBrands,
       priceAverage: filteredpriceAverage,
       seoData: seoData,
-      totalCount:
-        lastProducts.props.data.products.pageInfo.offsetPagination.total,
+      totalCount: lastProductsTotalRecords,
       currentPage: currentPage,
     },
   };
