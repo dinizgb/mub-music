@@ -1,11 +1,13 @@
 import React from "react";
 import LayoutProductsList from "layouts/LayoutProductsList";
+// SERVICES
 import { fetchQuery } from "services/graphql/fetchQuery";
 import getAllProducts from "services/graphql/queries/getAllProducts";
-import getAllProductCategories from "services/graphql/queries/getAllProductCategories";
-import getAllProductSubCategories from "services/graphql/queries/getAllProductSubCategories";
-import removeDuplicatesObjectsFromArray from "utils/removeDuplicatesObjectsFromArray";
+import getAllProductFiltersInfos from "services/graphql/queries/getAllProductFiltersInfos";
+import productFilterConstructor from "services/filters/productFilterConstructor";
+// UTILS
 import paginationOffsetFormatter from "utils/paginationOffsetFormatter";
+// TYPES
 import { QueryParameters } from "types/queryParams";
 import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
 
@@ -62,31 +64,44 @@ export async function getServerSideProps(context) {
   // PRODUCTS
   const lastProducts = await fetchQuery(getAllProducts(lastProductsParams));
   const lastProductsResponse = lastProducts.props.data.products.nodes;
+  const lastProductsTotalRecords =
+    lastProducts.props.data.products.pageInfo.offsetPagination.total;
+
+  // PRODUCT FILTERS
+  const productsFiltersParams: QueryParameters = {
+    where: {
+      catSlug: category,
+      offsetPagination: {
+        size: lastProductsTotalRecords,
+        offset: 1,
+      },
+    },
+  };
+  const productsFilters = await fetchQuery(
+    getAllProductFiltersInfos(productsFiltersParams)
+  );
+  const productsFiltersResponse = productsFilters.props.data.products.nodes;
 
   // PRODUCTS CATEGORIES
-  const productCategories = await fetchQuery(getAllProductCategories());
-  const productCategoriesResponse =
-    productCategories.props.data.productCategories.nodes;
+  const productCategories = productFilterConstructor(
+    productsFiltersResponse,
+    "category"
+  );
 
   // PRODUCTS SUBCATEGORIES
-  const productSubCategoriesParams: QueryParameters = {
-    where: { parentCategory: category },
-  };
-  const productSubCategories = await fetchQuery(
-    getAllProductSubCategories(productSubCategoriesParams)
+  const productSubCategoryCategories = productFilterConstructor(
+    productsFiltersResponse,
+    "subcategory"
   );
-  const productSubCategoriesResponse =
-    productSubCategories.props.data.prodSubCategories.nodes;
 
   // BRANDS
-  const brands = lastProductsResponse.map((obj) => obj.product_info.brand);
-  const filteredBrands = removeDuplicatesObjectsFromArray(brands);
+  const brands = productFilterConstructor(productsFiltersResponse, "brand");
 
   // PRICE AVERAGE
-  const priceAverage = lastProductsResponse.map(
-    (obj) => obj.product_info.priceAverage
+  const priceAverage = productFilterConstructor(
+    productsFiltersResponse,
+    "priceAverage"
   );
-  const filteredpriceAverage = removeDuplicatesObjectsFromArray(priceAverage);
 
   // SEO DATA
   const productsPrefix = lastProductsResponse[0];
@@ -136,13 +151,12 @@ export async function getServerSideProps(context) {
     props: {
       lastProducts: lastProductsResponse,
       productCategoryData: category,
-      productCategoriesData: productCategoriesResponse,
-      productSubCategories: productSubCategoriesResponse,
-      productBrands: filteredBrands,
-      priceAverage: filteredpriceAverage,
+      productCategoriesData: productCategories,
+      productSubCategories: productSubCategoryCategories,
+      productBrands: brands,
+      priceAverage: priceAverage,
       seoData: seoData,
-      totalCount:
-        lastProducts.props.data.products.pageInfo.offsetPagination.total,
+      totalCount: lastProductsTotalRecords,
       currentPage: currentPage,
     },
   };

@@ -1,5 +1,6 @@
 import removeDuplicatesObjectsFromArray from "utils/removeDuplicatesObjectsFromArray";
 import productInfoObjValueCount from "utils/productInfoObjValueCount";
+import sortArrayOfObjects from "utils/sortArrayOfObjects";
 
 /**
  * Function to construct the options of the product filters.
@@ -28,5 +29,7 @@ export default function productFilterConstructor(
         },
       ])
   );
-  return removeDuplicatesObjectsFromArray(filterArray);
+  const removeDuplicates = removeDuplicatesObjectsFromArray(filterArray);
+  const sortedArray = sortArrayOfObjects(removeDuplicates, "slug", true);
+  return removeDuplicatesObjectsFromArray(sortedArray);
 }

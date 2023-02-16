@@ -39,9 +39,9 @@ const TotalAreaWrapper = styled.div`
 type LayoutProductsListProps = {
   productData: any;
   productCategoriesData: any;
-  productCategoryData: any;
+  productCategoryData: string;
   productSubCategories: any;
-  productSubCategoryData: any;
+  productSubCategoryData: string;
   productBrandsData: any;
   productPriceAverageData: any;
   seoData: SEOTagsConstructorTypes;
@@ -118,7 +118,7 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                           name="category-group"
                         >
                           {props.productCategoriesData.map(
-                            ({ title, slug }) => {
+                            ({ count, title, slug }) => {
                               return (
                                 <FormControlLabel
                                   key={slug}
@@ -130,7 +130,7 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                                       }
                                     />
                                   }
-                                  label={title}
+                                  label={`${title} (${count})`}
                                 />
                               );
                             }
@@ -160,7 +160,7 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                             }
                           >
                             {props.productSubCategories.map(
-                              ({ title, slug }) => {
+                              ({ count, title, slug }) => {
                                 return (
                                   <FormControlLabel
                                     key={slug}
@@ -172,7 +172,7 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                                         }
                                       />
                                     }
-                                    label={title}
+                                    label={`${title} (${count})`}
                                   />
                                 );
                               }
@@ -198,23 +198,25 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                             defaultValue={hasBrand}
                             name="brand-group"
                           >
-                            {props.productBrandsData.map(({ title, slug }) => {
-                              return (
-                                <FormControlLabel
-                                  key={slug}
-                                  value={slug}
-                                  control={
-                                    <Radio
-                                      onClick={() =>
-                                        (window.location.href =
-                                          brandHandler(slug))
-                                      }
-                                    />
-                                  }
-                                  label={title}
-                                />
-                              );
-                            })}
+                            {props.productBrandsData.map(
+                              ({ count, title, slug }) => {
+                                return (
+                                  <FormControlLabel
+                                    key={slug}
+                                    value={slug}
+                                    control={
+                                      <Radio
+                                        onClick={() =>
+                                          (window.location.href =
+                                            brandHandler(slug))
+                                        }
+                                      />
+                                    }
+                                    label={`${title} (${count})`}
+                                  />
+                                );
+                              }
+                            )}
                           </RadioGroup>
                         </FormControl>
                       </AccordionDetails>
@@ -241,13 +243,13 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                             name="price-average-group"
                           >
                             {props.productPriceAverageData.map(
-                              ({ title, slug }) => {
+                              ({ count, title, slug }) => {
                                 return (
                                   <FormControlLabel
                                     key={slug}
                                     value={slug}
                                     control={<Radio />}
-                                    label={title}
+                                    label={`${title} (${count})`}
                                   />
                                 );
                               }

@@ -3,11 +3,9 @@ import LayoutProductsList from "layouts/LayoutProductsList";
 // SERVICES
 import { fetchQuery } from "services/graphql/fetchQuery";
 import getAllProducts from "services/graphql/queries/getAllProducts";
-import getAllProductCategories from "services/graphql/queries/getAllProductCategories";
 import getAllProductFiltersInfos from "services/graphql/queries/getAllProductFiltersInfos";
 import productFilterConstructor from "services/filters/productFilterConstructor";
 // UTILS
-import removeDuplicatesObjectsFromArray from "utils/removeDuplicatesObjectsFromArray";
 import paginationOffsetFormatter from "utils/paginationOffsetFormatter";
 // TYPES
 import { QueryParameters } from "types/queryParams";
@@ -24,10 +22,10 @@ export default function ProductsHomePage(props: any) {
       productData={props.lastProducts}
       productCategoriesData={props.productCategories}
       productCategoryData={null}
-      productSubCategories={props.productSubCategories}
+      productSubCategories={null}
       productSubCategoryData={null}
       productBrandsData={props.productBrands}
-      productPriceAverageData={props.priceAverage}
+      productPriceAverageData={null}
       seoData={props.seoData}
       totalCount={props.totalCount}
       currentPage={props.currentPage}
@@ -60,10 +58,10 @@ export async function getServerSideProps(context) {
   // PRODUCTS
   const lastProducts = await fetchQuery(getAllProducts(lastProductsParams));
   const lastProductsResponse = lastProducts.props.data.products.nodes;
-
-  // PRODUCT FILTERS
   const lastProductsTotalRecords =
     lastProducts.props.data.products.pageInfo.offsetPagination.total;
+
+  // PRODUCT FILTERS
   const productsFiltersParams: QueryParameters = {
     where: {
       offsetPagination: {
@@ -78,30 +76,13 @@ export async function getServerSideProps(context) {
   const productsFiltersResponse = productsFilters.props.data.products.nodes;
 
   // PRODUCTS CATEGORIES
-  const productCategories = await fetchQuery(getAllProductCategories());
-  const productCategoriesResponse =
-    productCategories.props.data.productCategories.nodes;
-
-  // PRODUCTS SUBCATEGORIES - TODO: CREATE A GRAPHQL QUERY WITH ONLY THE SUBCATEGORIES, BRANDS E PRICE_AVG USING GATHERING ALL RECORDS
-  const productSubCategories = lastProductsResponse.map(
-    (obj) => obj.product_info.subcategory
+  const productCategories = productFilterConstructor(
+    productsFiltersResponse,
+    "category"
   );
-  const filteredProductSubCategories =
-    removeDuplicatesObjectsFromArray(productSubCategories);
 
   // BRANDS
-  const brands = lastProductsResponse.map((obj) => obj.product_info.brand);
-  const filteredBrands = removeDuplicatesObjectsFromArray(brands);
-  console.log(
-    "FILTERS",
-    productFilterConstructor(productsFiltersResponse, "brand")
-  );
-
-  // PRICE AVERAGE
-  const priceAverage = lastProductsResponse.map(
-    (obj) => obj.product_info.priceAverage
-  );
-  const filteredpriceAverage = removeDuplicatesObjectsFromArray(priceAverage);
+  const brands = productFilterConstructor(productsFiltersResponse, "brand");
 
   // SEO DATA
   const seoData: SEOTagsConstructorTypes = {
@@ -129,10 +110,8 @@ export async function getServerSideProps(context) {
   return {
     props: {
       lastProducts: lastProductsResponse,
-      productCategories: productCategoriesResponse,
-      productSubCategories: filteredProductSubCategories,
-      productBrands: filteredBrands,
-      priceAverage: filteredpriceAverage,
+      productCategories: productCategories,
+      productBrands: brands,
       seoData: seoData,
       totalCount: lastProductsTotalRecords,
       currentPage: currentPage,
