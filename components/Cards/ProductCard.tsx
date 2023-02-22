@@ -8,7 +8,7 @@ import StarsWidget from "components/Widgets/StarsWidget";
 
 const ProductCardWrapper = styled.div<ProductCardCssProps>`
   width: 100%;
-  min-height: 320px;
+  height: 100%;
   position: relative;
   margin: ${(props) => props.margin};
   background: ${({ theme }) => theme.colors.secondary};
@@ -26,7 +26,7 @@ const ProductCardWrapper = styled.div<ProductCardCssProps>`
 
 const ProductCardThumb = styled.div`
   width: 100%;
-  height: 150px;
+  height: 200px;
   position: relative;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
@@ -47,7 +47,7 @@ const ProductCardBrandLogo = styled.div<ProductCardBrandLogoProps>`
   width: 54px;
   height: 54px;
   position: absolute;
-  top: 125px;
+  top: 175px;
   right: 25px;
   background: ${(props) => props.backgroundColor};
   border-radius: 50%;
@@ -117,7 +117,7 @@ export default function ProductCard(props: ProductCardProps) {
                 lineHeight={24}
                 xsFontSize={16}
                 xsLineHeight={24}
-                margin={`45px 0 5px 0`}
+                margin={`45px 0 0 0`}
               >
                 {props.cardTitle}
               </H3>
@@ -126,9 +126,9 @@ export default function ProductCard(props: ProductCardProps) {
                 hoverColor={({ theme }) => theme.colors.primary}
                 fontWeight={400}
                 fontSize={16}
-                lineHeight={24}
+                lineHeight={52}
                 xsFontSize={16}
-                xsLineHeight={24}
+                xsLineHeight={52}
                 margin={`0`}
               >
                 From <strong>${props.cardPrice}</strong>

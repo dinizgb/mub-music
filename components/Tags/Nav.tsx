@@ -82,6 +82,9 @@ export default function Nav() {
         <NavLi>
           <a href="/news/">News</a>
         </NavLi>
+        <NavLi>
+          <a href="/products/">Products</a>
+        </NavLi>
         <NavLiMobile onClick={handleToggleMobileMenu}>
           <MenuIcon />
         </NavLiMobile>

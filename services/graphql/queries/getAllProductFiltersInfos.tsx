@@ -6,27 +6,17 @@ import formatGraphqlQueryParams from "utils/formatGraphqlQueryParams";
  * @param {QueryParameters} props to the component.
  * @return {string}: With the query.
  */
-export default function getAllProducts(props: QueryParameters) {
+export default function getAllProductFiltersInfos(props: QueryParameters) {
   const query = `
-    query getAllProducts {
+    query getAllProductFiltersInfos {
       products(${formatGraphqlQueryParams(props)}) {
         nodes {
-          id
-          slug
-          title(format: RENDERED)
           product_info {
             brand {
               ... on Brand {
                 id
                 title(format: RENDERED)
                 slug
-                brand_info {
-                  backgroundColor
-                  thumbnail {
-                    altText
-                    sourceUrl(size: MEDIUM)
-                  }
-                }
               }
             }
             category {
@@ -36,12 +26,6 @@ export default function getAllProducts(props: QueryParameters) {
                 slug
               }
             }
-            colors
-            thumbnail {
-              sourceUrl(size: LARGE)
-              altText
-              title
-            }
             subcategory {
               ... on ProdSubCategory {
                 id
@@ -50,7 +34,6 @@ export default function getAllProducts(props: QueryParameters) {
               }
             }
             rating
-            price
             priceAverage {
               ... on PriceAverage {
                 id
@@ -58,13 +41,6 @@ export default function getAllProducts(props: QueryParameters) {
                 slug
               }
             }
-          }
-        }
-        pageInfo {
-          offsetPagination {
-            hasMore
-            hasPrevious
-            total
           }
         }
       }

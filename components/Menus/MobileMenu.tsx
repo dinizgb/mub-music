@@ -83,7 +83,13 @@ export default function MobileMenu(props: MobileMenuProps) {
             <MenuTitle>News</MenuTitle>
             <MenuList>
               <MenuItem>
-                <a href="/news/">Home page</a>
+                <a href="/">Home</a>
+              </MenuItem>
+              <MenuItem>
+                <a href="/news/">News</a>
+              </MenuItem>
+              <MenuItem>
+                <a href="/products/">Products</a>
               </MenuItem>
             </MenuList>
           </MenuBlock>

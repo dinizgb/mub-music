@@ -1,62 +1,49 @@
 import React from "react";
-import LayoutProductsList from "layouts/LayoutProductsList";
+import LayoutProductCategoryList from "layouts/LayoutProductCategoryList";
+// SERVICES
 import { fetchQuery } from "services/graphql/fetchQuery";
-import getAllProducts from "services/graphql/queries/getAllProducts";
 import getAllProductCategories from "services/graphql/queries/getAllProductCategories";
-import removeDuplicatesObjectsFromArray from "utils/removeDuplicatesObjectsFromArray";
+// TYPES
 import { QueryParameters } from "types/queryParams";
 import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
+import { ProductsCategoriesType } from "types/productsCategoriesType";
+
+type ProductsHomePageProps = {
+  lastProductsCategories: ProductsCategoriesType;
+  seoData: SEOTagsConstructorTypes;
+  totalCount: number;
+};
 
 /**
  * Products Home Page.
  * @param {any} props Data Fetched.
  * @return {TSX.Element}: The TSX code for the Products Home Page.
  */
-export default function ProductsHomePage(props: any) {
+export default function ProductsHomePage(props: ProductsHomePageProps) {
   return (
-    <LayoutProductsList
-      productData={props.lastProducts}
-      productCategoriesData={props.productCategories}
-      productCategoryData={null}
-      productSubCategories={props.productSubCategories}
-      productSubCategoryData={null}
-      productBrandsData={props.productBrands}
-      productPriceAverageData={props.priceAverage}
+    <LayoutProductCategoryList
+      lastProductsCategories={props.lastProductsCategories}
       seoData={props.seoData}
+      totalCount={props.totalCount}
     />
   );
 }
 
 // eslint-disable-next-line require-jsdoc
 export async function getStaticProps() {
-  // PRODUCTS
-  const lastProductsParams: QueryParameters = {
-    first: 11,
+  // PARAMS OPTIONS
+  const lastProductsCategoriesParams: QueryParameters = {
+    where: { offsetPagination: { size: 100, offset: 1 } },
   };
-  const lastProducts = await fetchQuery(getAllProducts(lastProductsParams));
-  const lastProductsResponse = lastProducts.props.data.products.nodes;
 
-  // PRODUCTS CATEGORIES
-  const productCategories = await fetchQuery(getAllProductCategories());
-  const productCategoriesResponse =
-    productCategories.props.data.productCategories.nodes;
-
-  // PRODUCTS SUBCATEGORIES
-  const productSubCategories = lastProductsResponse.map(
-    (obj) => obj.product_info.subcategory
+  // PRODUCTS
+  const lastProducts = await fetchQuery(
+    getAllProductCategories(lastProductsCategoriesParams)
   );
-  const filteredProductSubCategories =
-    removeDuplicatesObjectsFromArray(productSubCategories);
-
-  // BRANDS
-  const brands = lastProductsResponse.map((obj) => obj.product_info.brand);
-  const filteredBrands = removeDuplicatesObjectsFromArray(brands);
-
-  // PRICE AVERAGE
-  const priceAverage = lastProductsResponse.map(
-    (obj) => obj.product_info.priceAverage
-  );
-  const filteredpriceAverage = removeDuplicatesObjectsFromArray(priceAverage);
+  const lastProductsCategoriesResponse: ProductsCategoriesType =
+    lastProducts.props.data.productCategories.nodes;
+  const lastProductsCategoriesTotalRecords: number =
+    lastProducts.props.data.productCategories.pageInfo.offsetPagination.total;
 
   // SEO DATA
   const seoData: SEOTagsConstructorTypes = {
@@ -83,12 +70,9 @@ export async function getStaticProps() {
 
   return {
     props: {
-      lastProducts: lastProductsResponse,
-      productCategories: productCategoriesResponse,
-      productSubCategories: filteredProductSubCategories,
-      productBrands: filteredBrands,
-      priceAverage: filteredpriceAverage,
+      lastProductsCategories: lastProductsCategoriesResponse,
       seoData: seoData,
+      totalCount: lastProductsCategoriesTotalRecords,
     },
   };
 }
