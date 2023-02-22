@@ -10,17 +10,35 @@ import paginationOffsetFormatter from "utils/paginationOffsetFormatter";
 // TYPES
 import { QueryParameters } from "types/queryParams";
 import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
+import { ProductListType } from "types/productType";
+import {
+  ProductFilterType,
+  ProductFilterResponseType,
+} from "types/productFilterType";
+
+type ProductsSubCategoryPageProps = {
+  lastProducts: Array<ProductListType>;
+  productCategoryData: string;
+  productSubCategories: Array<ProductFilterType>;
+  productSubCategoryData: string | null;
+  productBrands: Array<ProductFilterType>;
+  priceAverage: Array<ProductFilterType>;
+  seoData: SEOTagsConstructorTypes;
+  totalCount: number;
+  currentPage: number;
+};
 
 /**
- * Products Category Page.
+ * Products Sub Category Page.
  * @param {any} props Data Fetched.
  * @return {TSX.Element}: The TSX code for the Products Category Page.
  */
-export default function ProductsCategoryPage(props: any) {
+export default function ProductsSubCategoryPage(
+  props: ProductsSubCategoryPageProps
+) {
   return (
     <LayoutProductsList
       productData={props.lastProducts}
-      productCategoriesData={props.productCategories}
       productCategoryData={props.productCategoryData}
       productSubCategories={props.productSubCategories}
       productSubCategoryData={props.productSubCategoryData}
@@ -35,14 +53,14 @@ export default function ProductsCategoryPage(props: any) {
 
 // eslint-disable-next-line require-jsdoc
 export async function getServerSideProps(context) {
+  const brand = context.query.brand;
   const category = context.params.category;
   const subCategory = context.params.subcategory;
+  const page = context.query.page;
 
   // PAGINATION SETTINGS
-  const offset = context.query.page
-    ? paginationOffsetFormatter(context.query.page)
-    : 0;
-  const currentPage = context.query.page ? parseInt(context.query.page) : 1;
+  const offset = page ? paginationOffsetFormatter(page) : 0;
+  const currentPage = page ? parseInt(page) : 1;
 
   // PARAMS OPTIONS
   const lastProductsDefaultParams: QueryParameters = {
@@ -53,25 +71,26 @@ export async function getServerSideProps(context) {
   };
   const lastProductsByBrandParams: QueryParameters = {
     where: {
-      brandSlug: context.query.brand,
+      brandSlug: brand,
       subCatSlug: subCategory,
       offsetPagination: { size: 20, offset: offset },
     },
   };
-  const lastProductsParams: QueryParameters = context.query.brand
+  const lastProductsParams: QueryParameters = brand
     ? lastProductsByBrandParams
     : lastProductsDefaultParams;
 
   // PRODUCTS
   const lastProducts = await fetchQuery(getAllProducts(lastProductsParams));
-  const lastProductsResponse = lastProducts.props.data.products.nodes;
-  const lastProductsTotalRecords =
+  const lastProductsResponse: Array<ProductListType> =
+    lastProducts.props.data.products.nodes;
+  const lastProductsTotalRecords: number =
     lastProducts.props.data.products.pageInfo.offsetPagination.total;
 
   // PRODUCT FILTERS
   const productsFiltersParams: QueryParameters = {
     where: {
-      catSlug: category,
+      subCatSlug: subCategory,
       offsetPagination: {
         size: lastProductsTotalRecords,
         offset: 1,
@@ -81,13 +100,8 @@ export async function getServerSideProps(context) {
   const productsFilters = await fetchQuery(
     getAllProductFiltersInfos(productsFiltersParams)
   );
-  const productsFiltersResponse = productsFilters.props.data.products.nodes;
-
-  // PRODUCTS CATEGORIES
-  const productCategories = productFilterConstructor(
-    productsFiltersResponse,
-    "category"
-  );
+  const productsFiltersResponse: Array<ProductFilterResponseType> =
+    productsFilters.props.data.products.nodes;
 
   // PRODUCTS SUBCATEGORIES
   const productSubCategoryCategories = productFilterConstructor(
@@ -96,10 +110,13 @@ export async function getServerSideProps(context) {
   );
 
   // BRANDS
-  const brands = productFilterConstructor(productsFiltersResponse, "brand");
+  const brands: Array<ProductFilterType> = productFilterConstructor(
+    productsFiltersResponse,
+    "brand"
+  );
 
   // PRICE AVERAGE
-  const priceAverage = productFilterConstructor(
+  const priceAverage: Array<ProductFilterType> = productFilterConstructor(
     productsFiltersResponse,
     "priceAverage"
   );
@@ -161,15 +178,13 @@ export async function getServerSideProps(context) {
   return {
     props: {
       lastProducts: lastProductsResponse,
-      productCategories: productCategories,
       productCategoryData: category,
       productSubCategories: productSubCategoryCategories,
       productSubCategoryData: subCategory,
       productBrands: brands,
       priceAverage: priceAverage,
       seoData: seoData,
-      totalCount:
-        lastProducts.props.data.products.pageInfo.offsetPagination.total,
+      totalCount: lastProductsTotalRecords,
       currentPage: currentPage,
     },
   };

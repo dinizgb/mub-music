@@ -10,17 +10,34 @@ import paginationOffsetFormatter from "utils/paginationOffsetFormatter";
 // TYPES
 import { QueryParameters } from "types/queryParams";
 import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
+import { ProductListType } from "types/productType";
+import {
+  ProductFilterType,
+  ProductFilterResponseType,
+} from "types/productFilterType";
+
+type ProductsCategoryPageProps = {
+  lastProducts: Array<ProductListType>;
+  productCategoryData: string;
+  productSubCategories: Array<ProductFilterType>;
+  productSubCategoryData: string | null;
+  productBrands: Array<ProductFilterType>;
+  priceAverage: Array<ProductFilterType>;
+  seoData: SEOTagsConstructorTypes;
+  totalCount: number;
+  currentPage: number;
+};
 
 /**
  * Products Category Page.
  * @param {any} props Data Fetched.
  * @return {TSX.Element}: The TSX code for the Products Category Page.
  */
-export default function ProductsCategoryPage(props: any) {
+export default function ProductsCategoryPage(props: ProductsCategoryPageProps) {
+  console.log("PROPS: ", props);
   return (
     <LayoutProductsList
       productData={props.lastProducts}
-      productCategoriesData={props.productCategoriesData}
       productCategoryData={props.productCategoryData}
       productSubCategories={props.productSubCategories}
       productSubCategoryData={null}
@@ -63,8 +80,9 @@ export async function getServerSideProps(context) {
 
   // PRODUCTS
   const lastProducts = await fetchQuery(getAllProducts(lastProductsParams));
-  const lastProductsResponse = lastProducts.props.data.products.nodes;
-  const lastProductsTotalRecords =
+  const lastProductsResponse: Array<ProductListType> =
+    lastProducts.props.data.products.nodes;
+  const lastProductsTotalRecords: number =
     lastProducts.props.data.products.pageInfo.offsetPagination.total;
 
   // PRODUCT FILTERS
@@ -80,25 +98,21 @@ export async function getServerSideProps(context) {
   const productsFilters = await fetchQuery(
     getAllProductFiltersInfos(productsFiltersParams)
   );
-  const productsFiltersResponse = productsFilters.props.data.products.nodes;
-
-  // PRODUCTS CATEGORIES
-  const productCategories = productFilterConstructor(
-    productsFiltersResponse,
-    "category"
-  );
+  const productsFiltersResponse: Array<ProductFilterResponseType> =
+    productsFilters.props.data.products.nodes;
 
   // PRODUCTS SUBCATEGORIES
-  const productSubCategoryCategories = productFilterConstructor(
-    productsFiltersResponse,
-    "subcategory"
-  );
+  const productSubCategoryCategories: Array<ProductFilterType> =
+    productFilterConstructor(productsFiltersResponse, "subcategory");
 
   // BRANDS
-  const brands = productFilterConstructor(productsFiltersResponse, "brand");
+  const brands: Array<ProductFilterType> = productFilterConstructor(
+    productsFiltersResponse,
+    "brand"
+  );
 
   // PRICE AVERAGE
-  const priceAverage = productFilterConstructor(
+  const priceAverage: Array<ProductFilterType> = productFilterConstructor(
     productsFiltersResponse,
     "priceAverage"
   );
@@ -151,7 +165,6 @@ export async function getServerSideProps(context) {
     props: {
       lastProducts: lastProductsResponse,
       productCategoryData: category,
-      productCategoriesData: productCategories,
       productSubCategories: productSubCategoryCategories,
       productBrands: brands,
       priceAverage: priceAverage,

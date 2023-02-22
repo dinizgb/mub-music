@@ -25,6 +25,7 @@ import ProductCardList from "components/Lists/ProductCardList";
 import SEOTagsConstructor from "services/SEO/SEOTagsConstructor";
 // TYPES
 import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
+import { ProductFilterType } from "types/productFilterType";
 
 const TotalAreaWrapper = styled.div`
   text-align: right;
@@ -38,16 +39,16 @@ const TotalAreaWrapper = styled.div`
 
 type LayoutProductsListProps = {
   productData: any;
-  productCategoriesData: any;
   productCategoryData: string;
-  productSubCategories: any;
+  productSubCategories: Array<ProductFilterType>;
   productSubCategoryData: string;
-  productBrandsData: any;
-  productPriceAverageData: any;
+  productBrandsData: Array<ProductFilterType>;
+  productPriceAverageData: Array<ProductFilterType>;
   seoData: SEOTagsConstructorTypes;
   totalCount: number;
   currentPage: number;
 };
+
 /**
  * Layout Products List Component.
  * @param {any} props to the component.
@@ -98,47 +99,6 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                   </H3>
                 </Grid>
                 <Grid item xs={12}>
-                  <Accordion className="accordion">
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon />}
-                      aria-controls="categories-acc"
-                      id="categories-acc"
-                    >
-                      <span>Categories</span>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <FormControl>
-                        <RadioGroup
-                          aria-labelledby="category-group-label"
-                          defaultValue={
-                            props.productCategoryData
-                              ? props.productCategoryData
-                              : ""
-                          }
-                          name="category-group"
-                        >
-                          {props.productCategoriesData.map(
-                            ({ count, title, slug }) => {
-                              return (
-                                <FormControlLabel
-                                  key={slug}
-                                  value={slug}
-                                  control={
-                                    <Radio
-                                      onClick={() =>
-                                        (window.location.href = `/products/${slug}`)
-                                      }
-                                    />
-                                  }
-                                  label={`${title} (${count})`}
-                                />
-                              );
-                            }
-                          )}
-                        </RadioGroup>
-                      </FormControl>
-                    </AccordionDetails>
-                  </Accordion>
                   {props.productCategoryData && props.productData.length ? (
                     <Accordion className="accordion">
                       <AccordionSummary
@@ -195,7 +155,11 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                         <FormControl>
                           <RadioGroup
                             aria-labelledby="brand-group-label"
-                            defaultValue={hasBrand}
+                            defaultValue={
+                              props.productBrandsData.length == 1
+                                ? props.productBrandsData[0].slug
+                                : hasBrand
+                            }
                             name="brand-group"
                           >
                             {props.productBrandsData.map(
@@ -236,8 +200,8 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                           <RadioGroup
                             aria-labelledby="price-average-group-label"
                             defaultValue={
-                              props.productPriceAverageData
-                                ? props.productPriceAverageData
+                              props.productPriceAverageData.length == 1
+                                ? props.productPriceAverageData[0].slug
                                 : ""
                             }
                             name="price-average-group"
