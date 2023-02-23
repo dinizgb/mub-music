@@ -1,7 +1,7 @@
 import { ThumbnailType } from "types/productsCategoriesType";
 import { ProductFilterType } from "types/productFilterType";
 
-export interface ProductListType {
+export interface ProductType {
   id: string;
   slug: string;
   title: string;

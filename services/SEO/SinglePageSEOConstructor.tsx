@@ -55,7 +55,7 @@ export default function SinglePageSEOConstructor(
       />
       <meta
         name="twitter:text:title"
-        content={props.singlePageTitle + " | Exame"}
+        content={props.singlePageTitle + " | Mub Music"}
       />
       <meta name="twitter:image" content={props.singlePageFeaturedImage} />
       <meta name="twitter:image:alt" content={props.singlePageExcerpt} />

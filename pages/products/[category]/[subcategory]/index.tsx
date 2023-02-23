@@ -10,14 +10,14 @@ import paginationOffsetFormatter from "utils/paginationOffsetFormatter";
 // TYPES
 import { QueryParameters } from "types/queryParams";
 import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
-import { ProductListType } from "types/productType";
+import { ProductType } from "types/productType";
 import {
   ProductFilterType,
   ProductFilterResponseType,
 } from "types/productFilterType";
 
 type ProductsSubCategoryPageProps = {
-  lastProducts: Array<ProductListType>;
+  lastProducts: Array<ProductType>;
   productCategoryData: string;
   productSubCategories: Array<ProductFilterType>;
   productSubCategoryData: string | null;
@@ -82,7 +82,7 @@ export async function getServerSideProps(context) {
 
   // PRODUCTS
   const lastProducts = await fetchQuery(getAllProducts(lastProductsParams));
-  const lastProductsResponse: Array<ProductListType> =
+  const lastProductsResponse: Array<ProductType> =
     lastProducts.props.data.products.nodes;
   const lastProductsTotalRecords: number =
     lastProducts.props.data.products.pageInfo.offsetPagination.total;
