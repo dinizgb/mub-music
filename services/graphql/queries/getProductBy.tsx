@@ -14,6 +14,12 @@ export default function getProductBy(props: QueryParameters) {
         slug
         title(format: RENDERED)
         product_info {
+          colors
+          description
+          featureVideo
+          specifications
+          rating
+          price
           brand {
             ... on Brand {
               id
@@ -35,7 +41,6 @@ export default function getProductBy(props: QueryParameters) {
               slug
             }
           }
-          colors
           thumbnail {
             sourceUrl(size: LARGE)
             altText
@@ -48,8 +53,6 @@ export default function getProductBy(props: QueryParameters) {
               slug
             }
           }
-          rating
-          price
           priceAverage {
             ... on PriceAverage {
               id

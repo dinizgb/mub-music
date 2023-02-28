@@ -5,18 +5,25 @@ import StarHalfIcon from "@mui/icons-material/StarHalf";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import separateDecimalNumber from "utils/separateDecimalNumber";
 
-const StarsWidgetWrapper = styled.div`
-  background: rgba(0, 0, 0, 0.8);
-  padding: 4px 8px 0px 8px;
-  border-radius: 50px;
+const StarsWidgetWrapper = styled.div<StarsWidgetWrapperProps>`
+  background: ${(props) => (props.withBackground ? "rgba(0, 0, 0, 0.8)" : "")};
+  padding: ${(props) => (props.withBackground ? "4px 8px 0px 8px" : "")};
+  border-radius: ${(props) => (props.withBackground ? "50px" : "")};
   svg {
     color: ${({ theme }) => theme.colors.primary};
-    font-size: 18px;
+    font-size: ${(props) => props.fontSize}px;
   }
 `;
 
 type StarsConstructorProps = {
+  fontSize: number;
   number: number;
+  withBackground: boolean;
+};
+
+type StarsWidgetWrapperProps = {
+  fontSize: number;
+  withBackground: boolean;
 };
 
 /**
@@ -65,7 +72,10 @@ export default function StarsWidget(props: StarsConstructorProps) {
 
   return (
     <>
-      <StarsWidgetWrapper>
+      <StarsWidgetWrapper
+        withBackground={props.withBackground}
+        fontSize={props.fontSize}
+      >
         {stars.map((star) => {
           return star;
         })}

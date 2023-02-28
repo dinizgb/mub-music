@@ -95,7 +95,11 @@ export default function ProductCard(props: ProductCardProps) {
                   objectFit="cover"
                 />
                 <ProductCardStars>
-                  <StarsWidget number={props.cardRating} />
+                  <StarsWidget
+                    fontSize={18}
+                    number={props.cardRating}
+                    withBackground={true}
+                  />
                 </ProductCardStars>
               </ProductCardThumb>
               <ProductCardBrandLogo

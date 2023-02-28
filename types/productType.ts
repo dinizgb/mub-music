@@ -12,10 +12,13 @@ export interface ProductInfoType {
   brand: BrandType;
   category: ProductFilterType;
   colors: Array<string>;
+  description: string;
+  featureVideo: string;
   price: number;
   priceAverage: ProductFilterType;
   rating: number;
   slug: string;
+  specifications: string;
   subcategory: ProductFilterType;
   thumbnail: ThumbnailType;
   title: string;

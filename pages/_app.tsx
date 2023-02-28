@@ -10,17 +10,17 @@ import client from "services/graphql/apolloClient";
 export const theme = {
   colors: {
     background: "#080B14",
-    primary: "#b27d3c",
-    primary_hover: "#F5B100",
-    secondary: "#20232E",
+    line_bottom: "#444",
+    oddSection: "#050505",
+    primary_hover: "#FFBE19",
+    primary: "#F5B100",
     secondary_hover: "#252936",
+    secondary: "#20232E",
     subtitle: "#999",
-    subtitle_2: "#999",
     text_1: "#333",
     text_2: "#aaa",
     text_3: "#ccc",
     text_4: "#fff",
-    oddSection: "#050505",
   },
   gradients: {
     purple: {
@@ -31,8 +31,9 @@ export const theme = {
     },
   },
   breakpoints: {
-    md: 900,
-    sm: 600,
+    md: 1200,
+    sm: 900,
+    xs: 600,
   },
 };
 
