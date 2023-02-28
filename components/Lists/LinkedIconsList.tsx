@@ -18,7 +18,7 @@ const LinkedIconsListTop = styled.div<LinkedIconsListTopProps>`
   background: ${(props) =>
     props.isPrimaryTitle
       ? ({ theme }) => theme.colors.primary
-      : ({ theme }) => theme.colors.text_1};
+      : ({ theme }) => theme.colors.oddSection};
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   border-bottom-left-radius: 0;

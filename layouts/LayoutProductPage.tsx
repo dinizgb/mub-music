@@ -11,9 +11,11 @@ import ShareIcon from "@mui/icons-material/Share";
 import { ContentBody } from "components/Texts/ContentBody";
 import Header from "components/Tags/Header";
 import Footer from "components/Tags/Footer";
-import { H1, H2, H3, Span } from "components/Texts/Typographies";
+import { H1, H2, H3 } from "components/Texts/Typographies";
 import StarsWidget from "components/Widgets/StarsWidget";
 import LinkedIconsList from "components/Lists/LinkedIconsList";
+import ImageGallery from "react-image-gallery";
+import YoutubeIframe from "components/Tags/YoutubeIframe";
 // SERVICES
 import ProductPageSEOConstructor from "services/SEO/ProductPageSEOConstructor";
 // TYPES
@@ -79,6 +81,57 @@ const LayoutProductCard = styled.div`
   margin: 0 0 30px 0;
 `;
 
+const images = [
+  {
+    original: "https://picsum.photos/id/1018/1000/600/",
+    thumbnail: "https://picsum.photos/id/1018/250/150/",
+  },
+  {
+    original: "https://picsum.photos/id/1015/1000/600/",
+    thumbnail: "https://picsum.photos/id/1015/250/150/",
+  },
+  {
+    original: "https://picsum.photos/id/1019/1000/600/",
+    thumbnail: "https://picsum.photos/id/1019/250/150/",
+  },
+  {
+    original: "https://picsum.photos/id/1019/1000/600/",
+    thumbnail: "https://picsum.photos/id/1019/250/150/",
+  },
+  {
+    original: "https://picsum.photos/id/1019/1000/600/",
+    thumbnail: "https://picsum.photos/id/1019/250/150/",
+  },
+  {
+    original: "https://picsum.photos/id/1018/1000/600/",
+    thumbnail: "https://picsum.photos/id/1018/250/150/",
+  },
+  {
+    original: "https://picsum.photos/id/1018/1000/600/",
+    thumbnail: "https://picsum.photos/id/1018/250/150/",
+  },
+  {
+    original: "https://picsum.photos/id/1019/1000/600/",
+    thumbnail: "https://picsum.photos/id/1019/250/150/",
+  },
+  {
+    original: "https://picsum.photos/id/1019/1000/600/",
+    thumbnail: "https://picsum.photos/id/1019/250/150/",
+  },
+  {
+    original: "https://picsum.photos/id/1018/1000/600/",
+    thumbnail: "https://picsum.photos/id/1018/250/150/",
+  },
+  {
+    original: "https://picsum.photos/id/1019/1000/600/",
+    thumbnail: "https://picsum.photos/id/1019/250/150/",
+  },
+  {
+    original: "https://picsum.photos/id/1018/1000/600/",
+    thumbnail: "https://picsum.photos/id/1018/250/150/",
+  },
+];
+
 type LayoutProductPageProps = {
   productData: ProductType;
 };
@@ -89,7 +142,7 @@ type ProductCardBrandLogoProps = {
 
 /**
  * Layout Product Page.
- * @param {any} props Data Fetched.
+ * @param {LayoutProductPageProps} props to the component.
  * @return {TSX.Element}: The TSX code for the Layout Product Page.
  */
 export default function LayoutProductPage(props: LayoutProductPageProps) {
@@ -182,21 +235,30 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
                   lineHeight={36}
                   xsFontSize={21}
                   xsLineHeight={36}
-                  margin={0}
+                  margin={"0 0 20px 0"}
                 >
-                  Photos & Videos
+                  Photos
                 </H3>
-                <Span
-                  fontColor={({ theme }) => theme.colors.subtitle}
-                  fontWeight={400}
-                  fontSize={15}
-                  lineHeight={24}
-                  xsFontSize={15}
-                  xsLineHeight={24}
-                  margin={0}
+                <ImageGallery
+                  items={images}
+                  showIndex={true}
+                  showPlayButton={false}
+                  slideOnThumbnailOver={true}
+                />
+              </LayoutProductCard>
+              <LayoutProductCard>
+                <H3
+                  fontColor={({ theme }) => theme.colors.text_4}
+                  fontWeight={600}
+                  fontSize={21}
+                  lineHeight={36}
+                  xsFontSize={21}
+                  xsLineHeight={36}
+                  margin={"0 0 20px 0"}
                 >
-                  Mub Music Staff
-                </Span>
+                  Featured Video
+                </H3>
+                <YoutubeIframe url={productPrefix.product_info.featureVideo} />
               </LayoutProductCard>
               <LayoutProductCard>
                 <H3
