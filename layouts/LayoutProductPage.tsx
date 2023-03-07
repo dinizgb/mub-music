@@ -1,3 +1,4 @@
+/* eslint-disable guard-for-in */
 import React from "react";
 import Head from "next/head";
 import Image from "next/image";
@@ -81,57 +82,6 @@ const LayoutProductCard = styled.div`
   margin: 0 0 30px 0;
 `;
 
-const images = [
-  {
-    original: "https://picsum.photos/id/1018/1000/600/",
-    thumbnail: "https://picsum.photos/id/1018/250/150/",
-  },
-  {
-    original: "https://picsum.photos/id/1015/1000/600/",
-    thumbnail: "https://picsum.photos/id/1015/250/150/",
-  },
-  {
-    original: "https://picsum.photos/id/1019/1000/600/",
-    thumbnail: "https://picsum.photos/id/1019/250/150/",
-  },
-  {
-    original: "https://picsum.photos/id/1019/1000/600/",
-    thumbnail: "https://picsum.photos/id/1019/250/150/",
-  },
-  {
-    original: "https://picsum.photos/id/1019/1000/600/",
-    thumbnail: "https://picsum.photos/id/1019/250/150/",
-  },
-  {
-    original: "https://picsum.photos/id/1018/1000/600/",
-    thumbnail: "https://picsum.photos/id/1018/250/150/",
-  },
-  {
-    original: "https://picsum.photos/id/1018/1000/600/",
-    thumbnail: "https://picsum.photos/id/1018/250/150/",
-  },
-  {
-    original: "https://picsum.photos/id/1019/1000/600/",
-    thumbnail: "https://picsum.photos/id/1019/250/150/",
-  },
-  {
-    original: "https://picsum.photos/id/1019/1000/600/",
-    thumbnail: "https://picsum.photos/id/1019/250/150/",
-  },
-  {
-    original: "https://picsum.photos/id/1018/1000/600/",
-    thumbnail: "https://picsum.photos/id/1018/250/150/",
-  },
-  {
-    original: "https://picsum.photos/id/1019/1000/600/",
-    thumbnail: "https://picsum.photos/id/1019/250/150/",
-  },
-  {
-    original: "https://picsum.photos/id/1018/1000/600/",
-    thumbnail: "https://picsum.photos/id/1018/250/150/",
-  },
-];
-
 type LayoutProductPageProps = {
   productData: ProductType;
 };
@@ -147,6 +97,21 @@ type ProductCardBrandLogoProps = {
  */
 export default function LayoutProductPage(props: LayoutProductPageProps) {
   const productPrefix = props.productData;
+  const buildProductGallery = (obj) => {
+    const result = [];
+    for (const key in obj) {
+      result.push(obj[key]);
+    }
+    result.shift();
+    return result.filter((obj) => obj.image !== null);
+  };
+  const filteredProductGallery = buildProductGallery(
+    productPrefix.product_info.productGallery.productGalleryInfo
+  );
+  const productGallery = filteredProductGallery.map((m) => ({
+    original: m.image.sourceUrl,
+    thumbnail: m.image.sourceUrl,
+  }));
   return (
     <>
       <Head>
@@ -240,10 +205,9 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
                   Photos
                 </H3>
                 <ImageGallery
-                  items={images}
+                  items={productGallery}
                   showIndex={true}
                   showPlayButton={false}
-                  slideOnThumbnailOver={true}
                 />
               </LayoutProductCard>
               <LayoutProductCard>

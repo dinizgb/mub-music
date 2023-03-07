@@ -36,7 +36,6 @@ export default function getAllProducts(props: QueryParameters) {
                 slug
               }
             }
-            colors
             thumbnail {
               sourceUrl(size: LARGE)
               altText
