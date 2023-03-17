@@ -3,8 +3,7 @@ import styled from "styled-components";
 export const ContentBody = styled.div`
   p,
   div {
-    padding-top: 24px;
-    padding-bottom: 16px;
+    padding: 15px 0;
     line-height: 36px;
     font-size: 17px;
     font-weight: 400;
@@ -32,9 +31,12 @@ export const ContentBody = styled.div`
     color: ${({ theme }) => theme.colors.text_2};
   }
   ul {
+    color: ${({ theme }) => theme.colors.text_3};
+    line-height: 36px;
+    font-size: 17px;
     list-style-type: disc;
-    padding-left: 50px;
-    padding-top: 24px;
+    padding-left: 0;
+    padding-top: 15px;
   }
   a {
     color: ${({ theme }) => theme.colors.primary};

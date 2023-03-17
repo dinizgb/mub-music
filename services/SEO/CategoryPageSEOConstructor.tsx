@@ -45,7 +45,7 @@ export default function CategoryPageSEOConstructor(
       <meta property="og:image:alt" content={props.categoryPageExcerpt} />
       <meta
         name="twitter:text:title"
-        content={props.categoryPageTitle + " | Exame"}
+        content={props.categoryPageTitle + " | Mub Music"}
       />
       <meta
         name="twitter:image"

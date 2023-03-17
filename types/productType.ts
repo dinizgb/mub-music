@@ -1,7 +1,9 @@
 import { ThumbnailType } from "types/productsCategoriesType";
 import { ProductFilterType } from "types/productFilterType";
+import { StoreType } from "types/storeType";
+import { OfferType } from "types/offerType";
 
-export interface ProductListType {
+export interface ProductType {
   id: string;
   slug: string;
   title: string;
@@ -12,13 +14,19 @@ export interface ProductInfoType {
   brand: BrandType;
   category: ProductFilterType;
   colors: Array<string>;
+  description: string;
+  featureVideo: string;
   price: number;
   priceAverage: ProductFilterType;
+  productGallery: ProductGalleryType;
   rating: number;
+  reviews: ReviewsType;
   slug: string;
+  specifications: string;
   subcategory: ProductFilterType;
   thumbnail: ThumbnailType;
   title: string;
+  offers: OffersType;
 }
 
 export interface BrandType {
@@ -34,4 +42,63 @@ export interface BrandInfoType {
   slug: string;
   thumbnail: ThumbnailType;
   title: string;
+}
+
+export interface ProductGalleryType {
+  id: string;
+  productGalleryInfo: ProductGalleryInfoType;
+}
+
+export interface ProductGalleryInfoType {
+  img1: ImgType;
+  img2: ImgType;
+  img3: ImgType;
+  img4: ImgType;
+  img5: ImgType;
+  img6: ImgType;
+  img7: ImgType;
+  img8: ImgType;
+  img9: ImgType;
+  img10: ImgType;
+  img11: ImgType;
+  img12: ImgType;
+  img13: ImgType;
+  img14: ImgType;
+  img15: ImgType;
+  img16: ImgType;
+  img17: ImgType;
+}
+
+export interface ImgType {
+  colorInfo: {
+    code: string;
+  };
+  image: {
+    sourceUrl: string;
+  };
+}
+
+export interface ReviewsType {
+  id: string;
+  reviewInfo: ReviewInfoType;
+}
+
+export interface ReviewInfoType {
+  reviewer1: ReviewerType;
+  reviewer2: ReviewerType;
+  reviewer3: ReviewerType;
+  reviewer4: ReviewerType;
+  reviewer5: ReviewerType;
+}
+
+export interface ReviewerType {
+  count: number;
+  rate: number;
+  url: string;
+  store: StoreType;
+}
+
+export interface OffersType {
+  id: string;
+  offersInfo: OfferType;
 }

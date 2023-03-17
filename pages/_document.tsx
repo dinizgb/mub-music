@@ -56,6 +56,7 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Teko:wght@600&display=swap"
             rel="stylesheet"
           />
+          <link href="/image-gallery.css" rel="stylesheet" />
         </Head>
         <body>
           <Main />

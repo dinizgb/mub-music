@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from "react";
-import ArticleFormat from "layouts/ArticleFormat";
+import LayoutArticlePage from "layouts/LayoutArticlePage";
 import { fetchQuery } from "services/graphql/fetchQuery";
 import getNewsBy from "services/graphql/queries/getNewsBy";
 import getAllNews from "services/graphql/queries/getAllNews";
@@ -15,7 +15,7 @@ import { QueryParameters } from "types/queryParams";
 export default function NewsArticlePage({ response }) {
   return (
     <>
-      <ArticleFormat
+      <LayoutArticlePage
         articleTitle={response.title}
         articleExcerpt={htmlTagCleaner(response.excerpt)}
         articleSectionName={"News"}

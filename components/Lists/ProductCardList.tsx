@@ -45,23 +45,19 @@ export default function ProductCardList(props: any) {
       ) : (
         props.productList.map(({ title, slug, product_info }) => {
           return (
-            <>
-              <ProductCard
-                cardTitle={title}
-                cardImage={product_info.thumbnail.sourceUrl}
-                cardBrandLogo={
-                  product_info.brand.brand_info.thumbnail.sourceUrl
-                }
-                cardBrandLogoBgColor={
-                  product_info.brand.brand_info.backgroundColor
-                }
-                cardLink={`/products/${product_info.category.slug}/${product_info.subcategory.slug}/${slug}`}
-                cardRating={product_info.rating}
-                cardPrice={product_info.price}
-                margin={0}
-                key={product_info.category.slug}
-              />
-            </>
+            <ProductCard
+              cardTitle={title}
+              cardImage={product_info.thumbnail.sourceUrl}
+              cardBrandLogo={product_info.brand.brand_info.thumbnail.sourceUrl}
+              cardBrandLogoBgColor={
+                product_info.brand.brand_info.backgroundColor
+              }
+              cardLink={`/products/${product_info.category.slug}/${product_info.subcategory.slug}/${slug}`}
+              cardRating={product_info.rating}
+              cardPrice={product_info.price}
+              margin={0}
+              key={product_info.category.slug}
+            />
           );
         })
       )}

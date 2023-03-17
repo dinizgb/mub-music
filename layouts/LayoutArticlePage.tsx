@@ -14,7 +14,7 @@ import { ContentBody } from "components/Texts/ContentBody";
 import formatDate from "utils/formatDate";
 import SinglePageSEOConstructor from "services/SEO/SinglePageSEOConstructor";
 
-const ArticleFormatThumb = styled.div`
+const LayoutArticlePageThumb = styled.div`
   width: 100%;
   height: 100%;
   position: relative;
@@ -32,13 +32,13 @@ const ArticleFormatThumb = styled.div`
   }
 `;
 
-const ArticleFormatMain = styled.main`
+const LayoutArticlePageMain = styled.main`
   .MuiBreadcrumbs-separator {
     color: ${({ theme }) => theme.colors.text_2};
   }
 `;
 
-const ArticleFormatAuthor = styled.div`
+const LayoutArticlePageAuthor = styled.div`
   width: 100%;
   margin-top: 20px;
   margin-bottom: 30px;
@@ -50,7 +50,7 @@ const ArticleFormatAuthor = styled.div`
   }
 `;
 
-type ArticleFormatProps = {
+type LayoutArticlePageProps = {
   articleTitle: string;
   articleExcerpt: string;
   articleSectionName: string;
@@ -70,7 +70,7 @@ type ArticleFormatProps = {
  * @param {any} props to the component.
  * @return {TSX.Element}: The TSX code for the Article Layout Component.
  */
-export default function ArticleFormat(props: ArticleFormatProps) {
+export default function LayoutArticlePage(props: LayoutArticlePageProps) {
   return (
     <>
       <Head>
@@ -90,7 +90,7 @@ export default function ArticleFormat(props: ArticleFormatProps) {
         />
       </Head>
       <Header />
-      <ArticleFormatMain>
+      <LayoutArticlePageMain>
         <Container maxWidth="xl">
           <Box sx={{ width: "100%" }}>
             <Grid
@@ -163,7 +163,7 @@ export default function ArticleFormat(props: ArticleFormatProps) {
                 >
                   {props.articleExcerpt}
                 </P>
-                <ArticleFormatAuthor>
+                <LayoutArticlePageAuthor>
                   <Avatar alt="Autor Avatar" src="/images/mub-avatar.jpg" />
                   <Span
                     fontColor={({ theme }) => theme.colors.text_4}
@@ -188,17 +188,17 @@ export default function ArticleFormat(props: ArticleFormatProps) {
                   >
                     - {formatDate(props.articleDate)}
                   </Span>
-                </ArticleFormatAuthor>
+                </LayoutArticlePageAuthor>
               </Grid>
               <Grid item xs={12} sm={12} md={6}>
-                <ArticleFormatThumb>
+                <LayoutArticlePageThumb>
                   <Image
                     src={props.articleFeaturedImage}
                     alt={props.articleTitle}
                     layout="fill"
                     objectFit="cover"
                   />
-                </ArticleFormatThumb>
+                </LayoutArticlePageThumb>
               </Grid>
             </Grid>
           </Box>
@@ -224,7 +224,7 @@ export default function ArticleFormat(props: ArticleFormatProps) {
             </Grid>
           </Box>
         </Container>
-      </ArticleFormatMain>
+      </LayoutArticlePageMain>
       <Footer />
     </>
   );
