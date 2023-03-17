@@ -34,7 +34,6 @@ type ProductsCategoryPageProps = {
  * @return {TSX.Element}: The TSX code for the Products Category Page.
  */
 export default function ProductsCategoryPage(props: ProductsCategoryPageProps) {
-  console.log("PROPS: ", props);
   return (
     <LayoutProductsList
       productData={props.lastProducts}

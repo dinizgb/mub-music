@@ -274,6 +274,190 @@ export default function getProductBy(props: QueryParameters) {
               }
             }
           }
+          reviews {
+            ... on Review {
+              id
+              reviewInfo {
+                reviewer1 {
+                  count
+                  rate
+                  store {
+                    ... on Store {
+                      id
+                      title(format: RENDERED)
+                      storeInfo {
+                        logo {
+                          sourceUrl(size: THUMBNAIL)
+                        }
+                      }
+                    }
+                  }
+                  url
+                }
+                reviewer2 {
+                  count
+                  rate
+                  store {
+                    ... on Store {
+                      id
+                      title(format: RENDERED)
+                      storeInfo {
+                        logo {
+                          sourceUrl(size: THUMBNAIL)
+                        }
+                      }
+                    }
+                  }
+                  url
+                }
+                reviewer3 {
+                  count
+                  rate
+                  store {
+                    ... on Store {
+                      id
+                      title(format: RENDERED)
+                      storeInfo {
+                        logo {
+                          sourceUrl(size: THUMBNAIL)
+                        }
+                      }
+                    }
+                  }
+                  url
+                }
+                reviewer4 {
+                  count
+                  rate
+                  store {
+                    ... on Store {
+                      id
+                      title(format: RENDERED)
+                      storeInfo {
+                        logo {
+                          sourceUrl(size: THUMBNAIL)
+                        }
+                      }
+                    }
+                  }
+                  url
+                }
+                reviewer5 {
+                  count
+                  rate
+                  store {
+                    ... on Store {
+                      id
+                      title(format: RENDERED)
+                      storeInfo {
+                        logo {
+                          sourceUrl(size: THUMBNAIL)
+                        }
+                      }
+                    }
+                  }
+                  url
+                }
+              }
+            }
+          }
+          offers {
+            ... on Offer {
+              id
+              offersInfo {
+                offer1 {
+                  price
+                  store {
+                    ... on Store {
+                      id
+                      title(format: RENDERED)
+                      storeInfo {
+                        logo {
+                          sourceUrl(size: THUMBNAIL)
+                        }
+                      }
+                    }
+                  }
+                  url
+                }
+                offer2 {
+                  price
+                  store {
+                    ... on Store {
+                      id
+                      title(format: RENDERED)
+                      storeInfo {
+                        logo {
+                          sourceUrl(size: THUMBNAIL)
+                        }
+                      }
+                    }
+                  }
+                  url
+                }
+                offer3 {
+                  price
+                  store {
+                    ... on Store {
+                      id
+                      title(format: RENDERED)
+                      storeInfo {
+                        logo {
+                          sourceUrl(size: THUMBNAIL)
+                        }
+                      }
+                    }
+                  }
+                  url
+                }
+                offer4 {
+                  price
+                  store {
+                    ... on Store {
+                      id
+                      title(format: RENDERED)
+                      storeInfo {
+                        logo {
+                          sourceUrl(size: THUMBNAIL)
+                        }
+                      }
+                    }
+                  }
+                  url
+                }
+                offer5 {
+                  price
+                  store {
+                    ... on Store {
+                      id
+                      title(format: RENDERED)
+                      storeInfo {
+                        logo {
+                          sourceUrl(size: THUMBNAIL)
+                        }
+                      }
+                    }
+                  }
+                  url
+                }
+                offer6 {
+                  price
+                  store {
+                    ... on Store {
+                      id
+                      title(format: RENDERED)
+                      storeInfo {
+                        logo {
+                          sourceUrl(size: THUMBNAIL)
+                        }
+                      }
+                    }
+                  }
+                  url
+                }
+              }
+            }
+          }
         }
       }
     }`;

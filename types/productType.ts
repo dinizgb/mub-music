@@ -1,5 +1,7 @@
 import { ThumbnailType } from "types/productsCategoriesType";
 import { ProductFilterType } from "types/productFilterType";
+import { StoreType } from "types/storeType";
+import { OfferType } from "types/offerType";
 
 export interface ProductType {
   id: string;
@@ -18,11 +20,13 @@ export interface ProductInfoType {
   priceAverage: ProductFilterType;
   productGallery: ProductGalleryType;
   rating: number;
+  reviews: ReviewsType;
   slug: string;
   specifications: string;
   subcategory: ProductFilterType;
   thumbnail: ThumbnailType;
   title: string;
+  offers: OffersType;
 }
 
 export interface BrandType {
@@ -72,4 +76,29 @@ export interface ImgType {
   image: {
     sourceUrl: string;
   };
+}
+
+export interface ReviewsType {
+  id: string;
+  reviewInfo: ReviewInfoType;
+}
+
+export interface ReviewInfoType {
+  reviewer1: ReviewerType;
+  reviewer2: ReviewerType;
+  reviewer3: ReviewerType;
+  reviewer4: ReviewerType;
+  reviewer5: ReviewerType;
+}
+
+export interface ReviewerType {
+  count: number;
+  rate: number;
+  url: string;
+  store: StoreType;
+}
+
+export interface OffersType {
+  id: string;
+  offersInfo: OfferType;
 }

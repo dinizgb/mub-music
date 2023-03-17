@@ -14,7 +14,8 @@ import Header from "components/Tags/Header";
 import Footer from "components/Tags/Footer";
 import { H1, H2, H3 } from "components/Texts/Typographies";
 import StarsWidget from "components/Widgets/StarsWidget";
-import LinkedIconsList from "components/Lists/LinkedIconsList";
+import OffersSidebarList from "components/Lists/OffersSidebarList";
+import ReviewsSidebarList from "components/Lists/ReviewsSidebarList";
 import ImageGallery from "react-image-gallery";
 import YoutubeIframe from "components/Tags/YoutubeIframe";
 // SERVICES
@@ -97,6 +98,8 @@ type ProductCardBrandLogoProps = {
  */
 export default function LayoutProductPage(props: LayoutProductPageProps) {
   const productPrefix = props.productData;
+
+  // FILTERS
   const buildProductGallery = (obj) => {
     const result = [];
     for (const key in obj) {
@@ -105,6 +108,16 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
     result.shift();
     return result.filter((obj) => obj.image !== null);
   };
+  const buildReviewsAndOffersList = (obj) => {
+    const result = [];
+    for (const key in obj) {
+      result.push(obj[key]);
+    }
+    result.shift();
+    return result.filter((obj) => obj.url !== null);
+  };
+
+  // PRODUCT GALLERY
   const filteredProductGallery = buildProductGallery(
     productPrefix.product_info.productGallery.productGalleryInfo
   );
@@ -112,6 +125,34 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
     original: m.image.sourceUrl,
     thumbnail: m.image.sourceUrl,
   }));
+
+  // PRODUCT REVIEWS
+  const filteredProductReviews = productPrefix.product_info.reviews
+    ? buildReviewsAndOffersList(productPrefix.product_info.reviews.reviewInfo)
+    : null;
+  const productReviews = productPrefix.product_info.reviews
+    ? filteredProductReviews.map((m) => ({
+        count: m.count,
+        rate: m.rate,
+        store: m.store.title,
+        logo: m.store.storeInfo.logo.sourceUrl,
+        url: m.url,
+      }))
+    : null;
+
+  // PRODUCT OFFERS
+  const filteredProductOffers = productPrefix.product_info.offers
+    ? buildReviewsAndOffersList(productPrefix.product_info.offers.offersInfo)
+    : null;
+  const productOffers = productPrefix.product_info.offers
+    ? filteredProductOffers.map((m) => ({
+        logo: m.store.storeInfo.logo.sourceUrl,
+        price: m.price,
+        store: m.store.title,
+        url: m.url,
+      }))
+    : null;
+
   return (
     <>
       <Head>
@@ -262,11 +303,16 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
               </LayoutProductCard>
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
-              <LinkedIconsList
-                isPrimaryTitle={true}
+              <OffersSidebarList
+                data={productOffers}
+                isPrimaryTitle={productOffers ? true : false}
                 title={"Offers available"}
               />
-              <LinkedIconsList isPrimaryTitle={false} title={"Reviews"} />
+              <ReviewsSidebarList
+                data={productReviews}
+                isPrimaryTitle={false}
+                title={"Reviews"}
+              />
             </Grid>
           </Grid>
         </Box>
