@@ -4,15 +4,26 @@ import React from "react";
 import { fetchQuery } from "services/graphql/fetchQuery";
 import getProductBy from "services/graphql/queries/getProductBy";
 import getAllProducts from "services/graphql/queries/getAllProducts";
+import reviewsCrawlerResponseConstructor from "services/crawlers/reviewsCrawlerResponseConstructor";
+import offersCrawlerResponseConstructor from "services/crawlers/offersCrawlerResponseConstructor";
 import { fetchPaths } from "services/core/fetchPaths";
 // COMPONENTS
 import LayoutProductPage from "layouts/LayoutProductPage";
 // TYPES
 import { QueryParameters } from "types/queryParams";
-import { ProductType } from "types/productType";
+// OffersType
+import {
+  OffersType,
+  ProductType,
+  ReviewsType,
+  SimplifiedOfferType,
+  SimplifiedReviewerType,
+} from "types/productType";
 
 type ProductSinglePageProps = {
+  offers: SimplifiedOfferType[];
   productData: ProductType;
+  reviews: SimplifiedReviewerType[];
 };
 
 /**
@@ -21,21 +32,70 @@ type ProductSinglePageProps = {
  * @return {TSX.Element}: The TSX code for the Product Single Page.
  */
 export default function ProductSinglePage(props: ProductSinglePageProps) {
-  return <LayoutProductPage productData={props.productData} />;
+  return (
+    <LayoutProductPage
+      offersCrawlerData={props.offers}
+      productData={props.productData}
+      reviewsCrawlerData={props.reviews}
+    />
+  );
 }
 
 // eslint-disable-next-line require-jsdoc
-export async function getStaticProps(context) {
+export async function getStaticProps(context: { params: { slug: any } }) {
+  // PRODUCT DATA
   const getProductParam: QueryParameters = {
     slug: context.params.slug,
   };
   const getProduct = await fetchQuery(getProductBy(getProductParam));
   const getProductResponse = getProduct.props.data.productBy;
 
+  // REVIEWS CRAWLER
+  const reviewInfo: ReviewsType =
+    getProductResponse.product_info.reviews.reviewInfo;
+  const reviewsUrls = Object.values(reviewInfo)
+    .map((reviewer) => reviewer.url)
+    .filter((url) => url !== null && url !== undefined);
+  const reviewsCurrentCounts = Object.values(reviewInfo)
+    .map((reviewer) => reviewer.count)
+    .filter((count) => count !== null && count !== undefined);
+  const reviewsCurrentRates = Object.values(reviewInfo)
+    .map((reviewer) => reviewer.rate)
+    .filter((rate) => rate !== null && rate !== undefined);
+  const getReviewsData = await Promise.all(
+    reviewsUrls.map((reviewsUrl, index) =>
+      reviewsCrawlerResponseConstructor(reviewsUrl, {
+        count: reviewsCurrentRates[index],
+        rating: reviewsCurrentCounts[index],
+      })
+    )
+  );
+
+  // OFFERS CRAWLER - TODO: ADD POST RESQUEST TO SAVE OFFERS ON THE FIELD MONITOR
+  const offersInfo: OffersType =
+    getProductResponse.product_info.offers.offersInfo;
+  const offersUrls = Object.values(offersInfo)
+    .map((offer) => offer.url)
+    .filter((url) => url !== null && url !== undefined);
+  const offersCurrentPrices = Object.values(offersInfo)
+    .map((offer) => offer.price)
+    .filter((count) => count !== null && count !== undefined);
+  const getOffersData = await Promise.all(
+    offersUrls.map((offersUrl, index) =>
+      offersCrawlerResponseConstructor(offersUrl, {
+        price: offersCurrentPrices[index],
+      })
+    )
+  );
+
+  // DATA RETURN
   return {
     props: {
+      offers: getOffersData,
       productData: getProductResponse,
+      reviews: getReviewsData,
     },
+    revalidate: 604800, // ONE WEEK
   };
 }
 
@@ -47,13 +107,18 @@ export async function getStaticPaths() {
   const getProducts = await fetchQuery(getAllProducts(getAllProductsParams));
   const getProductsResponse = getProducts.props.data.products.nodes;
 
-  const paths = getProductsResponse.map((item) => ({
-    params: {
-      category: item.product_info.category.slug,
-      subcategory: item.product_info.subcategory.slug,
-      slug: item.slug,
-    },
-  }));
+  const paths = getProductsResponse.map(
+    (item: {
+      product_info: { category: { slug: any }; subcategory: { slug: any } };
+      slug: any;
+    }) => ({
+      params: {
+        category: item.product_info.category.slug,
+        subcategory: item.product_info.subcategory.slug,
+        slug: item.slug,
+      },
+    })
+  );
 
   return fetchPaths(paths);
 }
