@@ -98,6 +98,15 @@ export interface ReviewerType {
   store: StoreType;
 }
 
+export interface SimplifiedReviewerType {
+  count: number;
+  rating: number;
+}
+
+export interface SimplifiedOfferType {
+  price: number;
+}
+
 export interface OffersType {
   id: string;
   offersInfo: OfferType;

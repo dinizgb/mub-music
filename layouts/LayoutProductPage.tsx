@@ -21,7 +21,11 @@ import YoutubeIframe from "components/Tags/YoutubeIframe";
 // SERVICES
 import ProductPageSEOConstructor from "services/SEO/ProductPageSEOConstructor";
 // TYPES
-import { ProductType } from "types/productType";
+import {
+  ProductType,
+  SimplifiedOfferType,
+  SimplifiedReviewerType,
+} from "types/productType";
 
 const LayoutProductHeader = styled.div`
   width: 100%;
@@ -84,7 +88,9 @@ const LayoutProductCard = styled.div`
 `;
 
 type LayoutProductPageProps = {
+  offersCrawlerData: SimplifiedOfferType[];
   productData: ProductType;
+  reviewsCrawlerData: SimplifiedReviewerType[];
 };
 
 type ProductCardBrandLogoProps = {
@@ -131,9 +137,9 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
     ? buildReviewsAndOffersList(productPrefix.product_info.reviews.reviewInfo)
     : null;
   const productReviews = productPrefix.product_info.reviews
-    ? filteredProductReviews.map((m) => ({
-        count: m.count,
-        rate: m.rate,
+    ? filteredProductReviews.map((m, i) => ({
+        count: props.reviewsCrawlerData[i].count,
+        rate: props.reviewsCrawlerData[i].rating,
         store: m.store.title,
         logo: m.store.storeInfo.logo.sourceUrl,
         url: m.url,
@@ -145,9 +151,9 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
     ? buildReviewsAndOffersList(productPrefix.product_info.offers.offersInfo)
     : null;
   const productOffers = productPrefix.product_info.offers
-    ? filteredProductOffers.map((m) => ({
+    ? filteredProductOffers.map((m, i) => ({
         logo: m.store.storeInfo.logo.sourceUrl,
-        price: m.price,
+        price: props.offersCrawlerData[i].price,
         store: m.store.title,
         url: m.url,
       }))
