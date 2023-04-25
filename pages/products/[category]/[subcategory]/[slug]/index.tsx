@@ -19,6 +19,8 @@ import {
   SimplifiedOfferType,
   SimplifiedReviewerType,
 } from "types/productType";
+// UTILS
+import differenceInDays from "utils/differenceInDays";
 
 type ProductSinglePageProps = {
   offers: SimplifiedOfferType[];
@@ -49,44 +51,60 @@ export async function getStaticProps(context: { params: { slug: any } }) {
   };
   const getProduct = await fetchQuery(getProductBy(getProductParam));
   const getProductResponse = getProduct.props.data.productBy;
+  const lastModifiedInDays = differenceInDays(getProductResponse.modified);
 
-  // REVIEWS CRAWLER
+  // REVIEWS DATA
+  let getReviewsData;
   const reviewInfo: ReviewsType =
     getProductResponse.product_info.reviews.reviewInfo;
-  const reviewsUrls = Object.values(reviewInfo)
-    .map((reviewer) => reviewer.url)
-    .filter((url) => url !== null && url !== undefined);
   const reviewsCurrentCounts = Object.values(reviewInfo)
     .map((reviewer) => reviewer.count)
     .filter((count) => count !== null && count !== undefined);
   const reviewsCurrentRates = Object.values(reviewInfo)
     .map((reviewer) => reviewer.rate)
     .filter((rate) => rate !== null && rate !== undefined);
-  const getReviewsData = await Promise.all(
-    reviewsUrls.map((reviewsUrl, index) =>
-      reviewsCrawlerResponseConstructor(reviewsUrl, {
-        count: reviewsCurrentRates[index],
-        rating: reviewsCurrentCounts[index],
-      })
-    )
-  );
+  getReviewsData = reviewsCurrentCounts.map((reviewer, i) => ({
+    count: reviewer,
+    rating: reviewsCurrentRates[i],
+  }));
 
-  // OFFERS CRAWLER - TODO: ADD POST RESQUEST TO SAVE OFFERS ON THE FIELD MONITOR
+  // OFFERS DATA
+  let getOffersData;
   const offersInfo: OffersType =
     getProductResponse.product_info.offers.offersInfo;
-  const offersUrls = Object.values(offersInfo)
-    .map((offer) => offer.url)
-    .filter((url) => url !== null && url !== undefined);
   const offersCurrentPrices = Object.values(offersInfo)
     .map((offer) => offer.price)
     .filter((count) => count !== null && count !== undefined);
-  const getOffersData = await Promise.all(
-    offersUrls.map((offersUrl, index) =>
-      offersCrawlerResponseConstructor(offersUrl, {
-        price: offersCurrentPrices[index],
-      })
-    )
-  );
+  getOffersData = offersCurrentPrices.map((offer) => ({
+    price: offer,
+  }));
+
+  if (lastModifiedInDays >= 8) {
+    // REVIEWS CRAWLER
+    const reviewsUrls = Object.values(reviewInfo)
+      .map((reviewer) => reviewer.url)
+      .filter((url) => url !== null && url !== undefined);
+    getReviewsData = await Promise.all(
+      reviewsUrls.map((reviewsUrl, index) =>
+        reviewsCrawlerResponseConstructor(reviewsUrl, {
+          count: reviewsCurrentRates[index],
+          rating: reviewsCurrentCounts[index],
+        })
+      )
+    );
+
+    // OFFERS CRAWLER - TODO: ADD POST RESQUEST TO SAVE OFFERS ON THE FIELD MONITOR
+    const offersUrls = Object.values(offersInfo)
+      .map((offer) => offer.url)
+      .filter((url) => url !== null && url !== undefined);
+    getOffersData = await Promise.all(
+      offersUrls.map((offersUrl, index) =>
+        offersCrawlerResponseConstructor(offersUrl, {
+          price: offersCurrentPrices[index],
+        })
+      )
+    );
+  }
 
   // DATA RETURN
   return {
