@@ -13,6 +13,7 @@ export default function getProductBy(props: QueryParameters) {
         id
         slug
         title(format: RENDERED)
+        modified
         product_info {
           description
           featureVideo
