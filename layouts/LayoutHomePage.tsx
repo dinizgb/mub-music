@@ -7,8 +7,9 @@ import Box from "@mui/material/Box";
 // COMPONENTS
 import Header from "components/Tags/Header";
 import Footer from "components/Tags/Footer";
-import { H2, P } from "components/Texts/Typographies";
+import { H2 } from "components/Texts/Typographies";
 import { WhiteButton } from "components/Inputs/Buttons";
+import HomeSearch from "components/Searchs/HomeSearch";
 import BigHorizontalCardList from "components/Lists/BigHorizontalCardList";
 import ProductCardList from "components/Lists/ProductCardList";
 
@@ -20,7 +21,7 @@ type LayoutHomePageProps = {
 
 /**
  * Home Page Layout Component.
- * @param {any} props to the component.
+ * @param {LayoutHomePageProps} props to the component.
  * @return {TSX.Element}: The TSX code for the Home Page Layout Component.
  */
 export default function LayoutHomePage(props: LayoutHomePageProps) {
@@ -65,42 +66,10 @@ export default function LayoutHomePage(props: LayoutHomePageProps) {
           href={`https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/`}
         />
       </Head>
-      <Header />
+      <Header noBg={true} />
+      <HomeSearch />
       <main>
         <Container maxWidth="xl">
-          <Box sx={{ width: "100%" }}>
-            <Grid
-              container
-              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-              style={{ marginTop: 50 }}
-            >
-              <Grid item xs={12} sm={12} md={9}>
-                <H2
-                  fontType={"MainTitle"}
-                  fontColor={({ theme }) => theme.colors.text_4}
-                  fontWeight={400}
-                  fontSize={76}
-                  lineHeight={100}
-                  xsFontSize={60}
-                  xsLineHeight={70}
-                  margin={0}
-                >
-                  Mub Music is on the way...
-                </H2>
-                <P
-                  fontColor={({ theme }) => theme.colors.text_4}
-                  fontWeight={300}
-                  fontSize={24}
-                  lineHeight={40}
-                  xsFontSize={21}
-                  xsLineHeight={36}
-                  margin={`30px 0`}
-                >
-                  More on this later...
-                </P>
-              </Grid>
-            </Grid>
-          </Box>
           <Box sx={{ width: "100%" }}>
             <Grid
               container
