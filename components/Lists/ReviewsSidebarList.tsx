@@ -92,7 +92,7 @@ type ReviewsSidebarListData = {
 
 /**
  * Reviews Sidebar List Component.
- * @param {any} props to the component.
+ * @param {ReviewsSidebarListProps} props to the component.
  * @return {TSX.Element}: The TSX code for the Reviews Sidebar List Component.
  */
 export default function ReviewsSidebarList(props: ReviewsSidebarListProps) {
@@ -116,7 +116,7 @@ export default function ReviewsSidebarList(props: ReviewsSidebarListProps) {
         </H3>
       </ReviewsSidebarListTop>
       <ReviewsSidebarListUl>
-        {props.data ? (
+        {props.data.length > 0 ? (
           props.data.map(({ count, logo, rate, store, url }) => {
             return (
               <a href={url} target="_blank" rel="noreferrer" key={url}>
