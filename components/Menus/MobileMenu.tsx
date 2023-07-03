@@ -11,7 +11,7 @@ const MenuContainer = styled.div<MobileMenuProps>`
   background-color: ${({ theme }) => theme.colors.background};
   display: ${(props) => props.display};
   flex-direction: column;
-  overflow: hidden;
+  overflow-y: hidden;
 `;
 
 const ListContainer = styled.div`
@@ -80,16 +80,10 @@ export default function MobileMenu(props: MobileMenuProps) {
       <MenuContainer display={props.display}>
         <ListContainer>
           <MenuBlock>
-            <MenuTitle>News</MenuTitle>
+            <MenuTitle>Products</MenuTitle>
             <MenuList>
               <MenuItem>
-                <a href="/">Home</a>
-              </MenuItem>
-              <MenuItem>
-                <a href="/news/">News</a>
-              </MenuItem>
-              <MenuItem>
-                <a href="/products/">Products</a>
+                <a href="/products/eletric-guitars/">Eletric Guitars</a>
               </MenuItem>
             </MenuList>
           </MenuBlock>

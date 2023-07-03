@@ -11,6 +11,7 @@ export const theme = {
   colors: {
     background: "#080B14",
     line_bottom: "#444",
+    light_line_bottom: "#eee",
     oddSection: "#2b2946",
     primary_hover: "#FFBE19",
     primary: "#F5B100",

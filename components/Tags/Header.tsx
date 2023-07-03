@@ -8,18 +8,24 @@ import Box from "@mui/material/Box";
 import Nav from "./Nav";
 import { H1 } from "../Texts/Typographies";
 
-const HeaderContainer = styled.header`
+const HeaderContainer = styled.header<HeaderProps>`
   padding: 16px 0 11px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: ${(props) =>
+    props.noBg ? `none` : `1px solid rgba(255, 255, 255, 0.2)`};
   z-index: 2;
   position: relative;
 `;
 
+type HeaderProps = {
+  noBg?: boolean;
+};
+
 /**
  * Header Component.
+ * @param {HeaderProps} props to the component.
  * @return {TSX.Element}: The TSX code for the Header Component.
  */
-export default function Header() {
+export default function Header(props: HeaderProps) {
   return (
     <>
       <Head>
@@ -35,7 +41,7 @@ export default function Header() {
           type="image/x-icon"
         />
       </Head>
-      <HeaderContainer>
+      <HeaderContainer noBg={props.noBg}>
         <Container maxWidth="xl">
           <Box sx={{ width: "100%" }}>
             <Grid

@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import mobileMenuReducer from "redux/slices/mobileMenu/";
+import searchAutoFillReducer from "redux/slices/searchAutoFill";
 
 export const store = configureStore({
   reducer: {
     mobileMenuEvents: mobileMenuReducer,
+    searchAutoFillEvents: searchAutoFillReducer,
   },
 });
 
