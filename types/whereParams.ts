@@ -8,4 +8,5 @@ export interface whereParams {
   priceAverageSlug?: string;
   subCatSlug?: string;
   offsetPagination?: OffsetPaginationTypes;
+  search?: string;
 }

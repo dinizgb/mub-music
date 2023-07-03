@@ -70,7 +70,14 @@ export default function LayoutHomePage(props: LayoutHomePageProps) {
       <HomeSearch />
       <main>
         <Container maxWidth="xl">
-          <Box sx={{ width: "100%" }}>
+          <Box
+            sx={{
+              backgroundColor: "#080B14",
+              position: "relative",
+              width: "100%",
+              zIndex: 0,
+            }}
+          >
             <Grid
               container
               columnSpacing={{ xs: 1, sm: 3, md: 5 }}
