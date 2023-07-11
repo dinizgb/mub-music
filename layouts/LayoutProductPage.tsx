@@ -21,6 +21,7 @@ import YoutubeIframe from "components/Tags/YoutubeIframe";
 // SERVICES
 import ProductPageSEOConstructor from "services/SEO/ProductPageSEOConstructor";
 // TYPES
+import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { ProductType } from "types/productType";
 
 const LayoutProductHeader = styled.div`
@@ -85,6 +86,7 @@ const LayoutProductCard = styled.div`
 
 type LayoutProductPageProps = {
   productData: ProductType;
+  productsCategories: ProductsCategoriesType[];
 };
 
 type ProductCardBrandLogoProps = {
@@ -159,7 +161,7 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
         <title>{`${productPrefix.title} | Mub Music`}</title>
         <ProductPageSEOConstructor productData={productPrefix} />
       </Head>
-      <Header />
+      <Header productsCategories={props.productsCategories} />
       <LayoutProductHeader>
         <Container>
           <Box sx={{ width: "100%", marginBottom: 2 }}>

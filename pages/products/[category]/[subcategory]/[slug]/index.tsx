@@ -4,16 +4,19 @@ import React from "react";
 import { fetchQuery } from "services/graphql/fetchQuery";
 import getProductBy from "services/graphql/queries/getProductBy";
 import getAllProducts from "services/graphql/queries/getAllProducts";
+import getAllProductCategories from "services/graphql/queries/getAllProductCategories";
 import { fetchPaths } from "services/core/fetchPaths";
 // COMPONENTS
 import LayoutProductPage from "layouts/LayoutProductPage";
 // TYPES
+import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { QueryParameters } from "types/queryParams";
 // OffersType
 import { ProductType } from "types/productType";
 
 type ProductSinglePageProps = {
   productData: ProductType;
+  productsCategories: ProductsCategoriesType[];
 };
 
 /**
@@ -22,7 +25,12 @@ type ProductSinglePageProps = {
  * @return {TSX.Element}: The TSX code for the Product Single Page.
  */
 export default function ProductSinglePage(props: ProductSinglePageProps) {
-  return <LayoutProductPage productData={props.productData} />;
+  return (
+    <LayoutProductPage
+      productData={props.productData}
+      productsCategories={props.productsCategories}
+    />
+  );
 }
 
 // eslint-disable-next-line require-jsdoc
@@ -34,10 +42,21 @@ export async function getStaticProps(context: { params: { slug: any } }) {
   const getProduct = await fetchQuery(getProductBy(getProductParam));
   const getProductResponse = getProduct.props.data.productBy;
 
+  // PRODUCT CATEGORIES
+  const getProductCategoriesParams: QueryParameters = {
+    where: { offsetPagination: { size: 100, offset: 1 } },
+  };
+  const getProductCategories = await fetchQuery(
+    getAllProductCategories(getProductCategoriesParams)
+  );
+  const getProductCategoriesResponse: ProductsCategoriesType[] =
+    getProductCategories.props.data.productCategories.nodes;
+
   // DATA RETURN
   return {
     props: {
       productData: getProductResponse,
+      productsCategories: getProductCategoriesResponse,
     },
     revalidate: 604800, // ONE WEEK
   };

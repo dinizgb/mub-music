@@ -1,11 +1,19 @@
 import React from "react";
 import styled from "styled-components";
+// COMPONENTS
 import MenuIcon from "@material-ui/icons/Menu";
 import MobileMenu from "../Menus/MobileMenu";
+// REDUX
 import { useAppSelector, useAppDispatch } from "redux/store";
 import { toggleMobileMenu } from "redux/slices/mobileMenu/";
+// TYPES
+import { ProductsCategoriesType } from "types/productsCategoriesType";
 
 type NavProps = {
+  productsCategories: ProductsCategoriesType[];
+};
+
+type MenuOverlayProps = {
   display: string;
 };
 
@@ -51,7 +59,7 @@ const NavLiMobile = styled.li`
   }
 `;
 
-const MenuOverlay = styled.div<NavProps>`
+const MenuOverlay = styled.div<MenuOverlayProps>`
   position: fixed;
   top: 0;
   left: 0;
@@ -65,9 +73,10 @@ const MenuOverlay = styled.div<NavProps>`
 
 /**
  * Nav Component.
+ * @param {NavProps} props to the component.
  * @return {TSX.Element}: The TSX code for the Nav Component.
  */
-export default function Nav() {
+export default function Nav(props: NavProps) {
   const dispatch = useAppDispatch();
   const mobileMenuStatus = useAppSelector(
     (state) => state.mobileMenuEvents.showMobileMenu
@@ -88,7 +97,10 @@ export default function Nav() {
         <NavLiMobile onClick={handleToggleMobileMenu}>
           <MenuIcon />
         </NavLiMobile>
-        <MobileMenu display={!mobileMenuStatus ? "none" : "block"} />
+        <MobileMenu
+          display={!mobileMenuStatus ? "none" : "block"}
+          productsCategories={props.productsCategories}
+        />
         <MenuOverlay
           display={!mobileMenuStatus ? "none" : "block"}
           onClick={handleToggleMobileMenu}

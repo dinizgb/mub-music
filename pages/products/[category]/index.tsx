@@ -5,9 +5,11 @@ import { fetchQuery } from "services/graphql/fetchQuery";
 import getAllProducts from "services/graphql/queries/getAllProducts";
 import getAllProductFiltersInfos from "services/graphql/queries/getAllProductFiltersInfos";
 import productFilterConstructor from "services/filters/productFilterConstructor";
+import getAllProductCategories from "services/graphql/queries/getAllProductCategories";
 // UTILS
 import paginationOffsetFormatter from "utils/paginationOffsetFormatter";
 // TYPES
+import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { QueryParameters } from "types/queryParams";
 import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
 import { ProductType } from "types/productType";
@@ -19,6 +21,7 @@ import {
 type ProductsCategoryPageProps = {
   lastProducts: Array<ProductType>;
   productCategoryData: string;
+  productsCategories: ProductsCategoriesType[];
   productSubCategories: Array<ProductFilterType>;
   productSubCategoryData: string | null;
   productBrands: Array<ProductFilterType>;
@@ -38,6 +41,7 @@ export default function ProductsCategoryPage(props: ProductsCategoryPageProps) {
     <LayoutProductsList
       productData={props.lastProducts}
       productCategoryData={props.productCategoryData}
+      productsCategories={props.productsCategories}
       productSubCategories={props.productSubCategories}
       productSubCategoryData={null}
       productBrandsData={props.productBrands}
@@ -99,6 +103,16 @@ export async function getServerSideProps(context) {
   );
   const productsFiltersResponse: Array<ProductFilterResponseType> =
     productsFilters.props.data.products.nodes;
+
+  // PRODUCT CATEGORIES
+  const getProductCategoriesParams: QueryParameters = {
+    where: { offsetPagination: { size: 100, offset: 1 } },
+  };
+  const getProductCategories = await fetchQuery(
+    getAllProductCategories(getProductCategoriesParams)
+  );
+  const getProductCategoriesResponse: ProductsCategoriesType[] =
+    getProductCategories.props.data.productCategories.nodes;
 
   // PRODUCTS SUBCATEGORIES
   const productSubCategoryCategories: Array<ProductFilterType> =
@@ -164,6 +178,7 @@ export async function getServerSideProps(context) {
     props: {
       lastProducts: lastProductsResponse,
       productCategoryData: category,
+      productsCategories: getProductCategoriesResponse,
       productSubCategories: productSubCategoryCategories,
       productBrands: brands,
       priceAverage: priceAverage,

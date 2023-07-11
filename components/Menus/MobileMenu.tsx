@@ -1,11 +1,14 @@
+/* eslint-disable camelcase */
 import React from "react";
 import styled from "styled-components";
+// TYPES
+import { ProductsCategoriesType } from "types/productsCategoriesType";
 
-const MenuContainer = styled.div<MobileMenuProps>`
+const MenuContainer = styled.div<MobileMenuContainerProps>`
   position: fixed;
   top: 0;
   left: 0;
-  width: 300px;
+  width: 270px;
   height: 100%;
   z-index: 26;
   background-color: ${({ theme }) => theme.colors.background};
@@ -15,7 +18,7 @@ const MenuContainer = styled.div<MobileMenuProps>`
 `;
 
 const ListContainer = styled.div`
-  overflow: auto;
+  overflow-x: auto;
   height: 100%;
   margin-right: 22px;
   &::-webkit-scrollbar {
@@ -36,9 +39,8 @@ const MenuBlock = styled.div`
 
 const MenuTitle = styled.span`
   font-family: "Poppins", serif;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: bold;
-  letter-spacing: 3px;
   border-bottom: 3px solid;
   padding: 8px 0;
   margin-left: 40px;
@@ -49,24 +51,33 @@ const MenuList = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: start;
-  margin-top: 20px;
+  margin-top: 15px;
 `;
 
 const MenuItem = styled.li`
-  margin: 5px 0;
+  margin: 10px 0;
   a {
+    background: ${({ theme }) => theme.colors.background_contrast};
+    border-radius: 50px;
     color: ${({ theme }) => theme.colors.text_2};
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 400;
     text-decoration: none;
+    padding: 8px 20px 10px 20px;
     &:hover {
-      color: ${({ theme }) => theme.colors.text_4};
+      background: ${({ theme }) => theme.colors.primary};
+      color: ${({ theme }) => theme.colors.text_1};
     }
   }
 `;
 
+type MobileMenuContainerProps = {
+  display: string;
+};
+
 type MobileMenuProps = {
   display: string;
+  productsCategories: ProductsCategoriesType[];
 };
 
 /**
@@ -82,8 +93,29 @@ export default function MobileMenu(props: MobileMenuProps) {
           <MenuBlock>
             <MenuTitle>Products</MenuTitle>
             <MenuList>
+              {props.productsCategories.map(({ slug, title }) => {
+                return (
+                  <MenuItem key={slug}>
+                    <a href={`/products/${slug}`}>{title}</a>
+                  </MenuItem>
+                );
+              })}
+            </MenuList>
+          </MenuBlock>
+          <MenuBlock>
+            <MenuTitle>News</MenuTitle>
+            <MenuList>
               <MenuItem>
-                <a href="/products/eletric-guitars/">Eletric Guitars</a>
+                <a href={`/news/awards`}>Awards</a>
+              </MenuItem>
+              <MenuItem>
+                <a href={`/news/music-business`}>Music Business</a>
+              </MenuItem>
+              <MenuItem>
+                <a href={`/news/people`}>People</a>
+              </MenuItem>
+              <MenuItem>
+                <a href={`/news/releases`}>Releases</a>
               </MenuItem>
             </MenuList>
           </MenuBlock>

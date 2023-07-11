@@ -1,33 +1,46 @@
 /* eslint-disable react/prop-types */
 import React from "react";
+// COMPONENTS
 import LayoutArticlePage from "layouts/LayoutArticlePage";
+// SERVICES
 import { fetchQuery } from "services/graphql/fetchQuery";
 import getNewsBy from "services/graphql/queries/getNewsBy";
 import getAllNews from "services/graphql/queries/getAllNews";
+import getAllProductCategories from "services/graphql/queries/getAllProductCategories";
 import { fetchPaths } from "services/core/fetchPaths";
-import htmlTagCleaner from "utils/htmlTagCleaner";
+// TYPES
+import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { QueryParameters } from "types/queryParams";
+// UTILS
+import htmlTagCleaner from "utils/htmlTagCleaner";
+
+type NewsArticlePageProps = {
+  newsData: any;
+  productsCategories: ProductsCategoriesType[];
+};
 
 /**
  * News Article Page.
+ * @param {any} props Data Fetched.
  * @return {TSX.Element}: The TSX code for the News Article Page.
  */
-export default function NewsArticlePage({ response }) {
+export default function NewsArticlePage(props: NewsArticlePageProps) {
   return (
     <>
       <LayoutArticlePage
-        articleTitle={response.title}
-        articleExcerpt={htmlTagCleaner(response.excerpt)}
+        articleTitle={props.newsData.title}
+        articleExcerpt={htmlTagCleaner(props.newsData.excerpt)}
         articleSectionName={"News"}
         articleSectionSlug={"news"}
-        articleCategoryName={response.categories.nodes[0].name}
-        articleCategorySlug={response.categories.nodes[0].slug}
-        articleSlug={response.slug}
-        articleDate={response.date}
-        articleModifiedDate={response.modified}
-        articleAuthor={response.author.name}
-        articleFeaturedImage={response.featuredImage.node.sourceUrl}
-        articleContent={response.content}
+        articleCategoryName={props.newsData.categories.nodes[0].name}
+        articleCategorySlug={props.newsData.categories.nodes[0].slug}
+        articleSlug={props.newsData.slug}
+        articleDate={props.newsData.date}
+        articleModifiedDate={props.newsData.modified}
+        articleAuthor={props.newsData.author.name}
+        articleFeaturedImage={props.newsData.featuredImage.node.sourceUrl}
+        articleContent={props.newsData.content}
+        productsCategories={props.productsCategories}
       />
     </>
   );
@@ -41,9 +54,20 @@ export async function getStaticProps(context) {
   const getNewsReq = await fetchQuery(getNewsBy(getNewsParam));
   const getNewsResponse = getNewsReq.props.data.postBy;
 
+  // PRODUCT CATEGORIES
+  const getProductCategoriesParams: QueryParameters = {
+    where: { offsetPagination: { size: 100, offset: 1 } },
+  };
+  const getProductCategories = await fetchQuery(
+    getAllProductCategories(getProductCategoriesParams)
+  );
+  const getProductCategoriesResponse: ProductsCategoriesType[] =
+    getProductCategories.props.data.productCategories.nodes;
+
   return {
     props: {
-      response: getNewsResponse,
+      newsData: getNewsResponse,
+      productsCategories: getProductCategoriesResponse,
     },
   };
 }

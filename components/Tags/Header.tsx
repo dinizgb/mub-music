@@ -2,13 +2,17 @@ import React from "react";
 import styled from "styled-components";
 import Head from "next/head";
 import Image from "next/image";
+// MUI
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+// COMPONENTS
 import Nav from "./Nav";
 import { H1 } from "../Texts/Typographies";
+// TYPES
+import { ProductsCategoriesType } from "types/productsCategoriesType";
 
-const HeaderContainer = styled.header<HeaderProps>`
+const HeaderContainer = styled.header<HeaderContainerProps>`
   padding: 16px 0 11px 0;
   border-bottom: ${(props) =>
     props.noBg ? `none` : `1px solid rgba(255, 255, 255, 0.2)`};
@@ -17,6 +21,12 @@ const HeaderContainer = styled.header<HeaderProps>`
 `;
 
 type HeaderProps = {
+  noBg?: boolean;
+  noSearch?: boolean;
+  productsCategories: ProductsCategoriesType[];
+};
+
+type HeaderContainerProps = {
   noBg?: boolean;
 };
 
@@ -68,7 +78,7 @@ export default function Header(props: HeaderProps) {
                 </a>
               </Grid>
               <Grid item xs={6} sm={6} md={9}>
-                <Nav />
+                <Nav productsCategories={props.productsCategories} />
               </Grid>
             </Grid>
           </Box>

@@ -12,10 +12,13 @@ import { WhiteButton } from "components/Inputs/Buttons";
 import HomeSearch from "components/Searchs/HomeSearch";
 import BigHorizontalCardList from "components/Lists/BigHorizontalCardList";
 import ProductCardList from "components/Lists/ProductCardList";
+// TYPES
+import { ProductsCategoriesType } from "types/productsCategoriesType";
 
 type LayoutHomePageProps = {
   postData: any;
   productData: any;
+  productsCategories: ProductsCategoriesType[];
   layoutDescription: string;
 };
 
@@ -66,7 +69,7 @@ export default function LayoutHomePage(props: LayoutHomePageProps) {
           href={`https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/`}
         />
       </Head>
-      <Header noBg={true} />
+      <Header noBg={true} productsCategories={props.productsCategories} />
       <HomeSearch />
       <main>
         <Container maxWidth="xl">
