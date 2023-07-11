@@ -20,7 +20,6 @@ const MenuContainer = styled.div<MobileMenuContainerProps>`
 const ListContainer = styled.div`
   overflow-x: auto;
   height: 100%;
-  margin-right: 22px;
   &::-webkit-scrollbar {
     width: 5px;
   }
@@ -32,41 +31,41 @@ const ListContainer = styled.div`
 `;
 
 const MenuBlock = styled.div`
-  border-top: 1px solid ${({ theme }) => theme.colors.secondary};
-  margin-right: 5px;
-  padding: 12px 28px 22px 0;
+  position: relative;
 `;
 
-const MenuTitle = styled.span`
+const MenuTitle = styled.div`
+  background: ${({ theme }) => theme.colors.secondary};
+  color: ${({ theme }) => theme.colors.text_4};
   font-family: "Poppins", serif;
   font-size: 18px;
   font-weight: bold;
-  border-bottom: 3px solid;
-  padding: 8px 0;
-  margin-left: 40px;
-  color: ${({ theme }) => theme.colors.text_4};
+  padding: 18px 10% 20px 10%;
+  width: 80%;
 `;
 
 const MenuList = styled.ul`
+  align-items: start;
+  border: none;
   display: flex;
   flex-direction: column;
-  align-items: start;
-  margin-top: 15px;
+  padding: 0;
 `;
 
 const MenuItem = styled.li`
-  margin: 10px 0;
+  display: contents;
   a {
-    background: ${({ theme }) => theme.colors.background_contrast};
-    border-radius: 50px;
-    color: ${({ theme }) => theme.colors.text_2};
+    background: ${({ theme }) => theme.colors.black};
+    border-bottom: 2px solid ${({ theme }) => theme.colors.background_contrast};
+    color: ${({ theme }) => theme.colors.text_3};
     font-size: 16px;
     font-weight: 400;
     text-decoration: none;
-    padding: 8px 20px 10px 20px;
+    padding: 15px 10%;
+    width: 80%;
     &:hover {
-      background: ${({ theme }) => theme.colors.primary};
-      color: ${({ theme }) => theme.colors.text_1};
+      background: ${({ theme }) => theme.colors.allBlack};
+      color: ${({ theme }) => theme.colors.text_4};
     }
   }
 `;

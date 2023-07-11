@@ -9,8 +9,10 @@ import client from "services/graphql/apolloClient";
 
 export const theme = {
   colors: {
+    allBlack: "#000",
     background: "#080B14",
     background_contrast: "#222",
+    black: "#111",
     line_bottom: "#444",
     light_line_bottom: "#eee",
     oddSection: "#2b2946",
