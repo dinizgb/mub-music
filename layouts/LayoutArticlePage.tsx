@@ -2,17 +2,23 @@ import React from "react";
 import styled from "styled-components";
 import Head from "next/head";
 import Image from "next/image";
+// MUI
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
+// COMPONENTS
 import Header from "components/Tags/Header";
 import Footer from "components/Tags/Footer";
 import { H2, P, A, Span } from "components/Texts/Typographies";
 import { ContentBody } from "components/Texts/ContentBody";
-import formatDate from "utils/formatDate";
+// SERVICES
 import SinglePageSEOConstructor from "services/SEO/SinglePageSEOConstructor";
+// TYPES
+import { ProductsCategoriesType } from "types/productsCategoriesType";
+// UTILS
+import formatDate from "utils/formatDate";
 
 const LayoutArticlePageThumb = styled.div`
   width: 100%;
@@ -63,6 +69,7 @@ type LayoutArticlePageProps = {
   articleAuthor: string;
   articleFeaturedImage: string;
   articleContent: string;
+  productsCategories: ProductsCategoriesType[];
 };
 
 /**
@@ -89,7 +96,7 @@ export default function LayoutArticlePage(props: LayoutArticlePageProps) {
           singlePageAuthor={props.articleAuthor}
         />
       </Head>
-      <Header />
+      <Header productsCategories={props.productsCategories} />
       <LayoutArticlePageMain>
         <Container maxWidth="xl">
           <Box sx={{ width: "100%" }}>

@@ -1,13 +1,18 @@
 import React from "react";
 import Head from "next/head";
+// MUI
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+// COMPONENTS
 import Header from "components/Tags/Header";
 import Footer from "components/Tags/Footer";
 import { H2, P } from "components/Texts/Typographies";
 import BigHorizontalCardList from "components/Lists/BigHorizontalCardList";
+// SERVICES
 import CategoryPageSEOConstructor from "services/SEO/CategoryPageSEOConstructor";
+// TYPES
+import { ProductsCategoriesType } from "types/productsCategoriesType";
 
 type LayoutListWithAsideProps = {
   postData: any;
@@ -17,6 +22,7 @@ type LayoutListWithAsideProps = {
   layoutTitle: string;
   layoutSlug: string;
   layoutDescription: string;
+  productsCategories: ProductsCategoriesType[];
 };
 
 /**
@@ -46,7 +52,7 @@ export default function LayoutListWithAside(props: LayoutListWithAsideProps) {
           }/${props.layoutSlug ? props.layoutSlug + "/" : ""}`}
         />
       </Head>
-      <Header />
+      <Header productsCategories={props.productsCategories} />
       <main>
         <Container maxWidth="xl">
           <Box sx={{ width: "100%" }}>

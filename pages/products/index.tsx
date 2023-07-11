@@ -9,7 +9,7 @@ import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 
 type ProductsHomePageProps = {
-  lastProductsCategories: ProductsCategoriesType;
+  lastProductsCategories: ProductsCategoriesType[];
   seoData: SEOTagsConstructorTypes;
   totalCount: number;
 };
@@ -40,7 +40,7 @@ export async function getStaticProps() {
   const lastProducts = await fetchQuery(
     getAllProductCategories(lastProductsCategoriesParams)
   );
-  const lastProductsCategoriesResponse: ProductsCategoriesType =
+  const lastProductsCategoriesResponse: ProductsCategoriesType[] =
     lastProducts.props.data.productCategories.nodes;
   const lastProductsCategoriesTotalRecords: number =
     lastProducts.props.data.productCategories.pageInfo.offsetPagination.total;

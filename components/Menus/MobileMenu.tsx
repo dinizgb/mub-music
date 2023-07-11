@@ -1,11 +1,14 @@
+/* eslint-disable camelcase */
 import React from "react";
 import styled from "styled-components";
+// TYPES
+import { ProductsCategoriesType } from "types/productsCategoriesType";
 
-const MenuContainer = styled.div<MobileMenuProps>`
+const MenuContainer = styled.div<MobileMenuContainerProps>`
   position: fixed;
   top: 0;
   left: 0;
-  width: 300px;
+  width: 270px;
   height: 100%;
   z-index: 26;
   background-color: ${({ theme }) => theme.colors.background};
@@ -15,9 +18,8 @@ const MenuContainer = styled.div<MobileMenuProps>`
 `;
 
 const ListContainer = styled.div`
-  overflow: auto;
+  overflow-x: auto;
   height: 100%;
-  margin-right: 22px;
   &::-webkit-scrollbar {
     width: 5px;
   }
@@ -29,44 +31,52 @@ const ListContainer = styled.div`
 `;
 
 const MenuBlock = styled.div`
-  border-top: 1px solid ${({ theme }) => theme.colors.secondary};
-  margin-right: 5px;
-  padding: 12px 28px 22px 0;
+  position: relative;
 `;
 
-const MenuTitle = styled.span`
-  font-family: "Poppins", serif;
-  font-size: 24px;
-  font-weight: bold;
-  letter-spacing: 3px;
-  border-bottom: 3px solid;
-  padding: 8px 0;
-  margin-left: 40px;
+const MenuTitle = styled.div`
+  background: ${({ theme }) => theme.colors.secondary};
   color: ${({ theme }) => theme.colors.text_4};
+  font-family: "Poppins", serif;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 18px 10% 20px 10%;
+  width: 80%;
 `;
 
 const MenuList = styled.ul`
+  align-items: start;
+  border: none;
   display: flex;
   flex-direction: column;
-  align-items: start;
-  margin-top: 20px;
+  padding: 0;
 `;
 
 const MenuItem = styled.li`
-  margin: 5px 0;
+  display: contents;
   a {
-    color: ${({ theme }) => theme.colors.text_2};
-    font-size: 17px;
+    background: ${({ theme }) => theme.colors.black};
+    border-bottom: 2px solid ${({ theme }) => theme.colors.background_contrast};
+    color: ${({ theme }) => theme.colors.text_3};
+    font-size: 16px;
     font-weight: 400;
     text-decoration: none;
+    padding: 15px 10%;
+    width: 80%;
     &:hover {
+      background: ${({ theme }) => theme.colors.allBlack};
       color: ${({ theme }) => theme.colors.text_4};
     }
   }
 `;
 
+type MobileMenuContainerProps = {
+  display: string;
+};
+
 type MobileMenuProps = {
   display: string;
+  productsCategories: ProductsCategoriesType[];
 };
 
 /**
@@ -82,8 +92,29 @@ export default function MobileMenu(props: MobileMenuProps) {
           <MenuBlock>
             <MenuTitle>Products</MenuTitle>
             <MenuList>
+              {props.productsCategories.map(({ slug, title }) => {
+                return (
+                  <MenuItem key={slug}>
+                    <a href={`/products/${slug}`}>{title}</a>
+                  </MenuItem>
+                );
+              })}
+            </MenuList>
+          </MenuBlock>
+          <MenuBlock>
+            <MenuTitle>News</MenuTitle>
+            <MenuList>
               <MenuItem>
-                <a href="/products/eletric-guitars/">Eletric Guitars</a>
+                <a href={`/news/awards`}>Awards</a>
+              </MenuItem>
+              <MenuItem>
+                <a href={`/news/music-business`}>Music Business</a>
+              </MenuItem>
+              <MenuItem>
+                <a href={`/news/people`}>People</a>
+              </MenuItem>
+              <MenuItem>
+                <a href={`/news/releases`}>Releases</a>
               </MenuItem>
             </MenuList>
           </MenuBlock>

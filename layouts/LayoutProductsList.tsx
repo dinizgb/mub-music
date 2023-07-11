@@ -24,6 +24,7 @@ import ProductCardList from "components/Lists/ProductCardList";
 // SERVICES
 import SEOTagsConstructor from "services/SEO/SEOTagsConstructor";
 // TYPES
+import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
 import { ProductFilterType } from "types/productFilterType";
 
@@ -40,6 +41,7 @@ const TotalAreaWrapper = styled.div`
 type LayoutProductsListProps = {
   productData: any;
   productCategoryData: string;
+  productsCategories: ProductsCategoriesType[];
   productSubCategories: Array<ProductFilterType>;
   productSubCategoryData: string;
   productBrandsData: Array<ProductFilterType>;
@@ -79,7 +81,7 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
         <title>{`${props.seoData.pageTitle} | Mub Music`}</title>
         {SEOTagsConstructor(props.seoData)}
       </Head>
-      <Header />
+      <Header productsCategories={props.productsCategories} />
       <main>
         <Container maxWidth="xl">
           <Box sx={{ width: "100%" }}>

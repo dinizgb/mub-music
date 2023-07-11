@@ -15,6 +15,7 @@ import BackgroundCard from "components/Cards/BackgroundCard";
 import SEOTagsConstructor from "services/SEO/SEOTagsConstructor";
 // TYPES
 import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
+import { ProductsCategoriesType } from "types/productsCategoriesType";
 
 const LayoutProductCategoryListWrapper = styled.div`
   width: 100%;
@@ -36,7 +37,7 @@ const TotalAreaWrapper = styled.div`
 `;
 
 type LayoutProductCategoryListProps = {
-  lastProductsCategories: any;
+  lastProductsCategories: ProductsCategoriesType[];
   seoData: SEOTagsConstructorTypes;
   totalCount: number;
 };
@@ -55,7 +56,7 @@ export default function LayoutProductCategoryList(
         <title>{`${props.seoData.pageTitle} | Mub Music`}</title>
         {SEOTagsConstructor(props.seoData)}
       </Head>
-      <Header />
+      <Header productsCategories={props.lastProductsCategories} />
       <main>
         <LayoutProductCategoryListWrapper>
           <Container>
