@@ -1,0 +1,290 @@
+/* eslint-disable new-cap */
+import React from "react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import styled from "styled-components";
+// MUI
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+// COMPONENTS
+import Header from "components/Tags/Header";
+import Footer from "components/Tags/Footer";
+import { H2, H3, P } from "components/Texts/Typographies";
+import PaginationWidget from "components/Widgets/PaginationWidget";
+import ProductCardList from "components/Lists/ProductCardList";
+// SERVICES
+import SEOTagsConstructor from "services/SEO/SEOTagsConstructor";
+// TYPES
+import { ProductsCategoriesType } from "types/productsCategoriesType";
+import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
+import { ProductFilterType } from "types/productFilterType";
+
+const TotalAreaWrapper = styled.div`
+  text-align: right;
+  margin-top: 75px;
+  @media (max-width: 600px) {
+    text-align: left;
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+`;
+
+type LayoutProductsListProps = {
+  productData: any;
+  productCategoryData: string;
+  productsCategories: ProductsCategoriesType[];
+  productSubCategories: Array<ProductFilterType>;
+  productSubCategoryData: string;
+  productBrandsData: Array<ProductFilterType>;
+  productPriceAverageData: Array<ProductFilterType>;
+  seoData: SEOTagsConstructorTypes;
+  totalCount: number;
+  currentPage: number;
+};
+
+/**
+ * Layout Products List Component.
+ * @param {any} props to the component.
+ * @return {TSX.Element}: The TSX code for the Layout Products List Component.
+ */
+export default function LayoutProductsList(props: LayoutProductsListProps) {
+  const router = useRouter();
+  const currentRoute = router.asPath;
+
+  // ROUTER QUERY CLEANUP
+  delete router.query.category;
+  delete router.query.subcategory;
+  const hasQuery = Object.keys(router.query).length;
+
+  // BRAND FILTER
+  const hasBrand = router.query.brand;
+  const brandHandler = (brand: string): string => {
+    const withQueriesHandler = hasBrand
+      ? currentRoute.replace(`brand=${router.query.length}`, `brand=${brand}`)
+      : currentRoute.concat(`&brand=${brand}`);
+    const withoutQueriesHandler = currentRoute.concat(`?brand=${brand}`);
+    return hasQuery ? withQueriesHandler : withoutQueriesHandler;
+  };
+
+  return (
+    <>
+      <Head>
+        <title>{`${props.seoData.pageTitle} | Mub Music`}</title>
+        {SEOTagsConstructor(props.seoData)}
+      </Head>
+      <Header productsCategories={props.productsCategories} />
+      <main>
+        <Container maxWidth="xl">
+          <Box sx={{ width: "100%" }}>
+            <Grid container columnSpacing={{ xs: 1, sm: 3, md: 5 }}>
+              <Grid item xs={12} sm={12} md={3}>
+                <Grid item xs={12} style={{ marginTop: 45 }}>
+                  <H3
+                    fontColor={({ theme }) => theme.colors.text_4}
+                    fontWeight={600}
+                    fontSize={22}
+                    lineHeight={21}
+                    xsFontSize={21}
+                    xsLineHeight={24}
+                    margin={`0 0 35px 0`}
+                  >
+                    Filters
+                  </H3>
+                </Grid>
+                <Grid item xs={12}>
+                  {props.productCategoryData && props.productData.length ? (
+                    <Accordion className="accordion">
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="subcategories-acc"
+                        id="subcategories-acc"
+                      >
+                        <span>Subcategories</span>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <FormControl>
+                          <RadioGroup
+                            aria-labelledby="subcategory-group-label"
+                            name="subcategory-group"
+                            defaultValue={
+                              props.productSubCategoryData
+                                ? props.productSubCategoryData
+                                : ""
+                            }
+                          >
+                            {props.productSubCategories.map(
+                              ({ count, title, slug }) => {
+                                return (
+                                  <FormControlLabel
+                                    key={slug}
+                                    value={slug}
+                                    control={
+                                      <Radio
+                                        onClick={() =>
+                                          (window.location.href = `/products/${props.productCategoryData}/${slug}`)
+                                        }
+                                      />
+                                    }
+                                    label={`${title} (${count})`}
+                                  />
+                                );
+                              }
+                            )}
+                          </RadioGroup>
+                        </FormControl>
+                      </AccordionDetails>
+                    </Accordion>
+                  ) : null}
+                  {props.productData.length ? (
+                    <Accordion className="accordion">
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="brands-acc"
+                        id="brands-acc"
+                      >
+                        <span>Brands</span>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <FormControl>
+                          <RadioGroup
+                            aria-labelledby="brand-group-label"
+                            defaultValue={
+                              props.productBrandsData.length == 1
+                                ? props.productBrandsData[0].slug
+                                : hasBrand
+                            }
+                            name="brand-group"
+                          >
+                            {props.productBrandsData.map(
+                              ({ count, title, slug }) => {
+                                return (
+                                  <FormControlLabel
+                                    key={slug}
+                                    value={slug}
+                                    control={
+                                      <Radio
+                                        onClick={() =>
+                                          (window.location.href =
+                                            brandHandler(slug))
+                                        }
+                                      />
+                                    }
+                                    label={`${title} (${count})`}
+                                  />
+                                );
+                              }
+                            )}
+                          </RadioGroup>
+                        </FormControl>
+                      </AccordionDetails>
+                    </Accordion>
+                  ) : null}
+                  {props.productCategoryData && props.productData.length ? (
+                    <Accordion className="accordion">
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="price-average-acc"
+                        id="price-average-acc"
+                      >
+                        <span>Price Average</span>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <FormControl>
+                          <RadioGroup
+                            aria-labelledby="price-average-group-label"
+                            defaultValue={
+                              props.productPriceAverageData.length == 1
+                                ? props.productPriceAverageData[0].slug
+                                : ""
+                            }
+                            name="price-average-group"
+                          >
+                            {props.productPriceAverageData.map(
+                              ({ count, title, slug }) => {
+                                return (
+                                  <FormControlLabel
+                                    key={slug}
+                                    value={slug}
+                                    control={<Radio />}
+                                    label={`${title} (${count})`}
+                                  />
+                                );
+                              }
+                            )}
+                          </RadioGroup>
+                        </FormControl>
+                      </AccordionDetails>
+                    </Accordion>
+                  ) : null}
+                </Grid>
+              </Grid>
+              <Grid item xs={12} sm={12} md={9}>
+                <Grid container columnSpacing={{ xs: 1, sm: 3, md: 5 }}>
+                  <Grid item md={8} sm={6} xs={12} style={{ marginTop: 40 }}>
+                    <H2
+                      fontColor={({ theme }) => theme.colors.text_4}
+                      fontWeight={600}
+                      fontSize={26}
+                      lineHeight={30}
+                      xsFontSize={26}
+                      xsLineHeight={30}
+                      margin={`0`}
+                    >
+                      {props.seoData.pageTitle}
+                    </H2>
+                    <P
+                      fontColor={({ theme }) => theme.colors.subtitle}
+                      fontWeight={400}
+                      fontSize={16}
+                      lineHeight={40}
+                      xsFontSize={16}
+                      xsLineHeight={36}
+                      margin={`5px 0 10px 0`}
+                    >
+                      {props.seoData.pageExcerpt}
+                    </P>
+                  </Grid>
+                  <Grid item md={4} sm={6} xs={12}>
+                    <TotalAreaWrapper>
+                      <P
+                        fontColor={({ theme }) => theme.colors.subtitle}
+                        fontWeight={600}
+                        fontSize={15}
+                        lineHeight={36}
+                        xsFontSize={16}
+                        xsLineHeight={36}
+                        margin={`0 0 15px 0`}
+                      >
+                        {`(${props.totalCount} items found)`}
+                      </P>
+                    </TotalAreaWrapper>
+                  </Grid>
+                </Grid>
+                <Grid item xs={12} style={{ marginTop: 5 }}>
+                  <ProductCardList productList={props.productData} />
+                </Grid>
+                <Grid item xs={12} style={{ marginTop: 30 }}>
+                  <PaginationWidget
+                    totalItens={props.totalCount}
+                    currentPage={props.currentPage}
+                    range={20}
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+          </Box>
+        </Container>
+      </main>
+      <Footer />
+    </>
+  );
+}

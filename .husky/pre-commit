@@ -1,0 +1,44 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo '🏗️👷 Commit test init...'
+
+# Running Prettier standards
+yarn prettier --write . ||
+(
+    echo '🛑✋ Write Prettier errors found.';
+    false;
+)
+
+# Check Prettier standards
+yarn check-format ||
+(
+    echo '🛑✋ Styling errors found.';
+    false;
+)
+
+# Check ESLint Standards
+yarn check-lint ||
+(
+    echo '🛑✋ Lint errors found.';
+    false;
+)
+
+# Unit tests check
+yarn test ||
+(
+    echo '🛑✋ Unit tests errors found.';
+    false;
+)
+
+# If everything passes... Now we can commit
+echo '✔️✔️✔️ Style, Lint and Unit test has pass. Initiating NextJS build ⚙️...'
+
+yarn build ||
+(
+    echo '❌ Build failed. Aborting commit.';
+    false;
+)
+
+# If everything passes... Now we can commit
+echo '✔️✔️✔️✔️ All test passed! Go ahead and push your commit 🚀'
