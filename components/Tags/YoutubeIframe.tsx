@@ -1,5 +1,4 @@
 /* eslint-disable react/no-unknown-property */
-import React from "react";
 import styled from "styled-components";
 import getUrlParameterValue from "utils/getUrlParameterValue";
 

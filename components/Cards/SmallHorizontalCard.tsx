@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import Grid from "@mui/material/Grid";
@@ -52,7 +51,7 @@ export default function SmallHorizontalCard(props: SmallHorizontalCardProps) {
                 <Image
                   src={props.cardImage}
                   alt={props.cardTitle}
-                  layout="fill"
+                  fill
                   objectFit="cover"
                 />
               </SmallHorizontalCardThumb>

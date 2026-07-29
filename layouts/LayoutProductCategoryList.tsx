@@ -1,7 +1,7 @@
+"use client";
+
 /* eslint-disable camelcase */
 /* eslint-disable new-cap */
-import React from "react";
-import Head from "next/head";
 import styled from "styled-components";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
@@ -12,7 +12,6 @@ import Footer from "components/Tags/Footer";
 import { H2, P } from "components/Texts/Typographies";
 import BackgroundCard from "components/Cards/BackgroundCard";
 // SERVICES
-import SEOTagsConstructor from "services/SEO/SEOTagsConstructor";
 // TYPES
 import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
 import { ProductsCategoriesType } from "types/productsCategoriesType";
@@ -52,10 +51,6 @@ export default function LayoutProductCategoryList(
 ) {
   return (
     <>
-      <Head>
-        <title>{`${props.seoData.pageTitle} | Mub Music`}</title>
-        {SEOTagsConstructor(props.seoData)}
-      </Head>
       <Header productsCategories={props.lastProductsCategories} />
       <main>
         <LayoutProductCategoryListWrapper>

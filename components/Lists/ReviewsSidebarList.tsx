@@ -1,4 +1,3 @@
-import React from "react";
 import Image from "next/image";
 import styled from "styled-components";
 // COMPONENTS
@@ -126,7 +125,7 @@ export default function ReviewsSidebarList(props: ReviewsSidebarListProps) {
                       <Image
                         src={logo}
                         alt={`${store} logo`}
-                        layout="fill"
+                        fill
                         objectFit="cover"
                       />
                     </ReviewsSidebarListLiLogo>

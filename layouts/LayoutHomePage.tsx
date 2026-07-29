@@ -1,5 +1,5 @@
-import React from "react";
-import Head from "next/head";
+"use client";
+
 // MUI
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
@@ -30,45 +30,6 @@ type LayoutHomePageProps = {
 export default function LayoutHomePage(props: LayoutHomePageProps) {
   return (
     <>
-      <Head>
-        <title>{`Mub Music | ${props.layoutDescription}`}</title>
-        <meta name="description" content={props.layoutDescription} />
-        <meta
-          property="og:title"
-          content={`Mub Music | ${props.layoutDescription}`}
-          key="title"
-        />
-        <meta property="og:description" content={props.layoutDescription} />
-        <meta
-          property="og:url"
-          content={`https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/`}
-        />
-        <meta
-          property="og:image"
-          content={`https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/images/mub-logo-icon.png`}
-        />
-        <meta property="og:image:width" content="400" />
-        <meta property="og:image:height" content="200" />
-        <meta property="og:image:alt" content={props.layoutDescription} />
-        <meta
-          name="twitter:text:title"
-          content={`Mub Music | ${props.layoutDescription}`}
-        />
-        <meta
-          name="twitter:image"
-          content={`https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/images/mub-logo-icon.png`}
-        />
-        <meta name="twitter:image:alt" content={props.layoutDescription} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <link
-          itemProp="thumbnailUrl"
-          href={`https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/images/mub-logo-icon.png`}
-        />
-        <link
-          rel="canonical"
-          href={`https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/`}
-        />
-      </Head>
       <Header noBg={true} productsCategories={props.productsCategories} />
       <HomeSearch />
       <main>

@@ -20,9 +20,9 @@ export const searchAutoFillSlice = createSlice({
     },
     toggleSearchAutoFillResults: (
       state,
-      action: PayloadAction<ProductType[]>
+      action: PayloadAction<ProductType[] | undefined>
     ) => {
-      state.showSearchAutoFillResults = action.payload;
+      state.showSearchAutoFillResults = action.payload ?? [];
     },
   },
 });

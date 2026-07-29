@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-import React from "react";
 import styled from "styled-components";
 
 // MUI
@@ -98,6 +97,10 @@ export default function SearchInput(props: SearchInputsProps) {
       dispatch(toggleSearchAutoFillResults());
       Promise.resolve(searchProducts(e.target.value)).then((value) => {
         dispatch(toggleSearchAutoFill(!searchAutoFillStatus ? true : false));
+        if (value.notFound || !value.props) {
+          dispatch(toggleSearchAutoFillResults([]));
+          return;
+        }
         dispatch(toggleSearchAutoFillResults(value.props.data.products.nodes));
       });
     }, 1000);

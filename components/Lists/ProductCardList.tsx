@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-import React from "react";
 import styled from "styled-components";
 import ProductCard from "components/Cards/ProductCard";
 import { Span } from "components/Texts/Typographies";

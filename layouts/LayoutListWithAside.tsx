@@ -1,5 +1,5 @@
-import React from "react";
-import Head from "next/head";
+"use client";
+
 // MUI
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
@@ -10,7 +10,6 @@ import Footer from "components/Tags/Footer";
 import { H2, P } from "components/Texts/Typographies";
 import BigHorizontalCardList from "components/Lists/BigHorizontalCardList";
 // SERVICES
-import CategoryPageSEOConstructor from "services/SEO/CategoryPageSEOConstructor";
 // TYPES
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 
@@ -35,23 +34,6 @@ export default function LayoutListWithAside(props: LayoutListWithAsideProps) {
 
   return (
     <>
-      <Head>
-        <title>
-          {props.layoutTitle} | Mub Music | {props.layoutDescription}
-        </title>
-        <CategoryPageSEOConstructor
-          categoryPageTitle={props.layoutTitle}
-          categoryPageExcerpt={props.layoutDescription}
-          categoryPageSectionSlug={props.layoutSection}
-          categoryPageSlug={props.layoutSlug}
-        />
-        <link
-          rel="canonical"
-          href={`https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/${
-            props.layoutSection
-          }/${props.layoutSlug ? props.layoutSlug + "/" : ""}`}
-        />
-      </Head>
       <Header productsCategories={props.productsCategories} />
       <main>
         <Container maxWidth="xl">
