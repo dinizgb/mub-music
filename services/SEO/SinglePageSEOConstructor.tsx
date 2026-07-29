@@ -1,4 +1,3 @@
-import React from "react";
 import JSONLD from "services/SEO/JSONLD";
 
 type SinglePageSEOConstructorProps = {

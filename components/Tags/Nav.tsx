@@ -1,7 +1,6 @@
-import React from "react";
 import styled from "styled-components";
 // COMPONENTS
-import MenuIcon from "@material-ui/icons/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
 import MobileMenu from "../Menus/MobileMenu";
 // REDUX
 import { useAppSelector, useAppDispatch } from "redux/store";

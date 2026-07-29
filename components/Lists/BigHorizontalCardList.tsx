@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-import React from "react";
 import BigHorizontalCard from "components/Cards/BigHorizontalCard";
 
 /**

@@ -4,9 +4,9 @@
  * @return {Array}: With the Product  LD+JSON content.
  */
 export default function getProductLdJson(htmlString: string) {
-  const scriptContent = [];
+  const scriptContent: any[] = [];
   const regex = /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g;
-  let match: any[];
+  let match: RegExpExecArray | null;
   while ((match = regex.exec(htmlString)) !== null) {
     scriptContent.push(JSON.parse(match[1].trim()));
   }

@@ -1,6 +1,6 @@
+"use client";
+
 /* eslint-disable guard-for-in */
-import React from "react";
-import Head from "next/head";
 import Image from "next/image";
 import styled from "styled-components";
 // MUI
@@ -19,7 +19,6 @@ import ReviewsSidebarList from "components/Lists/ReviewsSidebarList";
 import ImageGallery from "react-image-gallery";
 import YoutubeIframe from "components/Tags/YoutubeIframe";
 // SERVICES
-import ProductPageSEOConstructor from "services/SEO/ProductPageSEOConstructor";
 // TYPES
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { ProductType } from "types/productType";
@@ -103,7 +102,7 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
 
   // FILTERS
   const buildProductGallery = (obj) => {
-    const result = [];
+    const result: any[] = [];
     for (const key in obj) {
       result.push(obj[key]);
     }
@@ -111,7 +110,7 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
     return result.filter((obj) => obj.image !== null);
   };
   const buildReviewsAndOffersList = (obj) => {
-    const result = [];
+    const result: any[] = [];
     for (const key in obj) {
       result.push(obj[key]);
     }
@@ -132,7 +131,7 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
   const filteredProductReviews = productPrefix.product_info.reviews
     ? buildReviewsAndOffersList(productPrefix.product_info.reviews.reviewInfo)
     : null;
-  const productReviews = productPrefix.product_info.reviews
+  const productReviews = filteredProductReviews
     ? filteredProductReviews.map((m) => ({
         count: m.count,
         rate: m.rate,
@@ -146,7 +145,7 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
   const filteredProductOffers = productPrefix.product_info.offers
     ? buildReviewsAndOffersList(productPrefix.product_info.offers.offersInfo)
     : null;
-  const productOffers = productPrefix.product_info.offers
+  const productOffers = filteredProductOffers
     ? filteredProductOffers.map((m) => ({
         logo: m.store.storeInfo.logo.sourceUrl,
         price: m.price,
@@ -157,10 +156,6 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
 
   return (
     <>
-      <Head>
-        <title>{`${productPrefix.title} | Mub Music`}</title>
-        <ProductPageSEOConstructor productData={productPrefix} />
-      </Head>
       <Header productsCategories={props.productsCategories} />
       <LayoutProductHeader>
         <Container>
@@ -186,7 +181,7 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
                       productPrefix.product_info.brand.brand_info.thumbnail
                         .altText
                     }
-                    layout="fill"
+                    fill
                     objectFit="cover"
                   />
                 </LayoutProductBrandLogo>
@@ -306,12 +301,12 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
               <OffersSidebarList
-                data={productOffers}
+                data={productOffers ?? []}
                 isPrimaryTitle={productOffers ? true : false}
                 title={"Offers available"}
               />
               <ReviewsSidebarList
-                data={productReviews}
+                data={productReviews ?? []}
                 isPrimaryTitle={false}
                 title={"Reviews"}
               />
