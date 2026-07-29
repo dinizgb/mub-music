@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-import React from "react";
 import styled from "styled-components";
 import { H2 } from "components/Texts/Typographies";
 import SmallHorizontalCard from "../Cards/SmallHorizontalCard";

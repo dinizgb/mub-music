@@ -1,51 +1,39 @@
-import React from "react";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import LayoutProductCategoryList from "layouts/LayoutProductCategoryList";
-// SERVICES
 import { fetchQuery } from "services/graphql/fetchQuery";
 import getAllProductCategories from "services/graphql/queries/getAllProductCategories";
-// TYPES
 import { QueryParameters } from "types/queryParams";
 import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 
-type ProductsHomePageProps = {
-  lastProductsCategories: ProductsCategoriesType[];
-  seoData: SEOTagsConstructorTypes;
-  totalCount: number;
+export const metadata: Metadata = {
+  title: "Products",
+  description:
+    "Find the best deals on Guitars, Bass, Drums, Amps, DJ, Keyboards, Pro-Audio and much more.",
+  alternates: {
+    canonical: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/products/`,
+  },
 };
 
 /**
- * Products Home Page.
- * @param {any} props Data Fetched.
- * @return {TSX.Element}: The TSX code for the Products Home Page.
+ * Products index page.
+ * @return {Promise<ReactElement>} Products home page.
  */
-export default function ProductsHomePage(props: ProductsHomePageProps) {
-  return (
-    <LayoutProductCategoryList
-      lastProductsCategories={props.lastProductsCategories}
-      seoData={props.seoData}
-      totalCount={props.totalCount}
-    />
-  );
-}
-
-// eslint-disable-next-line require-jsdoc
-export async function getStaticProps() {
-  // PARAMS OPTIONS
+export default async function ProductsHomePage() {
   const lastProductsCategoriesParams: QueryParameters = {
     where: { offsetPagination: { size: 100, offset: 1 } },
   };
-
-  // PRODUCTS
   const lastProducts = await fetchQuery(
     getAllProductCategories(lastProductsCategoriesParams)
   );
+  if (lastProducts.notFound) notFound();
+
   const lastProductsCategoriesResponse: ProductsCategoriesType[] =
     lastProducts.props.data.productCategories.nodes;
   const lastProductsCategoriesTotalRecords: number =
     lastProducts.props.data.productCategories.pageInfo.offsetPagination.total;
 
-  // SEO DATA
   const seoData: SEOTagsConstructorTypes = {
     pageTitle: "Products",
     pageExcerpt:
@@ -68,11 +56,11 @@ export async function getStaticProps() {
     ],
   };
 
-  return {
-    props: {
-      lastProductsCategories: lastProductsCategoriesResponse,
-      seoData: seoData,
-      totalCount: lastProductsCategoriesTotalRecords,
-    },
-  };
+  return (
+    <LayoutProductCategoryList
+      lastProductsCategories={lastProductsCategoriesResponse}
+      seoData={seoData}
+      totalCount={lastProductsCategoriesTotalRecords}
+    />
+  );
 }

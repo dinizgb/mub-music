@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-import React from "react";
 import styled from "styled-components";
 // TYPES
 import { ProductsCategoriesType } from "types/productsCategoriesType";

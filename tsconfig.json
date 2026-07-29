@@ -2,10 +2,13 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "baseUrl": ".",
-    "lib": ["dom", "es2017"],
-    "moduleResolution": "node",
+    "lib": [
+      "dom",
+      "es2017"
+    ],
+    "moduleResolution": "bundler",
     "allowJs": true,
     "noEmit": true,
     "strict": false,
@@ -20,13 +23,23 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "incremental": true
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "strictNullChecks": true
   },
-  "exclude": ["node_modules"],
+  "exclude": [
+    "node_modules"
+  ],
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "__tests__/utils/custom-queries.js"
+    "__tests__/utils/custom-queries.js",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
   ]
 }

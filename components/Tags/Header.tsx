@@ -1,6 +1,6 @@
-import React from "react";
+"use client";
+
 import styled from "styled-components";
-import Head from "next/head";
 import Image from "next/image";
 // MUI
 import Container from "@mui/material/Container";
@@ -38,19 +38,6 @@ type HeaderContainerProps = {
 export default function Header(props: HeaderProps) {
   return (
     <>
-      <Head>
-        <meta name="viewport" content="width-device-width, initial-scale=1.0" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://mubmusic.com/" />
-        <meta property="og:site_name" content="Mub Music" />
-        <meta property="og:image" content="images/favicon-1.ico?w=64" />
-        <meta property="og:locale" content="en" />
-        <link
-          rel="shortcut icon"
-          href="/images/favicon.ico?w=64"
-          type="image/x-icon"
-        />
-      </Head>
       <HeaderContainer noBg={props.noBg}>
         <Container maxWidth="xl">
           <Box sx={{ width: "100%" }}>
@@ -71,8 +58,8 @@ export default function Header(props: HeaderProps) {
                     <Image
                       src={"/images/mub-logo-icon.png"}
                       alt={"Mub Music Logo"}
-                      width={`31px`}
-                      height={`35px`}
+                      width={31}
+                      height={35}
                     />
                   </H1>
                 </a>

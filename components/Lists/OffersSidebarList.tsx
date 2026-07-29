@@ -1,4 +1,3 @@
-import React from "react";
 import Image from "next/image";
 import styled from "styled-components";
 // COMPONENTS
@@ -128,7 +127,7 @@ export default function OffersSidebarList(props: OffersSidebarListProps) {
                     <Image
                       src={logo}
                       alt={`${store} logo`}
-                      layout="fill"
+                      fill
                       objectFit="cover"
                     />
                   </OffersSidebarListLiLogo>

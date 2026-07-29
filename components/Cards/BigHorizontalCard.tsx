@@ -1,4 +1,3 @@
-import React from "react";
 import Image from "next/image";
 import styled from "styled-components";
 import Grid from "@mui/material/Grid";
@@ -162,7 +161,7 @@ export default function BigHorizontalCard(props: BigHorizontalCardProps) {
                 <Image
                   src={props.cardImage}
                   alt={props.cardTitle}
-                  layout="fill"
+                  fill
                   objectFit="cover"
                 />
               </BigHorizontalCardThumb>

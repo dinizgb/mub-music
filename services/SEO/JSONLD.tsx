@@ -1,4 +1,3 @@
-import React from "react";
 
 /**
  * Function to build JSON LD script tag.

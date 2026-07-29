@@ -1,6 +1,6 @@
-import React from "react";
+"use client";
+
 import styled from "styled-components";
-import Head from "next/head";
 import Image from "next/image";
 // MUI
 import Container from "@mui/material/Container";
@@ -14,7 +14,6 @@ import Footer from "components/Tags/Footer";
 import { H2, P, A, Span } from "components/Texts/Typographies";
 import { ContentBody } from "components/Texts/ContentBody";
 // SERVICES
-import SinglePageSEOConstructor from "services/SEO/SinglePageSEOConstructor";
 // TYPES
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 // UTILS
@@ -80,22 +79,6 @@ type LayoutArticlePageProps = {
 export default function LayoutArticlePage(props: LayoutArticlePageProps) {
   return (
     <>
-      <Head>
-        <title>{props.articleTitle + " | Mub Music"}</title>
-        <SinglePageSEOConstructor
-          singlePageTitle={props.articleTitle}
-          singlePageExcerpt={props.articleExcerpt}
-          singlePageSectionName={props.articleSectionName}
-          singlePageSectionSlug={props.articleSectionSlug}
-          singlePageCategoryName={props.articleCategoryName}
-          singlePageCategorySlug={props.articleCategorySlug}
-          singlePageSlug={props.articleSlug}
-          singlePageDate={props.articleDate}
-          singlePageModifiedDate={props.articleModifiedDate}
-          singlePageFeaturedImage={props.articleFeaturedImage}
-          singlePageAuthor={props.articleAuthor}
-        />
-      </Head>
       <Header productsCategories={props.productsCategories} />
       <LayoutArticlePageMain>
         <Container maxWidth="xl">
@@ -202,7 +185,7 @@ export default function LayoutArticlePage(props: LayoutArticlePageProps) {
                   <Image
                     src={props.articleFeaturedImage}
                     alt={props.articleTitle}
-                    layout="fill"
+                    fill
                     objectFit="cover"
                   />
                 </LayoutArticlePageThumb>

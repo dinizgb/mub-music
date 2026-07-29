@@ -1,7 +1,7 @@
+"use client";
+
 /* eslint-disable new-cap */
-import React from "react";
-import Head from "next/head";
-import { useRouter } from "next/router";
+import { usePathname, useSearchParams } from "next/navigation";
 import styled from "styled-components";
 // MUI
 import Container from "@mui/material/Container";
@@ -21,8 +21,6 @@ import Footer from "components/Tags/Footer";
 import { H2, H3, P } from "components/Texts/Typographies";
 import PaginationWidget from "components/Widgets/PaginationWidget";
 import ProductCardList from "components/Lists/ProductCardList";
-// SERVICES
-import SEOTagsConstructor from "services/SEO/SEOTagsConstructor";
 // TYPES
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
@@ -43,7 +41,7 @@ type LayoutProductsListProps = {
   productCategoryData: string;
   productsCategories: ProductsCategoriesType[];
   productSubCategories: Array<ProductFilterType>;
-  productSubCategoryData: string;
+  productSubCategoryData: string | null;
   productBrandsData: Array<ProductFilterType>;
   productPriceAverageData: Array<ProductFilterType>;
   seoData: SEOTagsConstructorTypes;
@@ -57,30 +55,20 @@ type LayoutProductsListProps = {
  * @return {TSX.Element}: The TSX code for the Layout Products List Component.
  */
 export default function LayoutProductsList(props: LayoutProductsListProps) {
-  const router = useRouter();
-  const currentRoute = router.asPath;
-
-  // ROUTER QUERY CLEANUP
-  delete router.query.category;
-  delete router.query.subcategory;
-  const hasQuery = Object.keys(router.query).length;
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const hasBrand = searchParams.get("brand");
 
   // BRAND FILTER
-  const hasBrand = router.query.brand;
   const brandHandler = (brand: string): string => {
-    const withQueriesHandler = hasBrand
-      ? currentRoute.replace(`brand=${router.query.length}`, `brand=${brand}`)
-      : currentRoute.concat(`&brand=${brand}`);
-    const withoutQueriesHandler = currentRoute.concat(`?brand=${brand}`);
-    return hasQuery ? withQueriesHandler : withoutQueriesHandler;
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("brand", brand);
+    params.delete("page");
+    return `${pathname}?${params.toString()}`;
   };
 
   return (
     <>
-      <Head>
-        <title>{`${props.seoData.pageTitle} | Mub Music`}</title>
-        {SEOTagsConstructor(props.seoData)}
-      </Head>
       <Header productsCategories={props.productsCategories} />
       <main>
         <Container maxWidth="xl">

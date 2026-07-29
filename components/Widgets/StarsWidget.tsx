@@ -1,4 +1,4 @@
-import React from "react";
+import type { ReactElement } from "react";
 import styled from "styled-components";
 import StarIcon from "@mui/icons-material/Star";
 import StarHalfIcon from "@mui/icons-material/StarHalf";
@@ -32,7 +32,7 @@ type StarsWidgetWrapperProps = {
  * @return {TSX.Element}: The TSX code for the Stars Widget Component.
  */
 export default function StarsWidget(props: StarsConstructorProps) {
-  let stars = [];
+  let stars: ReactElement[] = [];
   const firstNumber = separateDecimalNumber(props.number, 0);
   const secondNumber = separateDecimalNumber(props.number, 1);
   const remainingNumber = 5 - firstNumber;

@@ -1,4 +1,3 @@
-import React from "react";
 import Image from "next/image";
 import styled from "styled-components";
 import Grid from "@mui/material/Grid";
@@ -91,7 +90,7 @@ export default function ProductCard(props: ProductCardProps) {
                 <Image
                   src={props.cardImage}
                   alt={props.cardTitle}
-                  layout="fill"
+                  fill
                   objectFit="cover"
                 />
                 <ProductCardStars>
@@ -108,7 +107,7 @@ export default function ProductCard(props: ProductCardProps) {
                 <Image
                   src={props.cardBrandLogo}
                   alt={props.cardTitle}
-                  layout="fill"
+                  fill
                   objectFit="cover"
                 />
               </ProductCardBrandLogo>
