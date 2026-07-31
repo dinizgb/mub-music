@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 import { i18n, t } from "@/i18n";
 
 type BigHorizontalCardProps = {
-  key: string;
   cardImage: string;
   cardSection: string;
   cardCategory: string;

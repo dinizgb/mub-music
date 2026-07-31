@@ -45,10 +45,60 @@ app/           # routes, layout, globals.css, providers
 components/    # UI building blocks (Cards, Lists, Tags, Widgets, ui/)
 layouts/       # page shells used by app routes
 lib/utils.ts   # cn()
+i18n/          # locale JSON + t() helper
+__tests__/     # unit tests (mirrors source areas)
 ```
+
+## Testing (required)
+
+Every new or substantially changed **component**, **utility/function**, **hook**, **i18n helper**, and **lib** module **must** ship with unit tests. Do not merge UI or logic without tests.
+
+### Coverage bar
+
+- Aim for **high coverage** on the new/changed file: prefer **≥ 90%** statements/branches/lines; **100%** when the module is small or branchy (utils, pure helpers, presentational components).
+- Cover the happy path **and** meaningful branches (empty states, `null`/`[]`, primary vs secondary variants, interpolated i18n strings, edge ratings, etc.).
+- If a branch is intentionally unreachable, say so in the PR; do not leave accidental gaps.
+
+### Where tests live
+
+Mirror the source area under `__tests__/`, with a flat file name matching the module (not nested by Cards/Lists/… unless needed later):
+
+| Source                                         | Test file                                                     |
+| ---------------------------------------------- | ------------------------------------------------------------- |
+| `components/Lists/BigHorizontalCardList.tsx`   | `__tests__/components/BigHorizontalCardList.test.tsx`         |
+| `components/Widgets/StarsWidget.tsx`           | `__tests__/components/StarsWidget.test.tsx`                   |
+| `utils/formatDate.ts`                          | `__tests__/utils/formatDate.test.ts`                          |
+| `i18n/index.ts`                                | `__tests__/i18n/t.test.ts`                                    |
+| `lib/utils.ts`                                 | `__tests__/lib/utils.test.ts`                                 |
+| `layouts/LayoutHomePage.tsx`                   | `__tests__/layouts/LayoutHomePage.test.tsx`                   |
+| `services/filters/productFilterConstructor.ts` | `__tests__/services/filters/productFilterConstructor.test.ts` |
+| `services/graphql/queries/getAllNews.tsx`      | `__tests__/services/graphql/queries/getAllNews.test.ts`       |
+
+- Filename: `{ModuleName}.test.ts` or `{ModuleName}.test.tsx` (use `.tsx` when rendering React).
+- Shared fixtures: `__tests__/__mocks__/` (e.g. `postListMock.ts`, `productListMock.ts`). That folder is **ignored** by Jest as a test suite — only import from it.
+- Do **not** put tests next to source (`components/**/*.test.tsx`) unless the project later standardizes on that; today’s convention is `__tests__/…`.
+
+### What to assert
+
+- **Utils:** inputs → outputs; equal/duplicate/empty cases; interpolations (`t()`, pagination, URL params).
+- **Components:** rendered text/roles, key `href`s, empty/loading states, variant props (`isPrimaryTitle`, `withBackground`, `fontSize`, etc.). Prefer `@testing-library/react` queries (`getByRole`, `getByText`) over brittle class-only checks when possible.
+- Prefer i18n keys’ values via `i18n.*` in expectations when the UI uses translations — avoid duplicating raw copy in tests when the string already lives in `i18n/us-en.json`.
+
+### Tooling & setup
+
+- Runner: Jest (`yarn test` / `yarn test --coverage`). Config: `jest.config.js` + `jest.setup.ts`.
+- React Testing Library v16+ (React 19). Path alias `@/*` is mapped in Jest.
+- Avatar (and similar Radix-heavy UI) may be mocked in `jest.setup.ts` when unit tests do not need the real primitive.
+- Run coverage for touched files before claiming done; fix failures before commit (husky runs the project checks).
+
+### Exceptions
+
+- Pure re-exports, generated files, or one-line Next config — no test required.
+- Heavy page shells that need Apollo/Redux/router can start with focused unit tests of extracted pure logic + lighter component tests with mocked providers; still add **some** coverage, do not skip entirely.
 
 ## Changes
 
 - Match existing patterns; prefer small, focused diffs
 - Do not redesign spacing, typography, or palette unless asked
 - After UI changes, smoke-check key routes: `/`, `/products/`, product detail, news article
+- New modules must include tests under `__tests__/` as described above

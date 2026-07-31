@@ -31,7 +31,7 @@ export default function LayoutProductCategoryList(
         <div
           className="mt-2.5 mb-17.5 w-full [&_img]:inline-block [&_img]:w-full"
         >
-          <div className="mx-auto w-full max-w-[1200px] px-4">
+          <div className="mx-auto w-full max-w-300 px-4">
             <div className="mb-4 w-full">
               <div
                 className="grid w-full grid-cols-12 gap-x-2 sm:gap-x-6
