@@ -1,74 +1,15 @@
-import styled from "styled-components";
-// COMPONENTS
-import MenuIcon from "@mui/icons-material/Menu";
+"use client";
+
+import { Menu } from "lucide-react";
 import MobileMenu from "../Menus/MobileMenu";
-// REDUX
 import { useAppSelector, useAppDispatch } from "redux/store";
 import { toggleMobileMenu } from "redux/slices/mobileMenu/";
-// TYPES
 import { ProductsCategoriesType } from "types/productsCategoriesType";
+import { cn } from "@/lib/utils";
 
 type NavProps = {
   productsCategories: ProductsCategoriesType[];
 };
-
-type MenuOverlayProps = {
-  display: string;
-};
-
-const NavContainer = styled.nav`
-  float: right;
-  @media (max-width: 768px) {
-    padding: 0;
-  }
-`;
-
-const NavUl = styled.ul`
-  display: flex;
-  flex-direction: row;
-  @media (max-width: 885px) {
-    display: flex;
-  }
-`;
-
-const NavLi = styled.li`
-  display: flex;
-  padding: 0 0 0 25px;
-  a {
-    font-family: "Poppins", serif;
-    letter-spacing: 0.5px;
-    color: #fff;
-    font-weight: 500;
-    text-decoration: none;
-    &:hover {
-      color: ${({ theme }) => theme.colors.primary_hover};
-    }
-  }
-  @media (max-width: 885px) {
-    display: none;
-  }
-`;
-
-const NavLiMobile = styled.li`
-  padding: 0 0 0 25px;
-  color: #fff;
-  cursor: pointer;
-  &:hover {
-    color: ${({ theme }) => theme.colors.primary_hover};
-  }
-`;
-
-const MenuOverlay = styled.div<MenuOverlayProps>`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  z-index: 25;
-  transition: all 1s ease 0s;
-  display: ${(props) => props.display};
-`;
 
 /**
  * Nav Component.
@@ -85,26 +26,45 @@ export default function Nav(props: NavProps) {
   };
 
   return (
-    <NavContainer>
-      <NavUl>
-        <NavLi>
-          <a href="/news/">News</a>
-        </NavLi>
-        <NavLi>
-          <a href="/products/">Products</a>
-        </NavLi>
-        <NavLiMobile onClick={handleToggleMobileMenu}>
-          <MenuIcon />
-        </NavLiMobile>
+    <nav className="float-right max-[768px]:p-0">
+      <ul className="flex flex-row">
+        <li className="hidden pl-6.25 min-[886px]:flex">
+          <a
+            href="/news/"
+            className="font-heading hover:text-primary-hover
+              font-medium tracking-[0.5px] text-white no-underline"
+          >
+            News
+          </a>
+        </li>
+        <li className="hidden pl-6.25 min-[886px]:flex">
+          <a
+            href="/products/"
+            className="font-heading hover:text-primary-hover
+              font-medium tracking-[0.5px] text-white no-underline"
+          >
+            Products
+          </a>
+        </li>
+        <li
+          className="hover:text-primary-hover cursor-pointer pl-6.25
+            text-white"
+          onClick={handleToggleMobileMenu}
+        >
+          <Menu />
+        </li>
         <MobileMenu
           display={!mobileMenuStatus ? "none" : "block"}
           productsCategories={props.productsCategories}
         />
-        <MenuOverlay
-          display={!mobileMenuStatus ? "none" : "block"}
+        <div
+          className={cn(
+            "fixed inset-0 z-25 bg-black/80 transition-all duration-1000",
+            !mobileMenuStatus ? "hidden" : "block"
+          )}
           onClick={handleToggleMobileMenu}
         />
-      </NavUl>
-    </NavContainer>
+      </ul>
+    </nav>
   );
 }

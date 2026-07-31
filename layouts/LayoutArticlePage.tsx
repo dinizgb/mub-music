@@ -1,59 +1,20 @@
-"use client";
-
-import styled from "styled-components";
 import Image from "next/image";
-// MUI
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import Avatar from "@mui/material/Avatar";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
 // COMPONENTS
 import Header from "components/Tags/Header";
 import Footer from "components/Tags/Footer";
 import { H2, P, A, Span } from "components/Texts/Typographies";
 import { ContentBody } from "components/Texts/ContentBody";
-// SERVICES
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 // TYPES
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 // UTILS
 import formatDate from "utils/formatDate";
-
-const LayoutArticlePageThumb = styled.div`
-  width: 100%;
-  height: 100%;
-  position: relative;
-  border-radius: 8px;
-  background: ${({ theme }) => theme.colors.secondary};
-  img {
-    border-radius: 8px;
-  }
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}px) {
-    width: 100%;
-    height: 350px;
-    margin-top: 0;
-    margin-left: auto;
-    margin-right: auto;
-  }
-`;
-
-const LayoutArticlePageMain = styled.main`
-  .MuiBreadcrumbs-separator {
-    color: ${({ theme }) => theme.colors.text_2};
-  }
-`;
-
-const LayoutArticlePageAuthor = styled.div`
-  width: 100%;
-  margin-top: 20px;
-  margin-bottom: 30px;
-  display: flex;
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}px) {
-    width: 90%;
-    margin-top: 20px;
-    margin-left: 0;
-  }
-`;
 
 type LayoutArticlePageProps = {
   articleTitle: string;
@@ -80,141 +41,150 @@ export default function LayoutArticlePage(props: LayoutArticlePageProps) {
   return (
     <>
       <Header productsCategories={props.productsCategories} />
-      <LayoutArticlePageMain>
-        <Container maxWidth="xl">
-          <Box sx={{ width: "100%" }}>
-            <Grid
-              container
-              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-              style={{ marginTop: 50 }}
+      <main>
+        <div className="mx-auto w-full max-w-screen-2xl px-4">
+          <div className="w-full">
+            <div
+              className="mt-12.5 grid w-full grid-cols-1 gap-x-2 sm:gap-x-4
+                md:grid-cols-12 md:gap-x-6"
             >
-              <Grid item xs={12} sm={12} md={6}>
-                <Breadcrumbs separator="›" aria-label="breadcrumb">
-                  <A
-                    fontColor={({ theme }) => theme.colors.text_2}
-                    hoverColor={({ theme }) => theme.colors.text_4}
-                    fontWeight={500}
-                    fontSize={15}
-                    lineHeight={24}
-                    xsFontSize={15}
-                    xsLineHeight={24}
-                    margin={0}
-                    href="/"
+              <div className="md:col-span-6">
+                <Breadcrumb>
+                  <BreadcrumbList
+                    className="text-text-2
+                      [&>li[role=presentation]]:text-text-2"
                   >
-                    Home
-                  </A>
-                  <A
-                    fontColor={({ theme }) => theme.colors.text_2}
-                    hoverColor={({ theme }) => theme.colors.text_4}
-                    fontWeight={500}
-                    fontSize={15}
-                    lineHeight={24}
-                    xsFontSize={15}
-                    xsLineHeight={24}
-                    margin={0}
-                    href="/news/"
-                  >
-                    News
-                  </A>
-                  <A
-                    fontColor={({ theme }) => theme.colors.text_2}
-                    hoverColor={({ theme }) => theme.colors.text_4}
-                    fontWeight={500}
-                    fontSize={15}
-                    lineHeight={24}
-                    xsFontSize={15}
-                    xsLineHeight={24}
-                    margin={0}
-                    href={`/news/${props.articleCategorySlug}/`}
-                  >
-                    {props.articleCategoryName}
-                  </A>
-                </Breadcrumbs>
+                    <BreadcrumbItem>
+                      <A
+                        className="text-text-2 hover:text-text-4"
+                        fontWeight={500}
+                        fontSize={15}
+                        lineHeight={24}
+                        xsFontSize={15}
+                        xsLineHeight={24}
+                        href="/"
+                      >
+                        Home
+                      </A>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator>›</BreadcrumbSeparator>
+                    <BreadcrumbItem>
+                      <A
+                        className="text-text-2 hover:text-text-4"
+                        fontWeight={500}
+                        fontSize={15}
+                        lineHeight={24}
+                        xsFontSize={15}
+                        xsLineHeight={24}
+                        href="/news/"
+                      >
+                        News
+                      </A>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator>›</BreadcrumbSeparator>
+                    <BreadcrumbItem>
+                      <A
+                        className="text-text-2 hover:text-text-4"
+                        fontWeight={500}
+                        fontSize={15}
+                        lineHeight={24}
+                        xsFontSize={15}
+                        xsLineHeight={24}
+                        href={`/news/${props.articleCategorySlug}/`}
+                      >
+                        {props.articleCategoryName}
+                      </A>
+                    </BreadcrumbItem>
+                  </BreadcrumbList>
+                </Breadcrumb>
                 <H2
                   fontType={"MainTitle"}
-                  fontColor={({ theme }) => theme.colors.text_4}
+                  className="text-text-4"
                   fontWeight={400}
                   fontSize={60}
                   lineHeight={85}
                   xsFontSize={40}
                   xsLineHeight={60}
-                  margin={0}
                 >
                   {props.articleTitle}
                 </H2>
                 <P
-                  fontColor={({ theme }) => theme.colors.text_4}
+                  className="my-7.5 text-text-4"
                   fontWeight={300}
                   fontSize={24}
                   lineHeight={40}
                   xsFontSize={21}
                   xsLineHeight={36}
-                  margin={`30px 0`}
                 >
                   {props.articleExcerpt}
                 </P>
-                <LayoutArticlePageAuthor>
-                  <Avatar alt="Autor Avatar" src="/images/mub-avatar.jpg" />
+                <div
+                  className="mt-5 mb-7.5 flex w-full max-sm:mt-5 max-sm:ml-0
+                    max-sm:w-[90%]"
+                >
+                  <Avatar>
+                    <AvatarImage
+                      alt="Autor Avatar"
+                      src="/images/mub-avatar.jpg"
+                    />
+                    <AvatarFallback>M</AvatarFallback>
+                  </Avatar>
                   <Span
-                    fontColor={({ theme }) => theme.colors.text_4}
-                    hoverColor={({ theme }) => theme.colors.text_3}
+                    className="mt-1.25 ml-2.5 text-text-4 hover:text-text-3"
                     fontWeight={600}
                     fontSize={15}
                     lineHeight={24}
                     xsFontSize={15}
                     xsLineHeight={24}
-                    margin={`5px 0 0 10px`}
                   >
                     Mub Music Staff
                   </Span>
                   <Span
-                    fontColor={({ theme }) => theme.colors.text_4}
+                    className="mt-1 ml-1.25 text-text-4"
                     fontWeight={400}
                     fontSize={15}
                     lineHeight={24}
                     xsFontSize={15}
                     xsLineHeight={24}
-                    margin={`4px 0 0 5px`}
                   >
                     - {formatDate(props.articleDate)}
                   </Span>
-                </LayoutArticlePageAuthor>
-              </Grid>
-              <Grid item xs={12} sm={12} md={6}>
-                <LayoutArticlePageThumb>
+                </div>
+              </div>
+              <div className="md:col-span-6">
+                <div
+                  className="bg-secondary relative h-full w-full rounded-lg
+                    max-md:mx-auto max-md:mt-0 max-md:h-87.5 max-md:w-full
+                    [&_img]:rounded-lg"
+                >
                   <Image
                     src={props.articleFeaturedImage}
                     alt={props.articleTitle}
                     fill
-                    objectFit="cover"
+                    className="rounded-lg object-cover"
                   />
-                </LayoutArticlePageThumb>
-              </Grid>
-            </Grid>
-          </Box>
-          <Box sx={{ width: "100%" }}>
-            <Grid container columnSpacing={{ xs: 1, sm: 3, md: 5 }}>
-              <Grid
-                item
-                xs={12}
-                sm={12}
-                md={9}
-                style={{ marginLeft: "auto", marginRight: "auto" }}
-              >
-                <Grid container>
-                  <Grid item xs={12} style={{ marginTop: 41 }}>
-                    <ContentBody
-                      dangerouslySetInnerHTML={{
-                        __html: props.articleContent,
-                      }}
-                    />
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Box>
-        </Container>
-      </LayoutArticlePageMain>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="w-full">
+            <div
+              className="grid w-full grid-cols-1 gap-x-2 sm:gap-x-6
+                md:grid-cols-12 md:gap-x-10"
+            >
+              <div className="mx-auto md:col-span-9">
+                <div className="mt-10.25">
+                  <ContentBody
+                    dangerouslySetInnerHTML={{
+                      __html: props.articleContent,
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
       <Footer />
     </>
   );

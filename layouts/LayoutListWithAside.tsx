@@ -1,15 +1,8 @@
-"use client";
-
-// MUI
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
 // COMPONENTS
 import Header from "components/Tags/Header";
 import Footer from "components/Tags/Footer";
 import { H2, P } from "components/Texts/Typographies";
 import BigHorizontalCardList from "components/Lists/BigHorizontalCardList";
-// SERVICES
 // TYPES
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 
@@ -36,62 +29,58 @@ export default function LayoutListWithAside(props: LayoutListWithAsideProps) {
     <>
       <Header productsCategories={props.productsCategories} />
       <main>
-        <Container maxWidth="xl">
-          <Box sx={{ width: "100%" }}>
-            <Grid
-              container
-              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-              style={{ marginTop: 50 }}
+        <div className="mx-auto w-full max-w-screen-2xl px-4">
+          <div className="w-full">
+            <div
+              className="mt-12.5 grid w-full grid-cols-1 gap-x-2 sm:gap-x-4
+                md:grid-cols-12 md:gap-x-6"
             >
-              <Grid item xs={12} sm={12} md={9}>
+              <div className="md:col-span-9">
                 <H2
                   fontType={"MainTitle"}
-                  fontColor={({ theme }) => theme.colors.text_4}
+                  className="text-text-4"
                   fontWeight={400}
                   fontSize={76}
                   lineHeight={100}
                   xsFontSize={60}
                   xsLineHeight={70}
-                  margin={0}
                 >
                   {props.layoutTitle}
                 </H2>
                 <P
-                  fontColor={({ theme }) => theme.colors.text_4}
+                  className="my-7.5 text-text-4"
                   fontWeight={300}
                   fontSize={24}
                   lineHeight={40}
                   xsFontSize={21}
                   xsLineHeight={36}
-                  margin={`30px 0`}
                 >
                   {props.layoutDescription}
                 </P>
-              </Grid>
-            </Grid>
-          </Box>
-          <Box sx={{ width: "100%" }}>
-            <Grid container columnSpacing={{ xs: 1, sm: 3, md: 5 }}>
-              <Grid item xs={12} sm={12} md={8}>
-                <Grid container>
-                  <Grid item xs={12} style={{ marginTop: 41 }}>
-                    {postList.length == 0 ? (
-                      `No data available`
-                    ) : (
-                      <BigHorizontalCardList
-                        postList={postList}
-                        layoutSection={props.layoutSection}
-                      />
-                    )}
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item xs={12} sm={12} md={4}>
-                No data available for now
-              </Grid>
-            </Grid>
-          </Box>
-        </Container>
+              </div>
+            </div>
+          </div>
+          <div className="w-full">
+            <div
+              className="grid w-full grid-cols-1 gap-x-2 sm:gap-x-6
+                md:grid-cols-12 md:gap-x-10"
+            >
+              <div className="md:col-span-8">
+                <div className="mt-10.25">
+                  {postList.length == 0 ? (
+                    `No data available`
+                  ) : (
+                    <BigHorizontalCardList
+                      postList={postList}
+                      layoutSection={props.layoutSection}
+                    />
+                  )}
+                </div>
+              </div>
+              <div className="md:col-span-4">No data available for now</div>
+            </div>
+          </div>
+        </div>
       </main>
       <Footer />
     </>

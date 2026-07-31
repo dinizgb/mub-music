@@ -1,47 +1,10 @@
 "use client";
 
 /* eslint-disable camelcase */
-import styled from "styled-components";
+import type { AnchorHTMLAttributes } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Span } from "components/Texts/Typographies";
-
-const PaginationWidgetWrapper = styled.div`
-  display: flex;
-  justify-content: end;
-  margin: 0 auto;
-`;
-
-export const PaginationBullet = styled.a<PaginationBulletProps>`
-  width: 18px;
-  height: 18px;
-  font-family: "Open Sans", sans-serif;
-  background: ${(props) =>
-    props.active
-      ? ({ theme }) => theme.colors.primary_hover
-      : ({ theme }) => theme.colors.background};
-  border: 2px solid
-    ${(props) =>
-      props.active
-        ? ({ theme }) => theme.colors.primary_hover
-        : ({ theme }) => theme.colors.subtitle};
-  border-radius: 50%;
-  color: ${(props) =>
-    props.active
-      ? ({ theme }) => theme.colors.background
-      : ({ theme }) => theme.colors.text_4};
-  font-weight: 600;
-  font-size: 16px;
-  margin: 0 0 0 10px;
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  &:hover {
-    background: ${({ theme }) => theme.colors.primary_hover};
-    color: ${({ theme }) => theme.colors.background};
-    border: 2px solid ${({ theme }) => theme.colors.primary_hover};
-  }
-`;
+import { cn } from "@/lib/utils";
 
 type PaginationWidgetProps = {
   totalItens: number;
@@ -49,9 +12,36 @@ type PaginationWidgetProps = {
   range: number;
 };
 
-type PaginationBulletProps = {
+type PaginationBulletProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   active: boolean;
 };
+
+/**
+ * Pagination bullet link.
+ * @param {PaginationBulletProps} props Bullet props.
+ * @return {TSX.Element} Styled pagination bullet.
+ */
+export function PaginationBullet({
+  active,
+  className,
+  ...props
+}: PaginationBulletProps) {
+  return (
+    <a
+      className={cn(
+        `font-open ml-2.5 flex size-4.5 items-center justify-center
+        rounded-full border-2 p-2.5 text-base font-semibold`,
+        active
+          ? "border-primary-hover bg-primary-hover text-background"
+          : "border-subtitle bg-background text-text-4",
+        `hover:border-primary-hover hover:bg-primary-hover
+        hover:text-background`,
+        className
+      )}
+      {...props}
+    />
+  );
+}
 
 /**
  * Pagination Widget Component.
@@ -77,23 +67,30 @@ export default function PaginationWidget(props: PaginationWidgetProps) {
       ? props.currentPage <= 4
         ? [1, 2, 3, 4, "...", totalPages] // if
         : props.currentPage > 4 && props.currentPage < totalPages - 3
-        ? [
-            1,
-            "...",
-            props.currentPage,
-            props.currentPage + 1,
-            props.currentPage + 2,
-            "...",
-            totalPages,
-          ] // else if
-        : [1, "...", totalPages - 3, totalPages - 2, totalPages - 1, totalPages] // else
+          ? [
+              1,
+              "...",
+              props.currentPage,
+              props.currentPage + 1,
+              props.currentPage + 2,
+              "...",
+              totalPages,
+            ] // else if
+          : [
+              1,
+              "...",
+              totalPages - 3,
+              totalPages - 2,
+              totalPages - 1,
+              totalPages,
+            ] // else
       : null;
   const pagination: Array<any> =
-    totalPages > 9 ? biggerPaginationsRule ?? [] : smallerPaginationsRule;
+    totalPages > 9 ? (biggerPaginationsRule ?? []) : smallerPaginationsRule;
   return (
     <>
       {hasPages ? (
-        <PaginationWidgetWrapper>
+        <div className="mx-auto flex justify-end">
           {pagination.map((item) => {
             return !isNaN(item) ? (
               <PaginationBullet
@@ -104,23 +101,20 @@ export default function PaginationWidget(props: PaginationWidgetProps) {
                 {item}
               </PaginationBullet>
             ) : (
-              <>
-                <Span
-                  fontColor={({ theme }) => theme.colors.subtitle}
-                  hoverColor={({ theme }) => theme.colors.subtitle}
-                  fontWeight={400}
-                  fontSize={16}
-                  lineHeight={24}
-                  xsFontSize={16}
-                  xsLineHeight={24}
-                  margin={`5px 4px 0 13px`}
-                >
-                  {item}
-                </Span>
-              </>
+              <Span
+                key={`ellipsis-${item}`}
+                className="mt-1.25 mr-1 ml-3.25 text-subtitle hover:text-subtitle"
+                fontWeight={400}
+                fontSize={16}
+                lineHeight={24}
+                xsFontSize={16}
+                xsLineHeight={24}
+              >
+                {item}
+              </Span>
             );
           })}
-        </PaginationWidgetWrapper>
+        </div>
       ) : null}
     </>
   );

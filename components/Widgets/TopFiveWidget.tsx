@@ -1,30 +1,8 @@
 /* eslint-disable camelcase */
-import styled from "styled-components";
+import type { CSSProperties } from "react";
 import { H2 } from "components/Texts/Typographies";
 import SmallHorizontalCard from "../Cards/SmallHorizontalCard";
-
-const TopFiveWidgetWrapper = styled.div<TopFiveWidgetWrapperCssProps>`
-  width: 100%;
-  position: relative;
-  margin: ${(props) => props.margin};
-  background: ${({ theme }) => theme.colors.secondary};
-  border-radius: 8px;
-  padding: 20px 0;
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}px) {
-    margin: ${(props) => props.xsMargin};
-  }
-`;
-
-const TopFiveWidgetContainer = styled.div`
-  width: 90%;
-  position: relative;
-  margin: 0 auto;
-`;
-
-type TopFiveWidgetWrapperCssProps = {
-  margin?: any;
-  xsMargin?: any;
-};
+import { cn } from "@/lib/utils";
 
 type TopFiveWidgetWrapperProps = {
   title: string;
@@ -40,16 +18,28 @@ type TopFiveWidgetWrapperProps = {
  */
 export default function TopFiveWidget(props: TopFiveWidgetWrapperProps) {
   return (
-    <TopFiveWidgetWrapper margin={props.margin} xsMargin={props.xsMargin}>
-      <TopFiveWidgetContainer>
+    <div
+      className={cn(
+        "bg-secondary relative w-full rounded-lg py-5",
+        props.xsMargin != null && "max-sm:[margin:var(--xs-margin)]"
+      )}
+      style={
+        {
+          margin: props.margin,
+          ...(props.xsMargin != null
+            ? { ["--xs-margin" as string]: props.xsMargin }
+            : {}),
+        } as CSSProperties
+      }
+    >
+      <div className="relative mx-auto w-[90%]">
         <H2
-          fontColor={({ theme }) => theme.colors.text_4}
+          className="text-text-4"
           fontWeight={600}
           fontSize={20}
           lineHeight={21}
           xsFontSize={21}
           xsLineHeight={24}
-          margin={0}
         >
           {props.title}
         </H2>
@@ -61,11 +51,10 @@ export default function TopFiveWidget(props: TopFiveWidgetWrapperProps) {
               cardDate={date}
               cardImage={featured_media_url}
               cardLink={link}
-              margin={0}
             />
           );
         })}
-      </TopFiveWidgetContainer>
-    </TopFiveWidgetWrapper>
+      </div>
+    </div>
   );
 }

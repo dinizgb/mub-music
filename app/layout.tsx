@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import Providers from "./providers";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
@@ -19,11 +20,7 @@ export const metadata: Metadata = {
  * @param {{ children: ReactNode }} props Layout children.
  * @return {ReactElement} HTML document shell.
  */
-export default function RootLayout({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>

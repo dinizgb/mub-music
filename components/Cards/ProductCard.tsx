@@ -1,63 +1,7 @@
 import Image from "next/image";
-import styled from "styled-components";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
 import { H3, Span } from "components/Texts/Typographies";
 import StarsWidget from "components/Widgets/StarsWidget";
-
-const ProductCardWrapper = styled.div<ProductCardCssProps>`
-  width: 100%;
-  height: 100%;
-  position: relative;
-  margin: ${(props) => props.margin};
-  background: ${({ theme }) => theme.colors.secondary};
-  border-radius: 8px;
-  &:hover {
-    background: ${({ theme }) => theme.colors.secondary_hover};
-  }
-  span {
-    font-size: 13px;
-    strong {
-      font-size: 18.5px;
-    }
-  }
-`;
-
-const ProductCardThumb = styled.div`
-  width: 100%;
-  height: 200px;
-  position: relative;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-  background: ${({ theme }) => theme.colors.secondary};
-  img {
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-  }
-`;
-
-const ProductCardStars = styled.div`
-  position: absolute;
-  top: 10px;
-  left: 10px;
-`;
-
-const ProductCardBrandLogo = styled.div<ProductCardBrandLogoProps>`
-  width: 54px;
-  height: 54px;
-  position: absolute;
-  top: 175px;
-  right: 25px;
-  background: ${(props) => props.backgroundColor};
-  border-radius: 50%;
-  img {
-    border-radius: 50%;
-  }
-`;
-
-type ProductCardCssProps = {
-  margin?: any;
-};
+import { cn } from "@/lib/utils";
 
 type ProductCardProps = {
   cardTitle: string;
@@ -67,11 +11,7 @@ type ProductCardProps = {
   cardLink: string;
   cardRating: number;
   cardPrice: number;
-  margin?: any;
-};
-
-type ProductCardBrandLogoProps = {
-  backgroundColor: string;
+  className?: string;
 };
 
 /**
@@ -82,64 +22,66 @@ type ProductCardBrandLogoProps = {
 export default function ProductCard(props: ProductCardProps) {
   return (
     <a href={props.cardLink}>
-      <ProductCardWrapper margin={props.margin}>
-        <Box sx={{ width: "100%" }}>
-          <Grid container>
-            <Grid item xs={12}>
-              <ProductCardThumb>
-                <Image
-                  src={props.cardImage}
-                  alt={props.cardTitle}
-                  fill
-                  objectFit="cover"
-                />
-                <ProductCardStars>
-                  <StarsWidget
-                    fontSize={18}
-                    number={props.cardRating}
-                    withBackground={true}
-                  />
-                </ProductCardStars>
-              </ProductCardThumb>
-              <ProductCardBrandLogo
-                backgroundColor={props.cardBrandLogoBgColor}
-              >
-                <Image
-                  src={props.cardBrandLogo}
-                  alt={props.cardTitle}
-                  fill
-                  objectFit="cover"
-                />
-              </ProductCardBrandLogo>
-            </Grid>
-            <Grid item xs={12} sx={{ padding: "0 25px" }}>
-              <H3
-                fontColor={({ theme }) => theme.colors.text_4}
-                fontWeight={400}
-                fontSize={16}
-                lineHeight={24}
-                xsFontSize={16}
-                xsLineHeight={24}
-                margin={`45px 0 0 0`}
-              >
-                {props.cardTitle}
-              </H3>
-              <Span
-                fontColor={({ theme }) => theme.colors.primary}
-                hoverColor={({ theme }) => theme.colors.primary}
-                fontWeight={400}
-                fontSize={16}
-                lineHeight={52}
-                xsFontSize={16}
-                xsLineHeight={52}
-                margin={`0`}
-              >
-                From <strong>${props.cardPrice}</strong>
-              </Span>
-            </Grid>
-          </Grid>
-        </Box>
-      </ProductCardWrapper>
+      <div
+        className={cn(
+          `bg-secondary hover:bg-secondary-hover relative h-full w-full
+          rounded-lg`,
+          "[&_span]:text-[13px] [&_span_strong]:text-[18.5px]",
+          props.className
+        )}
+      >
+        <div className="w-full">
+          <div className="bg-secondary relative h-50 w-full rounded-t-lg">
+            <Image
+              src={props.cardImage}
+              alt={props.cardTitle}
+              fill
+              className="rounded-t-lg object-cover"
+            />
+            <div className="absolute top-2.5 left-2.5">
+              <StarsWidget
+                fontSize={12}
+                number={props.cardRating}
+                withBackground={true}
+              />
+            </div>
+            <div
+              className="absolute top-43.75 right-6.25 h-13.5 w-13.5
+                overflow-hidden rounded-full"
+              style={{ background: props.cardBrandLogoBgColor }}
+            >
+              <Image
+                src={props.cardBrandLogo}
+                alt={props.cardTitle}
+                fill
+                className="rounded-full object-cover"
+              />
+            </div>
+          </div>
+          <div className="px-6.25">
+            <H3
+              className="mt-11.25 text-text-4"
+              fontWeight={400}
+              fontSize={16}
+              lineHeight={24}
+              xsFontSize={16}
+              xsLineHeight={24}
+            >
+              {props.cardTitle}
+            </H3>
+            <Span
+              className="text-primary hover:text-primary"
+              fontWeight={400}
+              fontSize={16}
+              lineHeight={52}
+              xsFontSize={16}
+              xsLineHeight={52}
+            >
+              From <strong>${props.cardPrice}</strong>
+            </Span>
+          </div>
+        </div>
+      </div>
     </a>
   );
 }

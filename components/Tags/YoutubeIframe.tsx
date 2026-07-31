@@ -1,11 +1,5 @@
 /* eslint-disable react/no-unknown-property */
-import styled from "styled-components";
 import getUrlParameterValue from "utils/getUrlParameterValue";
-
-const YoutubeIframeWrapper = styled.div`
-  width: 100%;
-  position: relative;
-`;
 
 type YoutubeIframeProps = {
   url: string;
@@ -18,7 +12,7 @@ type YoutubeIframeProps = {
  */
 export default function YoutubeIframe(props: YoutubeIframeProps) {
   return (
-    <YoutubeIframeWrapper>
+    <div className="relative w-full">
       <iframe
         width="100%"
         height="400"
@@ -31,6 +25,6 @@ export default function YoutubeIframe(props: YoutubeIframeProps) {
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowFullScreen
       ></iframe>
-    </YoutubeIframeWrapper>
+    </div>
   );
 }

@@ -1,38 +1,14 @@
-import styled from "styled-components";
 import Image from "next/image";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
 import { H3, H4 } from "components/Texts/Typographies";
 import formatDate from "utils/formatDate";
-
-const SmallHorizontalCardWrapper = styled.div<SmallHorizontalCardCssProps>`
-  width: 100%;
-  position: relative;
-  margin: ${(props) => props.margin};
-  background: ${({ theme }) => theme.colors.secondary};
-`;
-
-const SmallHorizontalCardThumb = styled.div`
-  width: 100%;
-  height: 100px;
-  position: relative;
-  margin-top: 25px;
-  background: #222;
-  img {
-    border-radius: 8px;
-  }
-`;
-
-type SmallHorizontalCardCssProps = {
-  margin?: any;
-};
+import { cn } from "@/lib/utils";
 
 type SmallHorizontalCardProps = {
   cardTitle: string;
   cardDate: string;
   cardImage: string;
   cardLink: string;
-  margin?: any;
+  className?: string;
 };
 
 /**
@@ -43,50 +19,46 @@ type SmallHorizontalCardProps = {
 export default function SmallHorizontalCard(props: SmallHorizontalCardProps) {
   return (
     <a href={props.cardLink}>
-      <SmallHorizontalCardWrapper margin={props.margin}>
-        <Box sx={{ width: "100%" }}>
-          <Grid container columnSpacing={{ xs: 1, sm: 2, md: 2 }}>
-            <Grid item xs={12} sm={6} md={5}>
-              <SmallHorizontalCardThumb>
-                <Image
-                  src={props.cardImage}
-                  alt={props.cardTitle}
-                  fill
-                  objectFit="cover"
-                />
-              </SmallHorizontalCardThumb>
-            </Grid>
-            <Grid item xs={12} sm={6} md={7}>
-              <Grid container>
-                <Grid item xs={12}>
-                  <H3
-                    fontColor={({ theme }) => theme.colors.text_4}
-                    fontWeight={600}
-                    fontSize={16}
-                    lineHeight={24}
-                    xsFontSize={16}
-                    xsLineHeight={24}
-                    margin={`20px 0 0 0`}
-                  >
-                    {props.cardTitle}
-                  </H3>
-                  <H4
-                    fontColor={({ theme }) => theme.colors.text_2}
-                    fontWeight={400}
-                    fontSize={13}
-                    lineHeight={24}
-                    xsFontSize={13}
-                    xsLineHeight={24}
-                    margin={`5px 0 0 0`}
-                  >
-                    {formatDate(props.cardDate)}
-                  </H4>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Box>
-      </SmallHorizontalCardWrapper>
+      <div className={cn("bg-secondary relative w-full", props.className)}>
+        <div
+          className="grid w-full grid-cols-1 gap-2 sm:grid-cols-2
+            md:grid-cols-12 md:gap-2"
+        >
+          <div
+            className="bg-background-contrast relative mt-6.25 h-25
+              w-full sm:col-span-1 md:col-span-5 [&_img]:rounded-lg"
+          >
+            <Image
+              src={props.cardImage}
+              alt={props.cardTitle}
+              fill
+              className="rounded-lg object-cover"
+            />
+          </div>
+          <div className="sm:col-span-1 md:col-span-7">
+            <H3
+              className="mt-5 text-text-4"
+              fontWeight={600}
+              fontSize={16}
+              lineHeight={24}
+              xsFontSize={16}
+              xsLineHeight={24}
+            >
+              {props.cardTitle}
+            </H3>
+            <H4
+              className="mt-1.25 text-text-2"
+              fontWeight={400}
+              fontSize={13}
+              lineHeight={24}
+              xsFontSize={13}
+              xsLineHeight={24}
+            >
+              {formatDate(props.cardDate)}
+            </H4>
+          </div>
+        </div>
+      </div>
     </a>
   );
 }

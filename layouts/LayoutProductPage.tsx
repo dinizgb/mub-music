@@ -2,12 +2,7 @@
 
 /* eslint-disable guard-for-in */
 import Image from "next/image";
-import styled from "styled-components";
-// MUI
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import ShareIcon from "@mui/icons-material/Share";
+import { Share2 } from "lucide-react";
 // COMPONENTS
 import { ContentBody } from "components/Texts/ContentBody";
 import Header from "components/Tags/Header";
@@ -18,78 +13,13 @@ import OffersSidebarList from "components/Lists/OffersSidebarList";
 import ReviewsSidebarList from "components/Lists/ReviewsSidebarList";
 import ImageGallery from "react-image-gallery";
 import YoutubeIframe from "components/Tags/YoutubeIframe";
-// SERVICES
 // TYPES
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { ProductType } from "types/productType";
 
-const LayoutProductHeader = styled.div`
-  width: 100%;
-  padding: 30px 0;
-  margin: 0 0 30px 0;
-  background-color: ${({ theme }) => theme.colors.secondary};
-  background-image: url(/images/placeholder-bg.jpg);
-  background-attachment: fixed;
-  background-position: center 90%;
-  h1 {
-    margin: 0 40px;
-  }
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}px) {
-    h1 {
-      margin: 15px 0 5px 0;
-    }
-  }
-`;
-
-const LayoutProductBrandLogo = styled.div<ProductCardBrandLogoProps>`
-  width: 100px;
-  height: 100px;
-  background: ${(props) => props.backgroundColor};
-  border-radius: 50%;
-  position: relative;
-  img {
-    border-radius: 50%;
-  }
-`;
-
-const RatingArea = styled.div`
-  align-items: flex-end;
-  display: flex;
-  flex-direction: column;
-  figure {
-    svg {
-      font-size: 24px;
-      margin-top: 2px;
-    }
-  }
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}px) {
-    div {
-      svg {
-        font-size: 20px;
-        margin-top: 0;
-      }
-    }
-  }
-  @media (max-width: ${({ theme }) => theme.breakpoints.xs}px) {
-    align-items: flex-start;
-    margin-top: 10px;
-  }
-`;
-
-const LayoutProductCard = styled.div`
-  background: ${({ theme }) => theme.colors.secondary};
-  border-radius: 8px;
-  padding: 20px 30px;
-  margin: 0 0 30px 0;
-`;
-
 type LayoutProductPageProps = {
   productData: ProductType;
   productsCategories: ProductsCategoriesType[];
-};
-
-type ProductCardBrandLogoProps = {
-  backgroundColor: string;
 };
 
 /**
@@ -157,20 +87,30 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
   return (
     <>
       <Header productsCategories={props.productsCategories} />
-      <LayoutProductHeader>
-        <Container>
-          <Box sx={{ width: "100%", marginBottom: 2 }}>
-            <Grid
-              container
-              rowSpacing={1}
-              spacing={2}
-              sx={{ alignItems: "center" }}
+      <div
+        className="bg-secondary mb-5 md:mb-7.5 w-full
+          bg-[url(/images/placeholder-bg.jpg)] bg-fixed bg-position-[center_90%]
+          py-6.5 max-md:[&_h1]:mt-3.75 max-md:[&_h1]:mb-1.25"
+      >
+        <div className="mx-auto w-full max-w-300 px-4">
+          <div className="w-full">
+            <div
+              className="grid w-full grid-cols-1 items-center
+                justify-items-center gap-4 text-center sm:grid-cols-12
+                sm:justify-items-stretch sm:gap-6 sm:text-left"
             >
-              <Grid item xs={12} sm={2} md={1}>
-                <LayoutProductBrandLogo
-                  backgroundColor={
-                    productPrefix.product_info.brand.brand_info.backgroundColor
-                  }
+              <div
+                className="flex flex-col items-center gap-5 sm:col-span-10
+                  sm:flex-row sm:items-center md:col-span-10"
+              >
+                <div
+                  className="relative size-25 shrink-0 rounded-full
+                    max-sm:size-20 max-xs:size-16 [&_img]:rounded-full"
+                  style={{
+                    backgroundColor:
+                      productPrefix.product_info.brand.brand_info
+                        .backgroundColor,
+                  }}
                 >
                   <Image
                     src={
@@ -182,63 +122,62 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
                         .altText
                     }
                     fill
-                    objectFit="cover"
+                    className="rounded-full object-cover"
                   />
-                </LayoutProductBrandLogo>
-              </Grid>
-              <Grid item xs={12} sm={8} md={9}>
+                </div>
                 <H1
-                  fontColor={({ theme }) => theme.colors.text_4}
+                  className="text-text-4"
                   fontWeight={400}
                   fontSize={36}
                   lineHeight={54}
                   xsFontSize={36}
                   xsLineHeight={54}
-                  margin={0}
                 >
                   {productPrefix.title}
                 </H1>
-              </Grid>
-              <Grid item xs={12} sm={2} md={2}>
-                <RatingArea>
+              </div>
+              <div className="sm:col-span-2 md:col-span-2">
+                <div
+                  className="flex flex-col items-center max-md:[&_div_svg]:mt-0
+                    max-md:[&_div_svg]:text-xl sm:items-end
+                    [&_figure_svg]:mt-0.5 [&_figure_svg]:text-2xl"
+                >
                   <H2
-                    fontColor={({ theme }) => theme.colors.text_4}
+                    className="mt-0 mr-1.25 mb-2.5 text-text-4 sm:mt-2"
                     fontWeight={600}
-                    fontSize={14}
+                    fontSize={16}
                     lineHeight={21}
-                    xsFontSize={14}
+                    xsFontSize={16}
                     xsLineHeight={24}
-                    margin={"8px 5px 10px 0"}
                   >
                     Rating average
                   </H2>
                   <StarsWidget
-                    fontSize={28}
+                    fontSize={18}
                     number={productPrefix.product_info.rating}
                     withBackground={false}
                   />
-                  <figure>
-                    <ShareIcon />
+                  <figure className="mt-2">
+                    <Share2 />
                   </figure>
-                </RatingArea>
-              </Grid>
-            </Grid>
-          </Box>
-        </Container>
-      </LayoutProductHeader>
-      <Container>
-        <Box sx={{ width: "100%", marginBottom: 2 }}>
-          <Grid container rowSpacing={4} spacing={4}>
-            <Grid item xs={12} sm={6} md={8}>
-              <LayoutProductCard>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="mx-auto w-full max-w-300 px-4">
+        <div className="mb-4 w-full">
+          <div className="grid w-full grid-cols-1 md:gap-8 gap-5 sm:grid-cols-12">
+            <div className="order-2 sm:order-1 sm:col-span-6 md:col-span-8">
+              <div className="bg-secondary mb-5 md:mb-7.5 rounded-lg px-7.5 py-5">
                 <H3
-                  fontColor={({ theme }) => theme.colors.text_4}
+                  className="mb-5 text-text-4"
                   fontWeight={600}
                   fontSize={21}
                   lineHeight={36}
                   xsFontSize={21}
                   xsLineHeight={36}
-                  margin={"0 0 20px 0"}
                 >
                   Photos
                 </H3>
@@ -247,30 +186,28 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
                   showIndex={true}
                   showPlayButton={false}
                 />
-              </LayoutProductCard>
-              <LayoutProductCard>
+              </div>
+              <div className="bg-secondary mb-5 md:mb-7.5 rounded-lg px-7.5 py-5">
                 <H3
-                  fontColor={({ theme }) => theme.colors.text_4}
+                  className="mb-5 text-text-4"
                   fontWeight={600}
                   fontSize={21}
                   lineHeight={36}
                   xsFontSize={21}
                   xsLineHeight={36}
-                  margin={"0 0 20px 0"}
                 >
                   Featured Video
                 </H3>
                 <YoutubeIframe url={productPrefix.product_info.featureVideo} />
-              </LayoutProductCard>
-              <LayoutProductCard>
+              </div>
+              <div className="bg-secondary mb-5 md:mb-7.5 rounded-lg px-7.5 py-5">
                 <H3
-                  fontColor={({ theme }) => theme.colors.text_4}
+                  className="text-text-4"
                   fontWeight={600}
                   fontSize={21}
                   lineHeight={36}
                   xsFontSize={21}
                   xsLineHeight={36}
-                  margin={0}
                 >
                   Description
                 </H3>
@@ -279,16 +216,15 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
                     __html: productPrefix.product_info.description,
                   }}
                 />
-              </LayoutProductCard>
-              <LayoutProductCard>
+              </div>
+              <div className="bg-secondary mb-5 md:mb-7.5 rounded-lg px-7.5 py-5">
                 <H3
-                  fontColor={({ theme }) => theme.colors.text_4}
+                  className="text-text-4"
                   fontWeight={600}
                   fontSize={21}
                   lineHeight={36}
                   xsFontSize={21}
                   xsLineHeight={36}
-                  margin={0}
                 >
                   Specifications
                 </H3>
@@ -297,9 +233,9 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
                     __html: productPrefix.product_info.specifications,
                   }}
                 />
-              </LayoutProductCard>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
+              </div>
+            </div>
+            <div className="order-1 sm:order-2 sm:col-span-6 md:col-span-4">
               <OffersSidebarList
                 data={productOffers ?? []}
                 isPrimaryTitle={productOffers ? true : false}
@@ -310,10 +246,10 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
                 isPrimaryTitle={false}
                 title={"Reviews"}
               />
-            </Grid>
-          </Grid>
-        </Box>
-      </Container>
+            </div>
+          </div>
+        </div>
+      </div>
       <Footer />
     </>
   );
