@@ -25,8 +25,8 @@ export default function SmallHorizontalCard(props: SmallHorizontalCardProps) {
             md:grid-cols-12 md:gap-2"
         >
           <div
-            className="bg-background-contrast relative mt-6.25 h-25
-              w-full sm:col-span-1 md:col-span-5 [&_img]:rounded-lg"
+            className="bg-background-contrast relative mt-6.25 h-25 w-full
+              sm:col-span-1 md:col-span-5 [&_img]:rounded-lg"
           >
             <Image
               src={props.cardImage}
@@ -37,7 +37,7 @@ export default function SmallHorizontalCard(props: SmallHorizontalCardProps) {
           </div>
           <div className="sm:col-span-1 md:col-span-7">
             <H3
-              className="mt-5 text-text-4"
+              className="text-text-4 mt-5"
               fontWeight={600}
               fontSize={16}
               lineHeight={24}
@@ -47,7 +47,7 @@ export default function SmallHorizontalCard(props: SmallHorizontalCardProps) {
               {props.cardTitle}
             </H3>
             <H4
-              className="mt-1.25 text-text-2"
+              className="text-text-2 mt-1.25"
               fontWeight={400}
               fontSize={13}
               lineHeight={24}

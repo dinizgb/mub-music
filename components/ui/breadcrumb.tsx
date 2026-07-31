@@ -2,11 +2,14 @@ import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { i18n } from "@/i18n";
 
 const Breadcrumb = React.forwardRef<
   HTMLElement,
   React.ComponentPropsWithoutRef<"nav"> & { separator?: React.ReactNode }
->(({ ...props }, ref) => <nav ref={ref} aria-label="breadcrumb" {...props} />);
+>(({ ...props }, ref) => (
+  <nav ref={ref} aria-label={i18n.a11y.breadcrumb} {...props} />
+));
 Breadcrumb.displayName = "Breadcrumb";
 
 const BreadcrumbList = React.forwardRef<
@@ -16,7 +19,7 @@ const BreadcrumbList = React.forwardRef<
   <ol
     ref={ref}
     className={cn(
-      `text-subtitle flex flex-wrap items-center gap-1.5 text-sm break-words
+      `text-subtitle flex flex-wrap items-center gap-1.5 text-sm wrap-break-word
       sm:gap-2.5`,
       className
     )}

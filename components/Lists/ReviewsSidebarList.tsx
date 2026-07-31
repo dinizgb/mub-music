@@ -2,6 +2,7 @@ import Image from "next/image";
 import { H3, H4, Span } from "components/Texts/Typographies";
 import StarsWidget from "components/Widgets/StarsWidget";
 import { cn } from "@/lib/utils";
+import { i18n, t } from "@/i18n";
 
 type ReviewsSidebarListProps = {
   isPrimaryTitle: boolean;
@@ -24,9 +25,7 @@ type ReviewsSidebarListData = {
  */
 export default function ReviewsSidebarList(props: ReviewsSidebarListProps) {
   return (
-    <div
-      className="bg-secondary flex w-full flex-col rounded-lg pb-2.5"
-    >
+    <div className="bg-secondary flex w-full flex-col rounded-lg pb-2.5">
       <div
         className={cn(
           "rounded-t-lg px-5 py-2.5",
@@ -66,7 +65,7 @@ export default function ReviewsSidebarList(props: ReviewsSidebarListProps) {
                     >
                       <Image
                         src={logo}
-                        alt={`${store} logo`}
+                        alt={t(i18n.reviews.storeLogoAlt, { store })}
                         fill
                         className="rounded-full object-cover"
                       />
@@ -96,14 +95,14 @@ export default function ReviewsSidebarList(props: ReviewsSidebarListProps) {
           })
         ) : (
           <Span
-            className="mt-2.5 text-subtitle"
+            className="text-subtitle mt-2.5"
             fontWeight={400}
             fontSize={17}
             lineHeight={16}
             xsFontSize={17}
             xsLineHeight={16}
           >
-            No reviews available
+            {i18n.reviews.empty}
           </Span>
         )}
       </ul>

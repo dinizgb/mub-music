@@ -15,6 +15,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 // UTILS
 import formatDate from "utils/formatDate";
+import { i18n } from "@/i18n";
 
 type LayoutArticlePageProps = {
   articleTitle: string;
@@ -64,7 +65,7 @@ export default function LayoutArticlePage(props: LayoutArticlePageProps) {
                         xsLineHeight={24}
                         href="/"
                       >
-                        Home
+                        {i18n.article.breadcrumbHome}
                       </A>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator>›</BreadcrumbSeparator>
@@ -78,7 +79,7 @@ export default function LayoutArticlePage(props: LayoutArticlePageProps) {
                         xsLineHeight={24}
                         href="/news/"
                       >
-                        News
+                        {i18n.article.breadcrumbNews}
                       </A>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator>›</BreadcrumbSeparator>
@@ -109,7 +110,7 @@ export default function LayoutArticlePage(props: LayoutArticlePageProps) {
                   {props.articleTitle}
                 </H2>
                 <P
-                  className="my-7.5 text-text-4"
+                  className="text-text-4 my-7.5"
                   fontWeight={300}
                   fontSize={24}
                   lineHeight={40}
@@ -124,23 +125,23 @@ export default function LayoutArticlePage(props: LayoutArticlePageProps) {
                 >
                   <Avatar>
                     <AvatarImage
-                      alt="Autor Avatar"
+                      alt={i18n.news.authorAvatarAlt}
                       src="/images/mub-avatar.jpg"
                     />
                     <AvatarFallback>M</AvatarFallback>
                   </Avatar>
                   <Span
-                    className="mt-1.25 ml-2.5 text-text-4 hover:text-text-3"
+                    className="text-text-4 hover:text-text-3 mt-1.25 ml-2.5"
                     fontWeight={600}
                     fontSize={15}
                     lineHeight={24}
                     xsFontSize={15}
                     xsLineHeight={24}
                   >
-                    Mub Music Staff
+                    {i18n.news.authorName}
                   </Span>
                   <Span
-                    className="mt-1 ml-1.25 text-text-4"
+                    className="text-text-4 mt-1 ml-1.25"
                     fontWeight={400}
                     fontSize={15}
                     lineHeight={24}

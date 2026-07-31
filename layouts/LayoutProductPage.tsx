@@ -16,6 +16,7 @@ import YoutubeIframe from "components/Tags/YoutubeIframe";
 // TYPES
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { ProductType } from "types/productType";
+import { i18n } from "@/i18n";
 
 type LayoutProductPageProps = {
   productData: ProductType;
@@ -88,9 +89,9 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
     <>
       <Header productsCategories={props.productsCategories} />
       <div
-        className="bg-secondary mb-5 md:mb-7.5 w-full
-          bg-[url(/images/placeholder-bg.jpg)] bg-fixed bg-position-[center_90%]
-          py-6.5 max-md:[&_h1]:mt-3.75 max-md:[&_h1]:mb-1.25"
+        className="bg-secondary mb-5 w-full bg-[url(/images/placeholder-bg.jpg)]
+          bg-fixed bg-position-[center_90%] py-6.5 md:mb-7.5
+          max-md:[&_h1]:mt-3.75 max-md:[&_h1]:mb-1.25"
       >
         <div className="mx-auto w-full max-w-300 px-4">
           <div className="w-full">
@@ -104,8 +105,8 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
                   sm:flex-row sm:items-center md:col-span-10"
               >
                 <div
-                  className="relative size-25 shrink-0 rounded-full
-                    max-sm:size-20 max-xs:size-16 [&_img]:rounded-full"
+                  className="max-xs:size-16 relative size-25 shrink-0
+                    rounded-full max-sm:size-20 [&_img]:rounded-full"
                   style={{
                     backgroundColor:
                       productPrefix.product_info.brand.brand_info
@@ -138,19 +139,19 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
               </div>
               <div className="sm:col-span-2 md:col-span-2">
                 <div
-                  className="flex flex-col items-center max-md:[&_div_svg]:mt-0
-                    max-md:[&_div_svg]:text-xl sm:items-end
+                  className="flex flex-col items-center sm:items-end
+                    max-md:[&_div_svg]:mt-0 max-md:[&_div_svg]:text-xl
                     [&_figure_svg]:mt-0.5 [&_figure_svg]:text-2xl"
                 >
                   <H2
-                    className="mt-0 mr-1.25 mb-2.5 text-text-4 sm:mt-2"
+                    className="text-text-4 mt-0 mr-1.25 mb-2.5 sm:mt-2"
                     fontWeight={600}
                     fontSize={16}
                     lineHeight={21}
                     xsFontSize={16}
                     xsLineHeight={24}
                   >
-                    Rating average
+                    {i18n.product.ratingAverage}
                   </H2>
                   <StarsWidget
                     fontSize={18}
@@ -168,18 +169,22 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
       </div>
       <div className="mx-auto w-full max-w-300 px-4">
         <div className="mb-4 w-full">
-          <div className="grid w-full grid-cols-1 md:gap-8 gap-5 sm:grid-cols-12">
+          <div
+            className="grid w-full grid-cols-1 gap-5 sm:grid-cols-12 md:gap-8"
+          >
             <div className="order-2 sm:order-1 sm:col-span-6 md:col-span-8">
-              <div className="bg-secondary mb-5 md:mb-7.5 rounded-lg px-7.5 py-5">
+              <div
+                className="bg-secondary mb-5 rounded-lg px-7.5 py-5 md:mb-7.5"
+              >
                 <H3
-                  className="mb-5 text-text-4"
+                  className="text-text-4 mb-5"
                   fontWeight={600}
                   fontSize={21}
                   lineHeight={36}
                   xsFontSize={21}
                   xsLineHeight={36}
                 >
-                  Photos
+                  {i18n.product.photos}
                 </H3>
                 <ImageGallery
                   items={productGallery}
@@ -187,20 +192,24 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
                   showPlayButton={false}
                 />
               </div>
-              <div className="bg-secondary mb-5 md:mb-7.5 rounded-lg px-7.5 py-5">
+              <div
+                className="bg-secondary mb-5 rounded-lg px-7.5 py-5 md:mb-7.5"
+              >
                 <H3
-                  className="mb-5 text-text-4"
+                  className="text-text-4 mb-5"
                   fontWeight={600}
                   fontSize={21}
                   lineHeight={36}
                   xsFontSize={21}
                   xsLineHeight={36}
                 >
-                  Featured Video
+                  {i18n.product.featuredVideo}
                 </H3>
                 <YoutubeIframe url={productPrefix.product_info.featureVideo} />
               </div>
-              <div className="bg-secondary mb-5 md:mb-7.5 rounded-lg px-7.5 py-5">
+              <div
+                className="bg-secondary mb-5 rounded-lg px-7.5 py-5 md:mb-7.5"
+              >
                 <H3
                   className="text-text-4"
                   fontWeight={600}
@@ -209,7 +218,7 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
                   xsFontSize={21}
                   xsLineHeight={36}
                 >
-                  Description
+                  {i18n.product.description}
                 </H3>
                 <ContentBody
                   dangerouslySetInnerHTML={{
@@ -217,7 +226,9 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
                   }}
                 />
               </div>
-              <div className="bg-secondary mb-5 md:mb-7.5 rounded-lg px-7.5 py-5">
+              <div
+                className="bg-secondary mb-5 rounded-lg px-7.5 py-5 md:mb-7.5"
+              >
                 <H3
                   className="text-text-4"
                   fontWeight={600}
@@ -226,7 +237,7 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
                   xsFontSize={21}
                   xsLineHeight={36}
                 >
-                  Specifications
+                  {i18n.product.specifications}
                 </H3>
                 <ContentBody
                   dangerouslySetInnerHTML={{
@@ -239,12 +250,12 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
               <OffersSidebarList
                 data={productOffers ?? []}
                 isPrimaryTitle={productOffers ? true : false}
-                title={"Offers available"}
+                title={i18n.product.offersAvailable}
               />
               <ReviewsSidebarList
                 data={productReviews ?? []}
                 isPrimaryTitle={false}
-                title={"Reviews"}
+                title={i18n.product.reviews}
               />
             </div>
           </div>

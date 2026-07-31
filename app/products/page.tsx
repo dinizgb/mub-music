@@ -6,11 +6,11 @@ import getAllProductCategories from "services/graphql/queries/getAllProductCateg
 import { QueryParameters } from "types/queryParams";
 import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
 import { ProductsCategoriesType } from "types/productsCategoriesType";
+import { i18n } from "@/i18n";
 
 export const metadata: Metadata = {
-  title: "Products",
-  description:
-    "Find the best deals on Guitars, Bass, Drums, Amps, DJ, Keyboards, Pro-Audio and much more.",
+  title: i18n.products.title,
+  description: i18n.products.description,
   alternates: {
     canonical: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/products/`,
   },
@@ -35,22 +35,21 @@ export default async function ProductsHomePage() {
     lastProducts.props.data.productCategories.pageInfo.offsetPagination.total;
 
   const seoData: SEOTagsConstructorTypes = {
-    pageTitle: "Products",
-    pageExcerpt:
-      "Find the best deals on Guitars, Bass, Drums, Amps, DJ, Keyboards, Pro-Audio and much more.",
+    pageTitle: i18n.products.title,
+    pageExcerpt: i18n.products.description,
     pageType: "product",
     pagePath: "products",
     breadcrumbItemListElement: [
       {
         "@type": "ListItem",
         position: 1,
-        name: "Home",
+        name: i18n.products.breadcrumbHome,
         item: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/`,
       },
       {
         "@type": "ListItem",
         position: 2,
-        name: "Products",
+        name: i18n.products.breadcrumbProducts,
         item: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/products/`,
       },
     ],

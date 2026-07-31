@@ -47,8 +47,8 @@ export default function SearchInput(props: SearchInputsProps) {
     <>
       <div
         className={cn(
-          `group border-text-4 text-text-1 hover:bg-text-4 relative flex
-          w-[93%] flex-row rounded-[50px] border-4 bg-transparent px-[3%] py-5
+          `group border-text-4 text-text-1 hover:bg-text-4 relative flex w-[93%]
+          flex-row rounded-[50px] border-4 bg-transparent px-[3%] py-5
           text-[21px] font-semibold outline-none`,
           props.className
         )}

@@ -3,6 +3,7 @@ import { H3, H4, Span } from "components/Texts/Typographies";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import formatDate from "utils/formatDate";
 import { cn } from "@/lib/utils";
+import { i18n, t } from "@/i18n";
 
 type BigHorizontalCardProps = {
   key: string;
@@ -43,7 +44,7 @@ export default function BigHorizontalCard(props: BigHorizontalCardProps) {
               max-sm:[&_span]:ml-0"
           >
             <Span
-              className="ml-10 text-text-2"
+              className="text-text-2 ml-10"
               fontWeight={500}
               fontSize={15}
               lineHeight={24}
@@ -53,7 +54,7 @@ export default function BigHorizontalCard(props: BigHorizontalCardProps) {
               {props.cardCategory}
             </Span>
             <H3
-              className="mt-1.25 ml-10 text-text-4"
+              className="text-text-4 mt-1.25 ml-10"
               fontWeight={400}
               fontSize={21}
               lineHeight={36}
@@ -63,7 +64,7 @@ export default function BigHorizontalCard(props: BigHorizontalCardProps) {
               {props.cardTitle}
             </H3>
             <H4
-              className="mt-2.5 ml-10 text-text-2"
+              className="text-text-2 mt-2.5 ml-10"
               fontWeight={400}
               fontSize={16}
               lineHeight={30}
@@ -74,29 +75,31 @@ export default function BigHorizontalCard(props: BigHorizontalCardProps) {
               }}
             />
             <div
-              className="mt-5 mb-7.5 ml-10 flex w-full max-sm:mt-5
-                max-sm:ml-0 max-sm:w-[90%]"
+              className="mt-5 mb-7.5 ml-10 flex w-full max-sm:mt-5 max-sm:ml-0
+                max-sm:w-[90%]"
             >
               <Avatar>
-                <AvatarImage alt="Autor Avatar" src="/images/mub-avatar.jpg" />
+                <AvatarImage
+                  alt={i18n.news.authorAvatarAlt}
+                  src="/images/mub-avatar.jpg"
+                />
                 <AvatarFallback>M</AvatarFallback>
               </Avatar>
               <Span
-                className="mt-1.25 ml-2.5 text-text-4 hover:text-text-3"
+                className="text-text-4 hover:text-text-3 mt-1.25 ml-2.5"
                 fontWeight={400}
                 fontSize={15}
                 lineHeight={24}
                 xsFontSize={15}
                 xsLineHeight={24}
               >
-                Mub Music Staff at {formatDate(props.date)}
+                {t(i18n.news.authorByline, { date: formatDate(props.date) })}
               </Span>
             </div>
           </div>
           <div
-            className="bg-secondary relative my-10 h-70 w-[90%]
-              max-sm:mx-auto max-sm:mt-0 max-sm:mb-6.25 max-sm:w-[90%]
-              [&_img]:rounded-lg"
+            className="bg-secondary relative my-10 h-70 w-[90%] max-sm:mx-auto
+              max-sm:mt-0 max-sm:mb-6.25 max-sm:w-[90%] [&_img]:rounded-lg"
           >
             <Image
               src={props.cardImage}

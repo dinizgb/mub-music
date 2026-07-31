@@ -16,6 +16,7 @@ import {
   ProductFilterType,
   ProductFilterResponseType,
 } from "types/productFilterType";
+import { i18n, t } from "@/i18n";
 
 type PageProps = {
   params: Promise<{ category: string }>;
@@ -35,7 +36,9 @@ export async function generateMetadata({
   const { category } = await params;
   return {
     title: category.toUpperCase(),
-    description: `Find the best deals on ${category.toUpperCase()}.`,
+    description: t(i18n.products.categoryDescription, {
+      name: category.toUpperCase(),
+    }),
     alternates: {
       canonical: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/products/${category}/`,
     },
@@ -127,11 +130,11 @@ export default async function ProductsCategoryPage({
         ? productsPrefix.product_info.category.title
         : category.toUpperCase()
     }`,
-    pageExcerpt: `Find the best deals on ${
-      productsPrefix
+    pageExcerpt: t(i18n.products.categoryDescription, {
+      name: productsPrefix
         ? productsPrefix.product_info.category.title
-        : category.toUpperCase()
-    }.`,
+        : category.toUpperCase(),
+    }),
     pageType: "product",
     pagePath: `products/${category}`,
     pageThumb: productsPrefix
@@ -141,13 +144,13 @@ export default async function ProductsCategoryPage({
       {
         "@type": "ListItem",
         position: 1,
-        name: "Home",
+        name: i18n.products.breadcrumbHome,
         item: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/`,
       },
       {
         "@type": "ListItem",
         position: 2,
-        name: "Products",
+        name: i18n.products.breadcrumbProducts,
         item: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/products/`,
       },
       {

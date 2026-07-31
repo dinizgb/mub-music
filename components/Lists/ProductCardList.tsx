@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import ProductCard from "components/Cards/ProductCard";
 import { Span } from "components/Texts/Typographies";
+import { i18n } from "@/i18n";
 
 /**
  * Component that renders a list of Big Horizontal Cards.
@@ -10,19 +11,19 @@ import { Span } from "components/Texts/Typographies";
 export default function ProductCardList(props: any) {
   return (
     <div
-      className="mx-auto grid auto-rows-fr grid-cols-4 gap-x-7.5 gap-y-7.5
-        max-sm:grid-cols-3 max-xs:grid-cols-2 max-[450px]:grid-cols-1"
+      className="max-xs:grid-cols-2 mx-auto grid auto-rows-fr grid-cols-4
+        gap-x-7.5 gap-y-7.5 max-[450px]:grid-cols-1 max-sm:grid-cols-3"
     >
       {props.productList.length == 0 ? (
         <Span
-          className="mt-7.5 ml-6.25 text-text-3"
+          className="text-text-3 mt-7.5 ml-6.25"
           fontWeight={600}
           fontSize={18}
           lineHeight={24}
           xsFontSize={18}
           xsLineHeight={24}
         >
-          Sorry, no data available.
+          {i18n.products.empty}
         </Span>
       ) : (
         props.productList.map(({ title, slug, product_info }) => {

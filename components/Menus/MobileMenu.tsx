@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { cn } from "@/lib/utils";
+import { i18n } from "@/i18n";
 
 type MobileMenuProps = {
   display: string;
@@ -32,7 +33,7 @@ export default function MobileMenu(props: MobileMenuProps) {
             className="bg-secondary font-heading text-text-4 w-4/5 px-[10%]
               py-4.5 pb-5 text-lg font-bold"
           >
-            Products
+            {i18n.nav.products}
           </div>
           <ul className="flex flex-col items-start border-none p-0">
             {props.productsCategories.map(({ slug, title }) => {
@@ -57,7 +58,7 @@ export default function MobileMenu(props: MobileMenuProps) {
             className="bg-secondary font-heading text-text-4 w-4/5 px-[10%]
               py-4.5 pb-5 text-lg font-bold"
           >
-            News
+            {i18n.nav.news}
           </div>
           <ul className="flex flex-col items-start border-none p-0">
             <li className="contents">
@@ -67,7 +68,7 @@ export default function MobileMenu(props: MobileMenuProps) {
                   hover:bg-all-black hover:text-text-4 w-4/5 border-b-2 bg-black
                   px-[10%] py-3.75 text-base font-normal no-underline"
               >
-                Awards
+                {i18n.nav.awards}
               </a>
             </li>
             <li className="contents">
@@ -77,7 +78,7 @@ export default function MobileMenu(props: MobileMenuProps) {
                   hover:bg-all-black hover:text-text-4 w-4/5 border-b-2 bg-black
                   px-[10%] py-3.75 text-base font-normal no-underline"
               >
-                Music Business
+                {i18n.nav.musicBusiness}
               </a>
             </li>
             <li className="contents">
@@ -87,7 +88,7 @@ export default function MobileMenu(props: MobileMenuProps) {
                   hover:bg-all-black hover:text-text-4 w-4/5 border-b-2 bg-black
                   px-[10%] py-3.75 text-base font-normal no-underline"
               >
-                People
+                {i18n.nav.people}
               </a>
             </li>
             <li className="contents">
@@ -97,7 +98,7 @@ export default function MobileMenu(props: MobileMenuProps) {
                   hover:bg-all-black hover:text-text-4 w-4/5 border-b-2 bg-black
                   px-[10%] py-3.75 text-base font-normal no-underline"
               >
-                Releases
+                {i18n.nav.releases}
               </a>
             </li>
           </ul>

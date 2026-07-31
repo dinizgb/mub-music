@@ -2,6 +2,7 @@ import Image from "next/image";
 import { H3, Span } from "components/Texts/Typographies";
 import StarsWidget from "components/Widgets/StarsWidget";
 import { cn } from "@/lib/utils";
+import { i18n } from "@/i18n";
 
 type ProductCardProps = {
   cardTitle: string;
@@ -60,7 +61,7 @@ export default function ProductCard(props: ProductCardProps) {
           </div>
           <div className="px-6.25">
             <H3
-              className="mt-11.25 text-text-4"
+              className="text-text-4 mt-11.25"
               fontWeight={400}
               fontSize={16}
               lineHeight={24}
@@ -77,7 +78,7 @@ export default function ProductCard(props: ProductCardProps) {
               xsFontSize={16}
               xsLineHeight={52}
             >
-              From <strong>${props.cardPrice}</strong>
+              {i18n.products.from} <strong>${props.cardPrice}</strong>
             </Span>
           </div>
         </div>

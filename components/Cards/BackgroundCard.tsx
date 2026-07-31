@@ -28,7 +28,7 @@ export default function BackgroundCard(props: BackgroundCardProps) {
           lineHeight={24}
           xsFontSize={24}
           xsLineHeight={24}
-          className="mt-11.25 text-text-4 uppercase"
+          className="text-text-4 mt-11.25 uppercase"
         >
           {props.backgroundCardTitle}
         </H4>

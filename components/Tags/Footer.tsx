@@ -1,4 +1,5 @@
 import { P } from "components/Texts/Typographies";
+import { i18n } from "@/i18n";
 
 /**
  * Footer Component.
@@ -10,7 +11,7 @@ export default function Footer() {
       className="border-line-bottom mt-5 flex w-full flex-row border-t px-0
         pt-7.5 pb-2.5 text-center max-sm:mt-12.5"
     >
-      <div className="mx-auto w-full max-w-[1200px] px-4">
+      <div className="mx-auto w-full max-w-300 px-4">
         <div className="mb-4 w-full">
           <P
             className="text-text-4"
@@ -20,7 +21,7 @@ export default function Footer() {
             xsFontSize={16}
             xsLineHeight={24}
           >
-            Mub Music - All rights reserved.
+            {i18n.footer.copyright}
           </P>
         </div>
       </div>

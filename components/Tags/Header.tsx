@@ -5,6 +5,7 @@ import Nav from "./Nav";
 import { H1 } from "../Texts/Typographies";
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { cn } from "@/lib/utils";
+import { i18n } from "@/i18n";
 
 type HeaderProps = {
   noBg?: boolean;
@@ -21,7 +22,7 @@ export default function Header(props: HeaderProps) {
   return (
     <header
       className={cn(
-        "relative z-2 py-4 pb-[11px]",
+        "relative z-2 py-4 pb-2.75",
         !props.noBg && "border-b border-white/20"
       )}
     >
@@ -31,7 +32,7 @@ export default function Header(props: HeaderProps) {
             md:grid-cols-12 md:gap-6"
         >
           <div className="md:col-span-3">
-            <a href="/" title="Home">
+            <a href="/" title={i18n.header.home}>
               <H1
                 className="text-text-4"
                 fontWeight={400}
@@ -40,7 +41,7 @@ export default function Header(props: HeaderProps) {
               >
                 <Image
                   src={"/images/mub-logo-icon.png"}
-                  alt={"Mub Music Logo"}
+                  alt={i18n.header.logoAlt}
                   width={31}
                   height={35}
                 />

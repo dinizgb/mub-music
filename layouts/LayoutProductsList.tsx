@@ -19,6 +19,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
 import { ProductFilterType } from "types/productFilterType";
+import { i18n, t } from "@/i18n";
 
 type LayoutProductsListProps = {
   productData: any;
@@ -64,21 +65,23 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
               <div className="md:col-span-3">
                 <div className="mt-11.25">
                   <H3
-                    className="mb-8.75 text-text-4"
+                    className="text-text-4 mb-8.75"
                     fontWeight={600}
                     fontSize={22}
                     lineHeight={21}
                     xsFontSize={21}
                     xsLineHeight={24}
                   >
-                    Filters
+                    {i18n.products.filters}
                   </H3>
                 </div>
                 <div>
                   {props.productCategoryData && props.productData.length ? (
                     <Accordion type="single" collapsible>
                       <AccordionItem value="subcategories">
-                        <AccordionTrigger>Subcategories</AccordionTrigger>
+                        <AccordionTrigger>
+                          {i18n.products.subcategories}
+                        </AccordionTrigger>
                         <AccordionContent>
                           <RadioGroup
                             aria-labelledby="subcategory-group-label"
@@ -120,7 +123,9 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                   {props.productData.length ? (
                     <Accordion type="single" collapsible>
                       <AccordionItem value="brands">
-                        <AccordionTrigger>Brands</AccordionTrigger>
+                        <AccordionTrigger>
+                          {i18n.products.brands}
+                        </AccordionTrigger>
                         <AccordionContent>
                           <RadioGroup
                             aria-labelledby="brand-group-label"
@@ -162,7 +167,9 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                   {props.productCategoryData && props.productData.length ? (
                     <Accordion type="single" collapsible>
                       <AccordionItem value="price-average">
-                        <AccordionTrigger>Price Average</AccordionTrigger>
+                        <AccordionTrigger>
+                          {i18n.products.priceAverage}
+                        </AccordionTrigger>
                         <AccordionContent>
                           <RadioGroup
                             aria-labelledby="price-average-group-label"
@@ -213,12 +220,11 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                       lineHeight={30}
                       xsFontSize={26}
                       xsLineHeight={30}
-                      
                     >
                       {props.seoData.pageTitle}
                     </H2>
                     <P
-                      className="mt-1.25 mb-2.5 text-subtitle"
+                      className="text-subtitle mt-1.25 mb-2.5"
                       fontWeight={400}
                       fontSize={16}
                       lineHeight={40}
@@ -234,14 +240,16 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                         max-sm:text-left"
                     >
                       <P
-                        className="mb-3.75 text-subtitle"
+                        className="text-subtitle mb-3.75"
                         fontWeight={600}
                         fontSize={15}
                         lineHeight={36}
                         xsFontSize={16}
                         xsLineHeight={36}
                       >
-                        {`(${props.totalCount} items found)`}
+                        {t(i18n.products.itemsFound, {
+                          count: props.totalCount,
+                        })}
                       </P>
                     </div>
                   </div>

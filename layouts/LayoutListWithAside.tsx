@@ -5,6 +5,7 @@ import { H2, P } from "components/Texts/Typographies";
 import BigHorizontalCardList from "components/Lists/BigHorizontalCardList";
 // TYPES
 import { ProductsCategoriesType } from "types/productsCategoriesType";
+import { i18n } from "@/i18n";
 
 type LayoutListWithAsideProps = {
   postData: any;
@@ -48,7 +49,7 @@ export default function LayoutListWithAside(props: LayoutListWithAsideProps) {
                   {props.layoutTitle}
                 </H2>
                 <P
-                  className="my-7.5 text-text-4"
+                  className="text-text-4 my-7.5"
                   fontWeight={300}
                   fontSize={24}
                   lineHeight={40}
@@ -68,7 +69,7 @@ export default function LayoutListWithAside(props: LayoutListWithAsideProps) {
               <div className="md:col-span-8">
                 <div className="mt-10.25">
                   {postList.length == 0 ? (
-                    `No data available`
+                    i18n.news.emptyList
                   ) : (
                     <BigHorizontalCardList
                       postList={postList}
@@ -77,7 +78,7 @@ export default function LayoutListWithAside(props: LayoutListWithAsideProps) {
                   )}
                 </div>
               </div>
-              <div className="md:col-span-4">No data available for now</div>
+              <div className="md:col-span-4">{i18n.news.emptyAside}</div>
             </div>
           </div>
         </div>

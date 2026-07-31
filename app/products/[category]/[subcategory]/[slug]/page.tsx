@@ -8,6 +8,7 @@ import getAllProductCategories from "services/graphql/queries/getAllProductCateg
 import { QueryParameters } from "types/queryParams";
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { ProductType } from "types/productType";
+import { i18n, t } from "@/i18n";
 
 type PageProps = {
   params: Promise<{ category: string; subcategory: string; slug: string }>;
@@ -66,7 +67,7 @@ export async function generateMetadata({
     },
     openGraph: {
       type: "website",
-      title: `${product.title} | Mub Music`,
+      title: t(i18n.meta.titleSuffix, { title: product.title }),
       images: [product.product_info?.thumbnail?.sourceUrl].filter(Boolean),
     },
   };

@@ -29,8 +29,8 @@ export function PaginationBullet({
   return (
     <a
       className={cn(
-        `font-open ml-2.5 flex size-4.5 items-center justify-center
-        rounded-full border-2 p-2.5 text-base font-semibold`,
+        `font-open ml-2.5 flex size-4.5 items-center justify-center rounded-full
+        border-2 p-2.5 text-base font-semibold`,
         active
           ? "border-primary-hover bg-primary-hover text-background"
           : "border-subtitle bg-background text-text-4",
@@ -103,7 +103,8 @@ export default function PaginationWidget(props: PaginationWidgetProps) {
             ) : (
               <Span
                 key={`ellipsis-${item}`}
-                className="mt-1.25 mr-1 ml-3.25 text-subtitle hover:text-subtitle"
+                className="text-subtitle hover:text-subtitle mt-1.25 mr-1
+                  ml-3.25"
                 fontWeight={400}
                 fontSize={16}
                 lineHeight={24}

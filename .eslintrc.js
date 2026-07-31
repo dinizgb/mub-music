@@ -18,6 +18,8 @@ module.exports = {
     // Next.js / React 17+ JSX transform does not require React in scope.
     "react/react-in-jsx-scope": "off",
     "react/jsx-uses-react": "off",
+    // TypeScript already validates component props.
+    "react/prop-types": "off",
   },
   settings: {
     react: {

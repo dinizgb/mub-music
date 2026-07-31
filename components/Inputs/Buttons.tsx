@@ -17,6 +17,7 @@ type ButtonStyleProps = {
 
 /**
  * Round primary filter action button.
+ * @return {TSX.Element}: The TSX code for the Filter Button Component.
  */
 export function FilterButton({
   className,
@@ -43,6 +44,7 @@ export function FilterButton({
 
 /**
  * Primary CTA link button.
+ * @return {TSX.Element}: The TSX code for the Primary Button Component.
  */
 export function PrimaryButton({
   className,
@@ -79,6 +81,7 @@ export function PrimaryButton({
 
 /**
  * Outlined white CTA link button.
+ * @return {TSX.Element}: The TSX code for the White Button Component.
  */
 export function WhiteButton({
   className,

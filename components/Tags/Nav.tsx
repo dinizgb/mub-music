@@ -6,6 +6,7 @@ import { useAppSelector, useAppDispatch } from "redux/store";
 import { toggleMobileMenu } from "redux/slices/mobileMenu/";
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { cn } from "@/lib/utils";
+import { i18n } from "@/i18n";
 
 type NavProps = {
   productsCategories: ProductsCategoriesType[];
@@ -31,24 +32,23 @@ export default function Nav(props: NavProps) {
         <li className="hidden pl-6.25 min-[886px]:flex">
           <a
             href="/news/"
-            className="font-heading hover:text-primary-hover
-              font-medium tracking-[0.5px] text-white no-underline"
+            className="font-heading hover:text-primary-hover font-medium
+              tracking-[0.5px] text-white no-underline"
           >
-            News
+            {i18n.header.news}
           </a>
         </li>
         <li className="hidden pl-6.25 min-[886px]:flex">
           <a
             href="/products/"
-            className="font-heading hover:text-primary-hover
-              font-medium tracking-[0.5px] text-white no-underline"
+            className="font-heading hover:text-primary-hover font-medium
+              tracking-[0.5px] text-white no-underline"
           >
-            Products
+            {i18n.header.products}
           </a>
         </li>
         <li
-          className="hover:text-primary-hover cursor-pointer pl-6.25
-            text-white"
+          className="hover:text-primary-hover cursor-pointer pl-6.25 text-white"
           onClick={handleToggleMobileMenu}
         >
           <Menu />

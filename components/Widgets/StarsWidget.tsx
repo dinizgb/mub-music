@@ -123,7 +123,7 @@ export default function StarsWidget(props: StarsConstructorProps) {
   return (
     <div
       className={cn(
-        "inline-flex flex-row items-center gap-0.5 text-primary",
+        "text-primary inline-flex flex-row items-center gap-0.5",
         props.withBackground && "rounded-[50px] bg-black/80 p-1.5",
         props.className
       )}

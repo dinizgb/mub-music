@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { H3, H4, Span } from "components/Texts/Typographies";
 import { cn } from "@/lib/utils";
+import { i18n, t } from "@/i18n";
 
 type OffersSidebarListProps = {
   isPrimaryTitle: boolean;
@@ -54,8 +55,8 @@ export default function OffersSidebarList(props: OffersSidebarListProps) {
               <a href={url} target="_blank" rel="noreferrer" key={url}>
                 <li
                   className="group border-line-bottom hover:bg-primary flex
-                    cursor-pointer flex-row items-center justify-between border-b
-                    px-1.25 py-1.25 hover:rounded-lg [&_div]:flex
+                    cursor-pointer flex-row items-center justify-between
+                    border-b px-1.25 py-1.25 hover:rounded-lg [&_div]:flex
                     [&_div]:flex-col [&_figure]:flex [&_figure]:flex-row
                     [&_figure]:items-center"
                 >
@@ -66,7 +67,7 @@ export default function OffersSidebarList(props: OffersSidebarListProps) {
                     >
                       <Image
                         src={logo}
-                        alt={`${store} logo`}
+                        alt={t(i18n.offers.storeLogoAlt, { store })}
                         fill
                         className="rounded-full object-cover"
                       />
@@ -84,14 +85,14 @@ export default function OffersSidebarList(props: OffersSidebarListProps) {
                   </figure>
                   <div>
                     <Span
-                      className="mb-1.5 text-subtitle group-hover:text-black!"
+                      className="text-subtitle mb-1.5 group-hover:text-black!"
                       fontWeight={400}
                       fontSize={14}
                       lineHeight={16}
                       xsFontSize={14}
                       xsLineHeight={16}
                     >
-                      From
+                      {i18n.offers.from}
                     </Span>
                     <Span
                       className="text-text-4 group-hover:text-black!"
@@ -100,7 +101,6 @@ export default function OffersSidebarList(props: OffersSidebarListProps) {
                       lineHeight={18}
                       xsFontSize={18}
                       xsLineHeight={18}
-                      
                     >
                       ${price}
                     </Span>
@@ -111,14 +111,14 @@ export default function OffersSidebarList(props: OffersSidebarListProps) {
           })
         ) : (
           <Span
-            className="mt-2.5 text-subtitle"
+            className="text-subtitle mt-2.5"
             fontWeight={400}
             fontSize={17}
             lineHeight={16}
             xsFontSize={17}
             xsLineHeight={16}
           >
-            No offers available
+            {i18n.offers.empty}
           </Span>
         )}
       </ul>

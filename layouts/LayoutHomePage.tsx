@@ -8,6 +8,7 @@ import BigHorizontalCardList from "components/Lists/BigHorizontalCardList";
 import ProductCardList from "components/Lists/ProductCardList";
 // TYPES
 import { ProductsCategoriesType } from "types/productsCategoriesType";
+import { i18n } from "@/i18n";
 
 type LayoutHomePageProps = {
   postData: any;
@@ -36,14 +37,14 @@ export default function LayoutHomePage(props: LayoutHomePageProps) {
               <div className="md:col-span-9">
                 <div className="mt-10">
                   <H2
-                    className="mb-8.75 text-text-4"
+                    className="text-text-4 mb-8.75"
                     fontWeight={600}
                     fontSize={22}
                     lineHeight={21}
                     xsFontSize={21}
                     xsLineHeight={24}
                   >
-                    Featured Products
+                    {i18n.home.featuredProducts}
                   </H2>
                 </div>
                 <div>
@@ -53,14 +54,14 @@ export default function LayoutHomePage(props: LayoutHomePageProps) {
               <div className="md:col-span-9">
                 <div className="mt-10">
                   <H2
-                    className="mb-7.5 text-text-4"
+                    className="text-text-4 mb-7.5"
                     fontWeight={600}
                     fontSize={22}
                     lineHeight={21}
                     xsFontSize={21}
                     xsLineHeight={24}
                   >
-                    Latest News
+                    {i18n.home.latestNews}
                   </H2>
                   <BigHorizontalCardList postList={props.postData} />
                   <div className="flex">
@@ -69,7 +70,7 @@ export default function LayoutHomePage(props: LayoutHomePageProps) {
                       href="/news/"
                       width={`100%`}
                     >
-                      More news
+                      {i18n.home.moreNews}
                     </WhiteButton>
                   </div>
                 </div>

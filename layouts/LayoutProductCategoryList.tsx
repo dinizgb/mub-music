@@ -8,6 +8,7 @@ import BackgroundCard from "components/Cards/BackgroundCard";
 // TYPES
 import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
 import { ProductsCategoriesType } from "types/productsCategoriesType";
+import { i18n, t } from "@/i18n";
 
 type LayoutProductCategoryListProps = {
   lastProductsCategories: ProductsCategoriesType[];
@@ -28,8 +29,7 @@ export default function LayoutProductCategoryList(
       <Header productsCategories={props.lastProductsCategories} />
       <main>
         <div
-          className="mt-2.5 mb-17.5 w-full [&_img]:inline-block
-            [&_img]:w-full"
+          className="mt-2.5 mb-17.5 w-full [&_img]:inline-block [&_img]:w-full"
         >
           <div className="mx-auto w-full max-w-[1200px] px-4">
             <div className="mb-4 w-full">
@@ -45,19 +45,18 @@ export default function LayoutProductCategoryList(
                     lineHeight={30}
                     xsFontSize={26}
                     xsLineHeight={30}
-                    
                   >
-                    Products
+                    {i18n.products.title}
                   </H2>
                   <P
-                    className="mt-1.25 mb-2.5 text-subtitle"
+                    className="text-subtitle mt-1.25 mb-2.5"
                     fontWeight={400}
                     fontSize={16}
                     lineHeight={40}
                     xsFontSize={16}
                     xsLineHeight={36}
                   >
-                    Choose a product category.
+                    {i18n.products.subtitle}
                   </P>
                 </div>
                 <div className="col-span-4 sm:col-span-6 md:col-span-4">
@@ -66,14 +65,16 @@ export default function LayoutProductCategoryList(
                       max-sm:text-left"
                   >
                     <P
-                      className="mb-3.75 text-subtitle"
+                      className="text-subtitle mb-3.75"
                       fontWeight={600}
                       fontSize={15}
                       lineHeight={36}
                       xsFontSize={16}
                       xsLineHeight={36}
                     >
-                      {`(${props.totalCount} items found)`}
+                      {t(i18n.products.itemsFound, {
+                        count: props.totalCount,
+                      })}
                     </P>
                   </div>
                 </div>
