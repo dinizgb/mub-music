@@ -20,13 +20,19 @@ npm install
 
 ```bash
 NEXT_PUBLIC_ENV_DOMAIN=mubmusic.com
-ENV_API_ROOT_PATH=wp.mubmusic.com
+ENV_API_ROOT_PATH=ASK_FOR_IT
+ENV_MEDIA_ROOT_PATH=ASK_FOR_IT
+ENV_API_USER=ASK_FOR_IT
+ENV_API_PASSWORD=ASK_FOR_IT
 ```
 
 | Variable                 | Used for                                                                     |
 | ------------------------ | ---------------------------------------------------------------------------- |
 | `NEXT_PUBLIC_ENV_DOMAIN` | Canonical / Open Graph / sitemap URLs (public)                               |
 | `ENV_API_ROOT_PATH`      | GraphQL host (server-only; Apollo uses `https://$ENV_API_ROOT_PATH/graphql`) |
+| `ENV_MEDIA_ROOT_PATH`    | Allowed `next/image` remote host (`images.remotePatterns`)                   |
+| `ENV_API_USER`           | GraphQL API username for server-side Basic auth (server-only)                |
+| `ENV_API_PASSWORD`       | GraphQL API application password for server-side Basic auth (server-only)    |
 
 3. Start the dev server:
 

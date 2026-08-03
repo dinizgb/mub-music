@@ -59,6 +59,8 @@ __tests__/     # unit tests (mirrors source areas)
 - Route Handlers under `app/api/**/route.ts` call existing server services (`fetchQuery`, `searchProducts`, etc.).
 - Server Components / `generateMetadata` / sitemaps keep calling `services/*` **directly** — do not round-trip through `/api`.
 - Use server-only env `ENV_API_ROOT_PATH` for the GraphQL host (not `NEXT_PUBLIC_*` — GraphQL is never called from the browser).
+- Use server-only env `ENV_MEDIA_ROOT_PATH` for the `next/image` remote hostname in `next.config.js`.
+- Use server-only `ENV_API_USER` + `ENV_API_PASSWORD` for Basic auth on GraphQL requests from Apollo (never expose these to the browser).
 - Example: `GET /api/search/products?q=` → [`app/api/search/products/route.ts`](app/api/search/products/route.ts)
 
 ## Testing (required)

@@ -52,6 +52,19 @@ describe("handleSearchProducts", () => {
     });
   });
 
+  it("returns an empty products list when nodes is missing", async () => {
+    searchProductsMock.mockResolvedValue({
+      props: { data: { products: { nodes: undefined } } },
+    });
+
+    const result = await handleSearchProducts("strat");
+
+    expect(result).toEqual({
+      status: 200,
+      body: { products: [] },
+    });
+  });
+
   it("returns an empty products list when the service reports notFound", async () => {
     searchProductsMock.mockResolvedValue({ notFound: true });
 

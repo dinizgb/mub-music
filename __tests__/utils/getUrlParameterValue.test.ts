@@ -18,4 +18,14 @@ describe("getUrlParameterValue", () => {
       getUrlParameterValue("https://example.com/?foo=1&bar=2&baz=3", "bar")
     ).toBe("2");
   });
+
+  it("returns null when the URL has no query string", () => {
+    expect(
+      getUrlParameterValue("https://youtu.be/dQw4w9WgXcQ", "v")
+    ).toBeNull();
+  });
+
+  it("returns null for an empty URL", () => {
+    expect(getUrlParameterValue("", "v")).toBeNull();
+  });
 });

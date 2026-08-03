@@ -5,17 +5,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "dev-api-mubmusic.crdps.xyz",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "prd-api-mubmusic.crdps.xyz",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "wp.mubmusic.com",
+        hostname: process.env.ENV_MEDIA_ROOT_PATH,
         pathname: "/**",
       },
     ],
