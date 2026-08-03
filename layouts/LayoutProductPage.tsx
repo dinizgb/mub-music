@@ -12,7 +12,9 @@ import StarsWidget from "components/Widgets/StarsWidget";
 import OffersSidebarList from "components/Lists/OffersSidebarList";
 import ReviewsSidebarList from "components/Lists/ReviewsSidebarList";
 import ImageGallery from "react-image-gallery";
-import YoutubeIframe from "components/Tags/YoutubeIframe";
+import YoutubeIframe, {
+  getYoutubeVideoId,
+} from "components/Tags/YoutubeIframe";
 // TYPES
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { ProductType } from "types/productType";
@@ -30,6 +32,9 @@ type LayoutProductPageProps = {
  */
 export default function LayoutProductPage(props: LayoutProductPageProps) {
   const productPrefix = props.productData;
+  const featuredVideoId = getYoutubeVideoId(
+    productPrefix.product_info.featureVideo
+  );
 
   // FILTERS
   const buildProductGallery = (obj) => {
@@ -192,21 +197,25 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
                   showPlayButton={false}
                 />
               </div>
-              <div
-                className="bg-secondary mb-5 rounded-lg px-7.5 py-5 md:mb-7.5"
-              >
-                <H3
-                  className="text-text-4 mb-5"
-                  fontWeight={600}
-                  fontSize={21}
-                  lineHeight={36}
-                  xsFontSize={21}
-                  xsLineHeight={36}
+              {featuredVideoId ? (
+                <div
+                  className="bg-secondary mb-5 rounded-lg px-7.5 py-5 md:mb-7.5"
                 >
-                  {i18n.product.featuredVideo}
-                </H3>
-                <YoutubeIframe url={productPrefix.product_info.featureVideo} />
-              </div>
+                  <H3
+                    className="text-text-4 mb-5"
+                    fontWeight={600}
+                    fontSize={21}
+                    lineHeight={36}
+                    xsFontSize={21}
+                    xsLineHeight={36}
+                  >
+                    {i18n.product.featuredVideo}
+                  </H3>
+                  <YoutubeIframe
+                    url={productPrefix.product_info.featureVideo}
+                  />
+                </div>
+              ) : null}
               <div
                 className="bg-secondary mb-5 rounded-lg px-7.5 py-5 md:mb-7.5"
               >
