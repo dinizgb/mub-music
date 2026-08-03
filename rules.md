@@ -7,7 +7,8 @@ Single source of truth for coding conventions. Cursor and Claude configs point h
 - **Next.js** App Router (`app/`), React 19, TypeScript
 - **Styling:** Tailwind CSS v4 + local shadcn/ui primitives (`components/ui/`)
 - **Do not** reintroduce Material UI, Emotion, or styled-components
-- **Data:** Apollo Client + GraphQL; client state via Redux Toolkit where already used
+- **Data:** Apollo Client + GraphQL on the **server only**; client state via Redux Toolkit where already used
+- **Browser data:** call Next.js Route Handlers under `app/api/` — never import GraphQL services or Apollo into client components
 
 ## Visual design
 
@@ -41,13 +42,26 @@ Single source of truth for coding conventions. Cursor and Claude configs point h
 ## Structure
 
 ```
-app/           # routes, layout, globals.css, providers
+app/           # routes, layout, globals.css, providers, api/
+app/api/       # Route Handlers (BFF for browser clients)
 components/    # UI building blocks (Cards, Lists, Tags, Widgets, ui/)
 layouts/       # page shells used by app routes
 lib/utils.ts   # cn()
+lib/api/       # thin browser fetch helpers for /api/*
 i18n/          # locale JSON + t() helper
+services/      # server-side GraphQL + domain services (not for client imports)
 __tests__/     # unit tests (mirrors source areas)
 ```
+
+### API routes (BFF)
+
+- Browser/client UI must use `fetch('/api/...')` (or helpers in `lib/api/`), not `services/graphql/*` or `services/search/*`.
+- Route Handlers under `app/api/**/route.ts` call existing server services (`fetchQuery`, `searchProducts`, etc.).
+- Server Components / `generateMetadata` / sitemaps keep calling `services/*` **directly** — do not round-trip through `/api`.
+- Use server-only env `ENV_API_ROOT_PATH` for the GraphQL host (not `NEXT_PUBLIC_*` — GraphQL is never called from the browser).
+- Use server-only env `ENV_MEDIA_ROOT_PATH` for the `next/image` remote hostname in `next.config.js`.
+- Use server-only `ENV_API_USER` + `ENV_API_PASSWORD` for Basic auth on GraphQL requests from Apollo (never expose these to the browser).
+- Example: `GET /api/search/products?q=` → [`app/api/search/products/route.ts`](app/api/search/products/route.ts)
 
 ## Testing (required)
 
@@ -73,6 +87,9 @@ Mirror the source area under `__tests__/`, with a flat file name matching the mo
 | `layouts/LayoutHomePage.tsx`                   | `__tests__/layouts/LayoutHomePage.test.tsx`                   |
 | `services/filters/productFilterConstructor.ts` | `__tests__/services/filters/productFilterConstructor.test.ts` |
 | `services/graphql/queries/getAllNews.tsx`      | `__tests__/services/graphql/queries/getAllNews.test.ts`       |
+| `app/api/search/products/route.ts`             | `__tests__/api/searchProducts.route.test.ts`                  |
+| `services/search/handleSearchProducts.ts`      | `__tests__/api/searchProducts.route.test.ts`                  |
+| `lib/api/searchProducts.ts`                    | `__tests__/lib/searchProducts.test.ts`                        |
 
 - Filename: `{ModuleName}.test.ts` or `{ModuleName}.test.tsx` (use `.tsx` when rendering React).
 - Shared fixtures: `__tests__/__mocks__/` (e.g. `postListMock.ts`, `productListMock.ts`). That folder is **ignored** by Jest as a test suite — only import from it.
@@ -86,7 +103,7 @@ Mirror the source area under `__tests__/`, with a flat file name matching the mo
 
 ### Tooling & setup
 
-- Runner: Jest (`yarn test` / `yarn test --coverage`). Config: `jest.config.js` + `jest.setup.ts`.
+- Runner: Jest (`npm test` / `npm test -- --coverage`). Config: `jest.config.js` + `jest.setup.ts`.
 - React Testing Library v16+ (React 19). Path alias `@/*` is mapped in Jest.
 - Avatar (and similar Radix-heavy UI) may be mocked in `jest.setup.ts` when unit tests do not need the real primitive.
 - Run coverage for touched files before claiming done; fix failures before commit (husky runs the project checks).
