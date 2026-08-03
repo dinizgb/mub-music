@@ -4,15 +4,15 @@ jest.mock("@apollo/client", () => ({
 }));
 
 describe("apolloClient", () => {
-  const originalEnv = process.env.NEXT_PUBLIC_ENV_API_ROOT_PATH;
+  const originalEnv = process.env.ENV_API_ROOT_PATH;
 
   afterEach(() => {
-    process.env.NEXT_PUBLIC_ENV_API_ROOT_PATH = originalEnv;
+    process.env.ENV_API_ROOT_PATH = originalEnv;
     jest.resetModules();
   });
 
-  it("creates a client pointing at the GraphQL endpoint from env", async () => {
-    process.env.NEXT_PUBLIC_ENV_API_ROOT_PATH = "api.example.com";
+  it("creates a client pointing at the GraphQL endpoint from ENV_API_ROOT_PATH", async () => {
+    process.env.ENV_API_ROOT_PATH = "api.example.com";
 
     const { ApolloClient, InMemoryCache } = await import("@apollo/client");
     await import("services/graphql/apolloClient");

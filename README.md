@@ -1,1 +1,57 @@
-# Development of Mub music is on the way...
+# Mub Music
+
+Next.js App Router site for music news, product discovery, offers, and reviews.
+
+## Requirements
+
+- Node.js 20+ (recommended)
+- npm (comes with Node)
+
+## Setup
+
+1. Clone the repo and install dependencies:
+
+```bash
+cd mub-music
+npm install
+```
+
+2. Create a local env file (`.env.local` is gitignored). Example:
+
+```bash
+NEXT_PUBLIC_ENV_DOMAIN=mubmusic.com
+ENV_API_ROOT_PATH=wp.mubmusic.com
+```
+
+| Variable                 | Used for                                                                     |
+| ------------------------ | ---------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_ENV_DOMAIN` | Canonical / Open Graph / sitemap URLs (public)                               |
+| `ENV_API_ROOT_PATH`      | GraphQL host (server-only; Apollo uses `https://$ENV_API_ROOT_PATH/graphql`) |
+
+3. Start the dev server:
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+## Scripts
+
+| Command                | Description                           |
+| ---------------------- | ------------------------------------- |
+| `npm run dev`          | Start Next.js in development          |
+| `npm run build`        | Production build                      |
+| `npm start`            | Serve the production build            |
+| `npm test`             | Run Jest with coverage                |
+| `npm run check-format` | Prettier check                        |
+| `npm run check-lint`   | ESLint                                |
+| `npm run check-types`  | TypeScript (`tsc --noEmit`)           |
+| `npm run test-all`     | Format + lint + types + tests + build |
+
+## Project notes
+
+- Package manager is **npm** (`package-lock.json`). Do not use Yarn or others for this repo.
+- Install uses `.npmrc` with `legacy-peer-deps=true` so peer ranges match the existing React 19 stack.
+- Browser data fetching goes through Next.js Route Handlers under `app/api/` (e.g. product search). Server Components call GraphQL via `services/` directly.
+- Coding conventions live in [`rules.md`](./rules.md).

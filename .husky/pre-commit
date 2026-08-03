@@ -4,35 +4,35 @@
 echo '🏗️👷 Commit test init...'
 
 # Running Prettier standards
-yarn prettier --write . ||
+npx prettier --write . ||
 (
     echo '🛑✋ Write Prettier errors found.';
     false;
 )
 
 # Check Prettier standards
-yarn check-format ||
+npm run check-format ||
 (
     echo '🛑✋ Styling errors found.';
     false;
 )
 
 # Check ESLint Standards
-yarn check-lint ||
+npm run check-lint ||
 (
     echo '🛑✋ Lint errors found.';
     false;
 )
 
 # TypeScript type check
-yarn check-types ||
+npm run check-types ||
 (
     echo '🛑✋ Type errors found.';
     false;
 )
 
 # Unit tests check
-yarn test ||
+npm test ||
 (
     echo '🛑✋ Unit tests errors found.';
     false;
@@ -41,7 +41,7 @@ yarn test ||
 # If everything passes... Now we can commit
 echo '✔️✔️✔️ Style, Lint, Types and Unit test has pass. Initiating NextJS build ⚙️...'
 
-yarn build ||
+npm run build ||
 (
     echo '❌ Build failed. Aborting commit.';
     false;
