@@ -193,9 +193,7 @@ describe("SearchInput", () => {
       expect(fetchSearchProductsMock).toHaveBeenCalledTimes(2);
       expect(
         store.getState().searchAutoFillEvents.showSearchAutoFillResults
-      ).toEqual([
-        expect.objectContaining({ slug: "jazzmaster" }),
-      ]);
+      ).toEqual([expect.objectContaining({ slug: "jazzmaster" })]);
     });
   });
 
