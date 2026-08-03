@@ -24,9 +24,8 @@ describe("apolloClient", () => {
     process.env.ENV_API_USER = "graphql-client";
     process.env.ENV_API_PASSWORD = "secret-pass";
 
-    const { ApolloClient, InMemoryCache, HttpLink } = await import(
-      "@apollo/client"
-    );
+    const { ApolloClient, InMemoryCache, HttpLink } =
+      await import("@apollo/client");
     const apolloClient = (await import("services/graphql/apolloClient"))
       .default;
 
