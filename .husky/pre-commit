@@ -24,6 +24,13 @@ yarn check-lint ||
     false;
 )
 
+# TypeScript type check
+yarn check-types ||
+(
+    echo '🛑✋ Type errors found.';
+    false;
+)
+
 # Unit tests check
 yarn test ||
 (
@@ -32,7 +39,7 @@ yarn test ||
 )
 
 # If everything passes... Now we can commit
-echo '✔️✔️✔️ Style, Lint and Unit test has pass. Initiating NextJS build ⚙️...'
+echo '✔️✔️✔️ Style, Lint, Types and Unit test has pass. Initiating NextJS build ⚙️...'
 
 yarn build ||
 (

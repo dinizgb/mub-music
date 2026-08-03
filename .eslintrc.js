@@ -15,10 +15,15 @@ module.exports = {
   plugins: ["react", "@typescript-eslint"],
   rules: {
     "spaced-comment": ["error", "always", { markers: ["/"] }],
+    // Next.js / React 17+ JSX transform does not require React in scope.
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-uses-react": "off",
+    // TypeScript already validates component props.
+    "react/prop-types": "off",
   },
   settings: {
     react: {
-      version: "17.0.2",
+      version: "detect",
     },
   },
 };

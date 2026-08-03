@@ -1,33 +1,16 @@
 "use client";
 
-import styled from "styled-components";
 import Image from "next/image";
-// MUI
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-// COMPONENTS
 import Nav from "./Nav";
 import { H1 } from "../Texts/Typographies";
-// TYPES
 import { ProductsCategoriesType } from "types/productsCategoriesType";
-
-const HeaderContainer = styled.header<HeaderContainerProps>`
-  padding: 16px 0 11px 0;
-  border-bottom: ${(props) =>
-    props.noBg ? `none` : `1px solid rgba(255, 255, 255, 0.2)`};
-  z-index: 2;
-  position: relative;
-`;
+import { cn } from "@/lib/utils";
+import { i18n } from "@/i18n";
 
 type HeaderProps = {
   noBg?: boolean;
   noSearch?: boolean;
   productsCategories: ProductsCategoriesType[];
-};
-
-type HeaderContainerProps = {
-  noBg?: boolean;
 };
 
 /**
@@ -37,40 +20,39 @@ type HeaderContainerProps = {
  */
 export default function Header(props: HeaderProps) {
   return (
-    <>
-      <HeaderContainer noBg={props.noBg}>
-        <Container maxWidth="xl">
-          <Box sx={{ width: "100%" }}>
-            <Grid
-              container
-              rowSpacing={1}
-              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-            >
-              <Grid item xs={6} sm={6} md={3}>
-                <a href="/" title="Home">
-                  <H1
-                    fontColor={({ theme }) => theme.colors.text_4}
-                    fontWeight={400}
-                    fontSize={28}
-                    lineHeight={28}
-                    margin={0}
-                  >
-                    <Image
-                      src={"/images/mub-logo-icon.png"}
-                      alt={"Mub Music Logo"}
-                      width={31}
-                      height={35}
-                    />
-                  </H1>
-                </a>
-              </Grid>
-              <Grid item xs={6} sm={6} md={9}>
-                <Nav productsCategories={props.productsCategories} />
-              </Grid>
-            </Grid>
-          </Box>
-        </Container>
-      </HeaderContainer>
-    </>
+    <header
+      className={cn(
+        "relative z-2 py-4 pb-2.75",
+        !props.noBg && "border-b border-white/20"
+      )}
+    >
+      <div className="mx-auto w-full max-w-screen-2xl px-4">
+        <div
+          className="grid w-full grid-cols-2 items-center gap-2 sm:gap-4
+            md:grid-cols-12 md:gap-6"
+        >
+          <div className="md:col-span-3">
+            <a href="/" title={i18n.header.home}>
+              <H1
+                className="text-text-4"
+                fontWeight={400}
+                fontSize={28}
+                lineHeight={28}
+              >
+                <Image
+                  src={"/images/mub-logo-icon.png"}
+                  alt={i18n.header.logoAlt}
+                  width={31}
+                  height={35}
+                />
+              </H1>
+            </a>
+          </div>
+          <div className="md:col-span-9">
+            <Nav productsCategories={props.productsCategories} />
+          </div>
+        </div>
+      </div>
+    </header>
   );
 }

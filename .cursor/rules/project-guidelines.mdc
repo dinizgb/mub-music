@@ -1,0 +1,10 @@
+---
+description: Mub Music project guidelines — follow rules.md
+alwaysApply: true
+---
+
+# Project guidelines
+
+Follow the project rules in [rules.md](../../rules.md).
+
+That file is the single source of truth for stack, styling, components, testing, formatting, and change conventions. Prefer it over assumptions from other projects.

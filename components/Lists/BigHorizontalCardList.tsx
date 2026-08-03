@@ -12,6 +12,7 @@ export default function BigHorizontalCardList(props) {
       return (
         <BigHorizontalCard
           key={slug}
+          className="mb-7.5"
           cardImage={featuredImage.node.sourceUrl}
           cardSection={`news`}
           cardCategory={categories.nodes[0].name}
@@ -20,7 +21,6 @@ export default function BigHorizontalCardList(props) {
           cardSlug={slug}
           cardExcerpt={excerpt}
           date={date}
-          margin={`0 0 30px 0`}
         />
       );
     }

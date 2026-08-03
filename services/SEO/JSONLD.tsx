@@ -1,4 +1,3 @@
-
 /**
  * Function to build JSON LD script tag.
  * @param {any} data to the tag.

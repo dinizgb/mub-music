@@ -1,57 +1,108 @@
-import styled from "styled-components";
+import type {
+  AnchorHTMLAttributes,
+  ButtonHTMLAttributes,
+  CSSProperties,
+  ReactNode,
+} from "react";
+import { cn } from "@/lib/utils";
 
-type ButtonProps = {
+type ButtonStyleProps = {
   width?: string;
   fontSize?: number;
   padding?: string;
   margin?: string;
+  className?: string;
+  children?: ReactNode;
 };
 
-export const FilterButton = styled.button<ButtonProps>`
-  background: ${({ theme }) => theme.colors.primary};
-  border-radius: 50%;
-  border: 1px solid ${({ theme }) => theme.colors.primary};
-  color: ${({ theme }) => theme.colors.text_1};
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: 600;
-  margin: ${(props) => props.margin};
-  padding: 10px 11px;
-  text-align: center;
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.text_1};
-    border: 1px solid ${({ theme }) => theme.colors.text_1};
-    color: ${({ theme }) => theme.colors.text_4};
-  }
-`;
+/**
+ * Round primary filter action button.
+ * @return {TSX.Element}: The TSX code for the Filter Button Component.
+ */
+export function FilterButton({
+  className,
+  margin,
+  children,
+  style,
+  ...props
+}: ButtonStyleProps & ButtonHTMLAttributes<HTMLButtonElement>) {
+  return (
+    <button
+      className={cn(
+        `border-primary bg-primary text-text-1 hover:border-text-1
+        hover:bg-text-1 hover:text-text-4 cursor-pointer rounded-full border
+        px-[11px] py-2.5 text-center text-xs font-semibold transition-colors`,
+        className
+      )}
+      style={{ margin, ...style } as CSSProperties}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+}
 
-export const PrimaryButton = styled.a<ButtonProps>`
-  background: ${({ theme }) => theme.colors.primary};
-  border-radius: 8px;
-  color: ${({ theme }) => theme.colors.text_4};
-  font-size: ${(props) => props.fontSize}px;
-  font-weight: 600;
-  margin: ${(props) => props.margin};
-  padding: ${(props) => props.padding};
-  text-align: center;
-  width: ${(props) => props.width};
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.text_4};
-    color: ${({ theme }) => theme.colors.text_1};
-  }
-`;
+/**
+ * Primary CTA link button.
+ * @return {TSX.Element}: The TSX code for the Primary Button Component.
+ */
+export function PrimaryButton({
+  className,
+  width,
+  fontSize,
+  padding,
+  margin,
+  children,
+  style,
+  ...props
+}: ButtonStyleProps & AnchorHTMLAttributes<HTMLAnchorElement>) {
+  return (
+    <a
+      className={cn(
+        `bg-primary text-text-4 hover:bg-text-4 hover:text-text-1 rounded-lg
+        text-center font-semibold transition-colors`,
+        className
+      )}
+      style={
+        {
+          width,
+          fontSize: fontSize ? `${fontSize}px` : undefined,
+          padding,
+          margin,
+          ...style,
+        } as CSSProperties
+      }
+      {...props}
+    >
+      {children}
+    </a>
+  );
+}
 
-export const WhiteButton = styled.a<ButtonProps>`
-  width: ${(props) => props.width};
-  color: ${({ theme }) => theme.colors.text_4};
-  font-size: 21px;
-  font-weight: 600;
-  padding: 15px 0;
-  margin: ${(props) => props.margin};
-  border: 3px solid ${({ theme }) => theme.colors.text_4};
-  text-align: center;
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.text_4};
-    color: ${({ theme }) => theme.colors.text_1};
-  }
-`;
+/**
+ * Outlined white CTA link button.
+ * @return {TSX.Element}: The TSX code for the White Button Component.
+ */
+export function WhiteButton({
+  className,
+  width,
+  margin,
+  children,
+  style,
+  ...props
+}: ButtonStyleProps & AnchorHTMLAttributes<HTMLAnchorElement>) {
+  return (
+    <a
+      className={cn(
+        `border-text-4 text-text-4 hover:bg-text-4 hover:text-text-1
+        border-[3px] py-3.75 text-center text-[21px] font-semibold
+        transition-colors`,
+        className
+      )}
+      style={{ width, margin, ...style } as CSSProperties}
+      {...props}
+    >
+      {children}
+    </a>
+  );
+}

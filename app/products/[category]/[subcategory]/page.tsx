@@ -16,6 +16,7 @@ import {
   ProductFilterType,
   ProductFilterResponseType,
 } from "types/productFilterType";
+import { i18n, t } from "@/i18n";
 
 type PageProps = {
   params: Promise<{ category: string; subcategory: string }>;
@@ -35,7 +36,9 @@ export async function generateMetadata({
   const { category, subcategory } = await params;
   return {
     title: subcategory.toUpperCase(),
-    description: `Find the best deals on ${subcategory.toUpperCase()}.`,
+    description: t(i18n.products.categoryDescription, {
+      name: subcategory.toUpperCase(),
+    }),
     alternates: {
       canonical: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/products/${category}/${subcategory}/`,
     },
@@ -131,11 +134,11 @@ export default async function ProductsSubCategoryPage({
         ? productsPrefix.product_info.subcategory.title
         : subcategory.toUpperCase()
     }`,
-    pageExcerpt: `Find the best deals on ${
-      productsPrefix
+    pageExcerpt: t(i18n.products.categoryDescription, {
+      name: productsPrefix
         ? productsPrefix.product_info.subcategory.title
-        : subcategory.toUpperCase()
-    }.`,
+        : subcategory.toUpperCase(),
+    }),
     pageType: "product",
     pagePath: `products/${category}/${subcategory}`,
     pageThumb: productsPrefix
@@ -145,13 +148,13 @@ export default async function ProductsSubCategoryPage({
       {
         "@type": "ListItem",
         position: 1,
-        name: "Home",
+        name: i18n.products.breadcrumbHome,
         item: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/`,
       },
       {
         "@type": "ListItem",
         position: 2,
-        name: "Products",
+        name: i18n.products.breadcrumbProducts,
         item: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/products/`,
       },
       {

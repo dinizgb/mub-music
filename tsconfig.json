@@ -4,10 +4,10 @@
     "module": "esnext",
     "jsx": "react-jsx",
     "baseUrl": ".",
-    "lib": [
-      "dom",
-      "es2017"
-    ],
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "lib": ["dom", "es2017"],
     "moduleResolution": "bundler",
     "allowJs": true,
     "noEmit": true,
@@ -31,9 +31,7 @@
     ],
     "strictNullChecks": true
   },
-  "exclude": [
-    "node_modules"
-  ],
+  "exclude": ["node_modules"],
   "include": [
     "next-env.d.ts",
     "**/*.ts",

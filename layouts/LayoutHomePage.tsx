@@ -1,9 +1,3 @@
-"use client";
-
-// MUI
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
 // COMPONENTS
 import Header from "components/Tags/Header";
 import Footer from "components/Tags/Footer";
@@ -14,6 +8,7 @@ import BigHorizontalCardList from "components/Lists/BigHorizontalCardList";
 import ProductCardList from "components/Lists/ProductCardList";
 // TYPES
 import { ProductsCategoriesType } from "types/productsCategoriesType";
+import { i18n } from "@/i18n";
 
 type LayoutHomePageProps = {
   postData: any;
@@ -33,70 +28,56 @@ export default function LayoutHomePage(props: LayoutHomePageProps) {
       <Header noBg={true} productsCategories={props.productsCategories} />
       <HomeSearch />
       <main>
-        <Container maxWidth="xl">
-          <Box
-            sx={{
-              backgroundColor: "#080B14",
-              position: "relative",
-              width: "100%",
-              zIndex: 0,
-            }}
-          >
-            <Grid
-              container
-              columnSpacing={{ xs: 1, sm: 3, md: 5 }}
-              style={{ marginTop: 80 }}
+        <div className="mx-auto w-full max-w-screen-2xl px-4">
+          <div className="bg-background relative z-0 w-full">
+            <div
+              className="mt-20 grid w-full grid-cols-1 gap-x-2 sm:gap-x-6
+                md:grid-cols-12 md:gap-x-10"
             >
-              <Grid item xs={12} sm={12} md={9}>
-                <Grid item xs={12} style={{ marginTop: 40 }}>
+              <div className="md:col-span-9">
+                <div className="mt-10">
                   <H2
-                    fontColor={({ theme }) => theme.colors.text_4}
+                    className="text-text-4 mb-8.75"
                     fontWeight={600}
                     fontSize={22}
                     lineHeight={21}
                     xsFontSize={21}
                     xsLineHeight={24}
-                    margin={`0 0 35px 0`}
                   >
-                    Featured Products
+                    {i18n.home.featuredProducts}
                   </H2>
-                </Grid>
-                <Grid item xs={12}>
+                </div>
+                <div>
                   <ProductCardList productList={props.productData} />
-                </Grid>
-              </Grid>
-              <Grid item xs={12} sm={12} md={9}>
-                <Grid container>
-                  <Grid item xs={12} style={{ marginTop: 40 }}>
-                    <H2
-                      fontColor={({ theme }) => theme.colors.text_4}
-                      fontWeight={600}
-                      fontSize={22}
-                      lineHeight={21}
-                      xsFontSize={21}
-                      xsLineHeight={24}
-                      margin={`0 0 30px 0`}
+                </div>
+              </div>
+              <div className="md:col-span-9">
+                <div className="mt-10">
+                  <H2
+                    className="text-text-4 mb-7.5"
+                    fontWeight={600}
+                    fontSize={22}
+                    lineHeight={21}
+                    xsFontSize={21}
+                    xsLineHeight={24}
+                  >
+                    {i18n.home.latestNews}
+                  </H2>
+                  <BigHorizontalCardList postList={props.postData} />
+                  <div className="flex">
+                    <WhiteButton
+                      className="mb-7.5"
+                      href="/news/"
+                      width={`100%`}
                     >
-                      Latest News
-                    </H2>
-                    <BigHorizontalCardList postList={props.postData} />
-                    <Grid item xs={12}>
-                      <div style={{ display: "flex" }}>
-                        <WhiteButton
-                          href="/news/"
-                          width={`100%`}
-                          margin={`0 0 30px 0`}
-                        >
-                          More news
-                        </WhiteButton>
-                      </div>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Box>
-        </Container>
+                      {i18n.home.moreNews}
+                    </WhiteButton>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </main>
       <Footer />
     </>

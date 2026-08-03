@@ -8,6 +8,7 @@ import getAllProductCategories from "services/graphql/queries/getAllProductCateg
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { QueryParameters } from "types/queryParams";
 import htmlTagCleaner from "utils/htmlTagCleaner";
+import { i18n, t } from "@/i18n";
 
 type PageProps = {
   params: Promise<{ category: string; slug: string }>;
@@ -61,7 +62,7 @@ export async function generateMetadata({
     },
     openGraph: {
       type: "article",
-      title: `${newsData.title} | Mub Music`,
+      title: t(i18n.meta.titleSuffix, { title: newsData.title }),
       description: htmlTagCleaner(newsData.excerpt),
       images: [newsData.featuredImage?.node?.sourceUrl].filter(Boolean),
       publishedTime: newsData.date,
@@ -97,7 +98,7 @@ export default async function NewsArticlePage({ params }: PageProps) {
     <LayoutArticlePage
       articleTitle={newsData.title}
       articleExcerpt={htmlTagCleaner(newsData.excerpt)}
-      articleSectionName={"News"}
+      articleSectionName={i18n.article.sectionNews}
       articleSectionSlug={"news"}
       articleCategoryName={newsData.categories.nodes[0].name}
       articleCategorySlug={newsData.categories.nodes[0].slug}
