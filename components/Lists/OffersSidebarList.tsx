@@ -1,88 +1,12 @@
 import Image from "next/image";
-import styled from "styled-components";
-// COMPONENTS
 import { H3, H4, Span } from "components/Texts/Typographies";
-
-const OffersSidebarListWrapper = styled.div`
-  background: ${({ theme }) => theme.colors.secondary};
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  margin: 0 0 30px 0;
-  padding: 0 0 10px 0;
-  width: 100%;
-`;
-
-const OffersSidebarListTop = styled.div<OffersSidebarListTopProps>`
-  background: ${(props) =>
-    props.isPrimaryTitle
-      ? ({ theme }) => theme.colors.primary
-      : ({ theme }) => theme.colors.oddSection};
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  color: ${(props) =>
-    props.isPrimaryTitle
-      ? ({ theme }) => theme.colors.background
-      : ({ theme }) => theme.colors.text_4};
-  padding: 10px 20px;
-`;
-
-const OffersSidebarListUl = styled.ul`
-  display: flex;
-  flex-direction: column;
-  padding-inline-start: 0;
-  padding: 10px 15px;
-`;
-
-const OffersSidebarListLi = styled.li`
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding-inline-start: 0;
-  padding: 15px 5px;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.line_bottom};
-  figure {
-    display: flex;
-    flex-direction: row;
-  }
-  div {
-    display: flex;
-    flex-direction: column;
-  }
-  &:hover {
-    background: ${({ theme }) => theme.colors.primary};
-    border-radius: 8px;
-    cursor: pointer;
-    h4,
-    span,
-    svg {
-      color: ${({ theme }) => theme.colors.background} !important;
-    }
-  }
-`;
-
-const OffersSidebarListLiLogo = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  position: relative;
-  margin-right: 15px;
-  img {
-    border-radius: 50%;
-  }
-`;
+import { cn } from "@/lib/utils";
+import { i18n, t } from "@/i18n";
 
 type OffersSidebarListProps = {
   isPrimaryTitle: boolean;
   title: string;
   data: OffersSidebarListData[];
-};
-
-type OffersSidebarListTopProps = {
-  isPrimaryTitle: boolean;
 };
 
 type OffersSidebarListData = {
@@ -99,91 +23,105 @@ type OffersSidebarListData = {
  */
 export default function OffersSidebarList(props: OffersSidebarListProps) {
   return (
-    <OffersSidebarListWrapper>
-      <OffersSidebarListTop isPrimaryTitle={props.isPrimaryTitle}>
+    <div
+      className="bg-secondary mb-5 flex w-full flex-col rounded-lg pb-2.5
+        md:mb-7.5"
+    >
+      <div
+        className={cn(
+          "rounded-t-lg px-5 py-2.5",
+          props.isPrimaryTitle
+            ? "bg-primary text-background"
+            : "bg-odd-section text-text-4"
+        )}
+      >
         <H3
-          fontColor={
-            props.isPrimaryTitle
-              ? ({ theme }) => theme.colors.background
-              : ({ theme }) => theme.colors.text_4
-          }
+          className={cn(
+            props.isPrimaryTitle ? "text-background" : "text-text-4"
+          )}
           fontWeight={props.isPrimaryTitle ? 700 : 600}
-          fontSize={21}
+          fontSize={18}
           lineHeight={36}
-          xsFontSize={21}
+          xsFontSize={18}
           xsLineHeight={36}
-          margin={0}
         >
           {props.title}
         </H3>
-      </OffersSidebarListTop>
-      <OffersSidebarListUl>
+      </div>
+      <ul className="flex flex-col p-2.5 px-3.75">
         {props.data ? (
           props.data.map(({ logo, price, store, url }) => {
             return (
-              <OffersSidebarListLi key={url}>
-                <figure>
-                  <OffersSidebarListLiLogo>
-                    <Image
-                      src={logo}
-                      alt={`${store} logo`}
-                      fill
-                      objectFit="cover"
-                    />
-                  </OffersSidebarListLiLogo>
-                  <H4
-                    fontColor={({ theme }) => theme.colors.text_4}
-                    fontWeight={500}
-                    fontSize={17}
-                    lineHeight={36}
-                    xsFontSize={17}
-                    xsLineHeight={36}
-                    margin={0}
-                  >
-                    {store}
-                  </H4>
-                </figure>
-                <div>
-                  <Span
-                    fontColor={({ theme }) => theme.colors.subtitle}
-                    fontWeight={400}
-                    fontSize={14}
-                    lineHeight={16}
-                    xsFontSize={14}
-                    xsLineHeight={16}
-                    margin={`0 0 6px 0`}
-                  >
-                    From
-                  </Span>
-                  <Span
-                    fontColor={({ theme }) => theme.colors.text_4}
-                    fontWeight={700}
-                    fontSize={18}
-                    lineHeight={18}
-                    xsFontSize={18}
-                    xsLineHeight={18}
-                    margin={`0`}
-                  >
-                    ${price}
-                  </Span>
-                </div>
-              </OffersSidebarListLi>
+              <a href={url} target="_blank" rel="noreferrer" key={url}>
+                <li
+                  className="group border-line-bottom hover:bg-primary flex
+                    cursor-pointer flex-row items-center justify-between
+                    border-b px-1.25 py-1.25 hover:rounded-lg [&_div]:flex
+                    [&_div]:flex-col [&_figure]:flex [&_figure]:flex-row
+                    [&_figure]:items-center"
+                >
+                  <figure>
+                    <div
+                      className="relative mr-3 h-10 w-10 rounded-full
+                        [&_img]:rounded-full"
+                    >
+                      <Image
+                        src={logo}
+                        alt={t(i18n.offers.storeLogoAlt, { store })}
+                        fill
+                        className="rounded-full object-cover"
+                      />
+                    </div>
+                    <H4
+                      className="text-text-4 group-hover:text-black!"
+                      fontWeight={500}
+                      fontSize={16}
+                      lineHeight={36}
+                      xsFontSize={16}
+                      xsLineHeight={36}
+                    >
+                      {store}
+                    </H4>
+                  </figure>
+                  <div>
+                    <Span
+                      className="text-subtitle mb-1.5 group-hover:text-black!"
+                      fontWeight={400}
+                      fontSize={14}
+                      lineHeight={16}
+                      xsFontSize={14}
+                      xsLineHeight={16}
+                    >
+                      {i18n.offers.from}
+                    </Span>
+                    <Span
+                      className="text-text-4 group-hover:text-black!"
+                      fontWeight={700}
+                      fontSize={18}
+                      lineHeight={18}
+                      xsFontSize={18}
+                      xsLineHeight={18}
+                    >
+                      ${price}
+                    </Span>
+                  </div>
+                </li>
+              </a>
             );
           })
         ) : (
           <Span
-            fontColor={({ theme }) => theme.colors.subtitle}
+            className="text-subtitle mt-2.5"
             fontWeight={400}
             fontSize={17}
             lineHeight={16}
             xsFontSize={17}
             xsLineHeight={16}
-            margin={`10px 0 0 0`}
           >
-            No offers available
+            {i18n.offers.empty}
           </Span>
         )}
-      </OffersSidebarListUl>
-    </OffersSidebarListWrapper>
+      </ul>
+    </div>
   );
 }

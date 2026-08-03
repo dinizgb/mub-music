@@ -1,4 +1,3 @@
-
 type CategoryPageSEOConstructorProps = {
   categoryPageTitle: string;
   categoryPageExcerpt: string;

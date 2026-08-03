@@ -1,0 +1,93 @@
+{
+  "header": {
+    "home": "Home",
+    "logoAlt": "Mub Music Logo",
+    "news": "News",
+    "products": "Products"
+  },
+  "nav": {
+    "products": "Products",
+    "news": "News",
+    "awards": "Awards",
+    "musicBusiness": "Music Business",
+    "people": "People",
+    "releases": "Releases"
+  },
+  "footer": {
+    "copyright": "Mub Music - All rights reserved."
+  },
+  "home": {
+    "findYourSound": "Find your Sound",
+    "headline": "Reviews, Offers, Specs and much more! Find everything you need about any musical product!",
+    "searchPlaceholder": "Type your musical wish here :)",
+    "statsValue": "1000k+",
+    "statsProducts": "Products",
+    "statsReviews": "Reviews",
+    "statsOffers": "Offers",
+    "featuredProducts": "Featured Products",
+    "latestNews": "Latest News",
+    "moreNews": "More news",
+    "metaDescription": "Mub Music is on the way...",
+    "metaTitle": "Mub Music | {description}"
+  },
+  "news": {
+    "title": "News",
+    "description": "Daily news articles, stories, reviews and much more.",
+    "lastNews": "Last news",
+    "emptyList": "No data available",
+    "emptyAside": "No data available for now",
+    "authorAvatarAlt": "Autor Avatar",
+    "authorByline": "Mub Music Staff at {date}",
+    "authorName": "Mub Music Staff"
+  },
+  "article": {
+    "breadcrumbHome": "Home",
+    "breadcrumbNews": "News",
+    "sectionNews": "News"
+  },
+  "products": {
+    "title": "Products",
+    "subtitle": "Choose a product category.",
+    "description": "Find the best deals on Guitars, Bass, Drums, Amps, DJ, Keyboards, Pro-Audio and much more.",
+    "categoryDescription": "Find the best deals on {name}.",
+    "filters": "Filters",
+    "subcategories": "Subcategories",
+    "brands": "Brands",
+    "priceAverage": "Price Average",
+    "itemsFound": "({count} items found)",
+    "empty": "Sorry, no data available.",
+    "from": "From",
+    "breadcrumbHome": "Home",
+    "breadcrumbProducts": "Products"
+  },
+  "product": {
+    "ratingAverage": "Rating average",
+    "photos": "Photos",
+    "featuredVideo": "Featured Video",
+    "description": "Description",
+    "specifications": "Specifications",
+    "offersAvailable": "Offers available",
+    "reviews": "Reviews"
+  },
+  "offers": {
+    "from": "From",
+    "empty": "No offers available",
+    "storeLogoAlt": "{store} logo"
+  },
+  "reviews": {
+    "empty": "No reviews available",
+    "storeLogoAlt": "{store} logo"
+  },
+  "media": {
+    "youtubePlayerTitle": "YouTube video player"
+  },
+  "a11y": {
+    "breadcrumb": "breadcrumb"
+  },
+  "meta": {
+    "siteName": "Mub Music",
+    "titleTemplate": "%s | Mub Music",
+    "titleSuffix": "{title} | Mub Music",
+    "defaultDescription": "Music news, reviews, offers, and product discovery."
+  }
+}

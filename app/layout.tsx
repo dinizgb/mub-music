@@ -1,13 +1,15 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import Providers from "./providers";
+import { i18n } from "@/i18n";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Mub Music",
-    template: "%s | Mub Music",
+    default: i18n.meta.siteName,
+    template: i18n.meta.titleTemplate,
   },
-  description: "Music news, reviews, offers, and product discovery.",
+  description: i18n.meta.defaultDescription,
   icons: {
     icon: "/images/favicon.ico?w=64",
     shortcut: "/images/favicon.ico?w=64",
@@ -19,11 +21,7 @@ export const metadata: Metadata = {
  * @param {{ children: ReactNode }} props Layout children.
  * @return {ReactElement} HTML document shell.
  */
-export default function RootLayout({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>

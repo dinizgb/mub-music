@@ -6,10 +6,11 @@ import getAllNews from "services/graphql/queries/getAllNews";
 import getAllProductCategories from "services/graphql/queries/getAllProductCategories";
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { QueryParameters } from "types/queryParams";
+import { i18n } from "@/i18n";
 
 export const metadata: Metadata = {
-  title: "News",
-  description: "Daily news articles, stories, reviews and much more.",
+  title: i18n.news.title,
+  description: i18n.news.description,
   alternates: {
     canonical: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/news/`,
   },
@@ -39,11 +40,11 @@ export default async function NewsHome() {
     <LayoutListWithAside
       postData={lastNews.props.data.posts.nodes}
       TopFiveWidgetData={""}
-      TopFiveWidgetTitle={`Last news`}
+      TopFiveWidgetTitle={i18n.news.lastNews}
       layoutSection={`news`}
-      layoutTitle={`News`}
+      layoutTitle={i18n.news.title}
       layoutSlug={``}
-      layoutDescription={`Daily news articles, stories, reviews and much more.`}
+      layoutDescription={i18n.news.description}
       productsCategories={productsCategories}
     />
   );

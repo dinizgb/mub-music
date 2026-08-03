@@ -7,17 +7,20 @@ import getAllProducts from "services/graphql/queries/getAllProducts";
 import getAllProductCategories from "services/graphql/queries/getAllProductCategories";
 import { QueryParameters } from "types/queryParams";
 import { ProductsCategoriesType } from "types/productsCategoriesType";
+import { i18n, t } from "@/i18n";
 
-const layoutDescription = "Mub Music is on the way...";
+const layoutDescription = i18n.home.metaDescription;
 
 export const metadata: Metadata = {
-  title: { absolute: `Mub Music | ${layoutDescription}` },
+  title: {
+    absolute: t(i18n.home.metaTitle, { description: layoutDescription }),
+  },
   description: layoutDescription,
   alternates: {
     canonical: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/`,
   },
   openGraph: {
-    title: `Mub Music | ${layoutDescription}`,
+    title: t(i18n.home.metaTitle, { description: layoutDescription }),
     description: layoutDescription,
     url: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/`,
     images: [

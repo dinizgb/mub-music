@@ -1,29 +1,13 @@
 import type { ReactElement } from "react";
-import styled from "styled-components";
-import StarIcon from "@mui/icons-material/Star";
-import StarHalfIcon from "@mui/icons-material/StarHalf";
-import StarOutlineIcon from "@mui/icons-material/StarOutline";
+import { Star, StarHalf } from "lucide-react";
 import separateDecimalNumber from "utils/separateDecimalNumber";
-
-const StarsWidgetWrapper = styled.div<StarsWidgetWrapperProps>`
-  background: ${(props) => (props.withBackground ? "rgba(0, 0, 0, 0.8)" : "")};
-  padding: ${(props) => (props.withBackground ? "4px 8px 0px 8px" : "")};
-  border-radius: ${(props) => (props.withBackground ? "50px" : "")};
-  svg {
-    color: ${({ theme }) => theme.colors.primary};
-    font-size: ${(props) => props.fontSize}px;
-  }
-`;
+import { cn } from "@/lib/utils";
 
 type StarsConstructorProps = {
   fontSize: number;
   number: number;
   withBackground: boolean;
-};
-
-type StarsWidgetWrapperProps = {
-  fontSize: number;
-  withBackground: boolean;
+  className?: string;
 };
 
 /**
@@ -36,50 +20,115 @@ export default function StarsWidget(props: StarsConstructorProps) {
   const firstNumber = separateDecimalNumber(props.number, 0);
   const secondNumber = separateDecimalNumber(props.number, 1);
   const remainingNumber = 5 - firstNumber;
+  const style = { width: props.fontSize, height: props.fontSize };
 
   // First Number Loop
   for (let i = 0; i < firstNumber; i++) {
-    stars = [...stars, <StarIcon key={`full-` + i} />];
+    stars = [
+      ...stars,
+      <Star
+        key={`full-` + i}
+        className="fill-current"
+        style={style}
+        fill="currentColor"
+      />,
+    ];
   }
 
   // Second Number Loop
   if (firstNumber != 5 && firstNumber != 0) {
     if (secondNumber > 1) {
       if (remainingNumber > 1) {
-        stars = [...stars, <StarHalfIcon key={`half-0`} />];
+        stars = [
+          ...stars,
+          <StarHalf
+            key={`half-0`}
+            className="fill-current"
+            style={style}
+            fill="currentColor"
+          />,
+        ];
         for (let i = 0; i < remainingNumber - 1; i++) {
-          stars = [...stars, <StarOutlineIcon key={`outline-` + i} />];
+          stars = [
+            ...stars,
+            <Star
+              key={`outline-` + i}
+              className="fill-none"
+              style={style}
+              fill="none"
+            />,
+          ];
         }
       } else {
         for (let i = 0; i < remainingNumber; i++) {
-          stars = [...stars, <StarHalfIcon key={`half-` + i} />];
+          stars = [
+            ...stars,
+            <StarHalf
+              key={`half-` + i}
+              className="fill-current"
+              style={style}
+              fill="currentColor"
+            />,
+          ];
         }
       }
     } else {
       for (let i = 0; i < remainingNumber; i++) {
-        stars = [...stars, <StarOutlineIcon key={`outline-` + i} />];
+        stars = [
+          ...stars,
+          <Star
+            key={`outline-` + i}
+            className="fill-none"
+            style={style}
+            fill="none"
+          />,
+        ];
       }
     }
   } else if (firstNumber == 0) {
     stars = [
-      <StarHalfIcon key={`half-0`} />,
-      <StarOutlineIcon key={`outline-1`} />,
-      <StarOutlineIcon key={`outline-2`} />,
-      <StarOutlineIcon key={`outline-3`} />,
-      <StarOutlineIcon key={`outline-4`} />,
+      <StarHalf
+        key={`half-0`}
+        className="fill-current"
+        style={style}
+        fill="currentColor"
+      />,
+      <Star
+        key={`outline-1`}
+        className="fill-none"
+        style={style}
+        fill="none"
+      />,
+      <Star
+        key={`outline-2`}
+        className="fill-none"
+        style={style}
+        fill="none"
+      />,
+      <Star
+        key={`outline-3`}
+        className="fill-none"
+        style={style}
+        fill="none"
+      />,
+      <Star
+        key={`outline-4`}
+        className="fill-none"
+        style={style}
+        fill="none"
+      />,
     ];
   }
 
   return (
-    <>
-      <StarsWidgetWrapper
-        withBackground={props.withBackground}
-        fontSize={props.fontSize}
-      >
-        {stars.map((star) => {
-          return star;
-        })}
-      </StarsWidgetWrapper>
-    </>
+    <div
+      className={cn(
+        "text-primary inline-flex flex-row items-center gap-0.5",
+        props.withBackground && "rounded-[50px] bg-black/80 p-1.5",
+        props.className
+      )}
+    >
+      {stars}
+    </div>
   );
 }

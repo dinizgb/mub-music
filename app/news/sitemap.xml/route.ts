@@ -1,6 +1,7 @@
 import { fetchQuery } from "services/graphql/fetchQuery";
 import getAllNews from "services/graphql/queries/getAllNews";
 import { QueryParameters } from "types/queryParams";
+import { i18n } from "@/i18n";
 
 export const revalidate = 60;
 
@@ -39,22 +40,22 @@ export async function GET() {
               )}</image:loc></image:image>`;
             }
             const newsTitle =
-              typeof title === "string" ? title : title?.rendered ?? "";
+              typeof title === "string" ? title : (title?.rendered ?? "");
             return `
                 <url>
                     <loc>https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/news/${
-              categories.nodes[0].slug
-            }/${slug}/</loc>
+                      categories.nodes[0].slug
+                    }/${slug}/</loc>
                     <news:news>
                         <news:publication>
-                            <news:name>Mub Music</news:name>
+                            <news:name>${i18n.meta.siteName}</news:name>
                             <news:language>en</news:language>
                         </news:publication>
                         <news:publication_date>${date}</news:publication_date>
                         <news:title>${newsTitle}</news:title>
                         <news:keywords>${categories.nodes[0].name}, ${tags.nodes
-              ?.map((tag: { name: string }) => tag.name)
-              .join(", ")}</news:keywords>
+                          ?.map((tag: { name: string }) => tag.name)
+                          .join(", ")}</news:keywords>
                     </news:news>
                     ${img}
                     <lastmod>${modified}</lastmod>

@@ -7,6 +7,7 @@ import getAllNewsCategories from "services/graphql/queries/getAllNewsCategories"
 import getAllProductCategories from "services/graphql/queries/getAllProductCategories";
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { QueryParameters } from "types/queryParams";
+import { i18n } from "@/i18n";
 
 type PageProps = {
   params: Promise<{ category: string }>;
@@ -94,7 +95,7 @@ export default async function NewsCategoryPage({ params }: PageProps) {
     <LayoutListWithAside
       postData={newsData}
       TopFiveWidgetData={""}
-      TopFiveWidgetTitle={`Last news`}
+      TopFiveWidgetTitle={i18n.news.lastNews}
       layoutSection={`news`}
       layoutTitle={newsData[0].categories.nodes[0].name}
       layoutSlug={``}
