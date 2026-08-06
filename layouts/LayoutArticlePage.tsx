@@ -2,7 +2,7 @@ import Image from "next/image";
 // COMPONENTS
 import Header from "components/Tags/Header";
 import Footer from "components/Tags/Footer";
-import { H2, P, A, Span } from "components/Texts/Typographies";
+import { H1, P, A, Span } from "components/Texts/Typographies";
 import { ContentBody } from "components/Texts/ContentBody";
 import {
   Breadcrumb,
@@ -98,9 +98,8 @@ export default function LayoutArticlePage(props: LayoutArticlePageProps) {
                     </BreadcrumbItem>
                   </BreadcrumbList>
                 </Breadcrumb>
-                <H2
-                  fontType={"MainTitle"}
-                  className="text-text-4"
+                <H1
+                  className="text-text-4 font-heading"
                   fontWeight={400}
                   fontSize={60}
                   lineHeight={85}
@@ -108,7 +107,7 @@ export default function LayoutArticlePage(props: LayoutArticlePageProps) {
                   xsLineHeight={60}
                 >
                   {props.articleTitle}
-                </H2>
+                </H1>
                 <P
                   className="text-text-4 my-7.5"
                   fontWeight={300}

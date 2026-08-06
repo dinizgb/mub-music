@@ -1,10 +1,14 @@
-import type { ReactNode } from "react";
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import Providers from "./providers";
 import { i18n } from "@/i18n";
+import { getSiteConfig } from "lib/seo/siteConfig";
 import "./globals.css";
 
+const { metadataBase } = getSiteConfig();
+
 export const metadata: Metadata = {
+  metadataBase,
   title: {
     default: i18n.meta.siteName,
     template: i18n.meta.titleTemplate,

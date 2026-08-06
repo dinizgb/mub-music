@@ -8,7 +8,13 @@ import getAllProductCategories from "services/graphql/queries/getAllProductCateg
 import { QueryParameters } from "types/queryParams";
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { ProductType } from "types/productType";
-import { i18n, t } from "@/i18n";
+import { i18n } from "@/i18n";
+import htmlTagCleaner from "utils/htmlTagCleaner";
+import { buildPageMetadata } from "lib/seo/buildPageMetadata";
+import { absoluteUrl } from "lib/seo/absoluteUrl";
+import JsonLd from "lib/seo/JsonLd";
+import { buildBreadcrumbJsonLd } from "lib/seo/jsonld/breadcrumb";
+import { buildProductJsonLd } from "lib/seo/jsonld/product";
 
 type PageProps = {
   params: Promise<{ category: string; subcategory: string; slug: string }>;
@@ -59,18 +65,16 @@ export async function generateMetadata({
     return { title: slug };
   }
   const product: ProductType = getProduct.props.data.productBy;
-  return {
+  const cleaned = product.product_info?.description
+    ? htmlTagCleaner(product.product_info.description).trim()
+    : "";
+  const description = cleaned || product.title;
+  return buildPageMetadata({
     title: product.title,
-    description: product.title,
-    alternates: {
-      canonical: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/products/${category}/${subcategory}/${slug}/`,
-    },
-    openGraph: {
-      type: "website",
-      title: t(i18n.meta.titleSuffix, { title: product.title }),
-      images: [product.product_info?.thumbnail?.sourceUrl].filter(Boolean),
-    },
-  };
+    description,
+    path: `/products/${category}/${subcategory}/${slug}/`,
+    image: product.product_info?.thumbnail?.sourceUrl,
+  });
 }
 
 /**
@@ -79,9 +83,14 @@ export async function generateMetadata({
  * @return {Promise<ReactElement>} Product page.
  */
 export default async function ProductSinglePage({ params }: PageProps) {
-  const { slug } = await params;
+  const { category, subcategory, slug } = await params;
   const getProduct = await fetchQuery(getProductBy({ slug }));
   if (getProduct.notFound || !getProduct.props.data.productBy) notFound();
+
+  const product: ProductType = getProduct.props.data.productBy;
+  const productUrl = absoluteUrl(
+    `/products/${category}/${subcategory}/${slug}/`
+  );
 
   const getProductCategoriesParams: QueryParameters = {
     where: { offsetPagination: { size: 100, offset: 1 } },
@@ -94,10 +103,34 @@ export default async function ProductSinglePage({ params }: PageProps) {
   const productsCategories: ProductsCategoriesType[] =
     getProductCategories.props.data.productCategories.nodes;
 
+  const categoryTitle = product.product_info.category.title;
+  const subcategoryTitle = product.product_info.subcategory.title;
+
   return (
-    <LayoutProductPage
-      productData={getProduct.props.data.productBy}
-      productsCategories={productsCategories}
-    />
+    <>
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: i18n.products.breadcrumbHome, item: absoluteUrl("/") },
+          {
+            name: i18n.products.breadcrumbProducts,
+            item: absoluteUrl("/products/"),
+          },
+          {
+            name: categoryTitle,
+            item: absoluteUrl(`/products/${category}/`),
+          },
+          {
+            name: subcategoryTitle,
+            item: absoluteUrl(`/products/${category}/${subcategory}/`),
+          },
+          { name: product.title, item: productUrl },
+        ])}
+      />
+      <JsonLd data={buildProductJsonLd(product, productUrl)} />
+      <LayoutProductPage
+        productData={product}
+        productsCategories={productsCategories}
+      />
+    </>
   );
 }

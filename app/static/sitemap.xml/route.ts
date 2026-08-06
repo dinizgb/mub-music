@@ -3,21 +3,21 @@ import { absoluteUrl } from "lib/seo/absoluteUrl";
 export const revalidate = 86400;
 
 /**
- * Sitemap index route.
- * @return {Promise<Response>} XML sitemap index.
+ * Static pages sitemap.
+ * @return {Promise<Response>} XML sitemap.
  */
 export async function GET() {
-  const sitemaps = ["static", "news", "products"];
+  const urls = ["/", "/news/", "/products/"];
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${sitemaps
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls
   .map(
-    (item) => `  <sitemap>
-    <loc>${absoluteUrl(`/${item}/sitemap.xml`)}</loc>
-  </sitemap>`
+    (path) => `  <url>
+    <loc>${absoluteUrl(path)}</loc>
+  </url>`
   )
   .join("\n")}
-</sitemapindex>
+</urlset>
 `;
 
   return new Response(sitemap, {

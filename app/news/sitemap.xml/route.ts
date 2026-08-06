@@ -2,25 +2,44 @@ import { fetchQuery } from "services/graphql/fetchQuery";
 import getAllNews from "services/graphql/queries/getAllNews";
 import { QueryParameters } from "types/queryParams";
 import { i18n } from "@/i18n";
+import { absoluteUrl } from "lib/seo/absoluteUrl";
 
 export const revalidate = 60;
+
+/**
+ * Escapes XML special characters.
+ * @param {string} value Raw string.
+ * @return {string} Escaped string.
+ */
+function escapeXml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
 
 /**
  * News sitemap route.
  * @return {Promise<Response>} XML news sitemap.
  */
 export async function GET() {
-  const newsParams: QueryParameters = {
-    first: 50,
-  };
-  const lastNews = await fetchQuery(getAllNews(newsParams));
-  const lastNewsResponse = lastNews.notFound
-    ? []
-    : lastNews.props.data.posts.nodes;
+  let lastNewsResponse: any[] = [];
+  try {
+    const newsParams: QueryParameters = {
+      first: 200,
+    };
+    const lastNews = await fetchQuery(getAllNews(newsParams));
+    lastNewsResponse = lastNews.notFound ? [] : lastNews.props.data.posts.nodes;
+  } catch {
+    lastNewsResponse = [];
+  }
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
         ${lastNewsResponse
+          .filter((item) => item?.slug && item?.categories?.nodes?.[0]?.slug)
           .map((item) => {
             const {
               slug,
@@ -34,28 +53,31 @@ export async function GET() {
             const featuredMediaUrl = featuredImage?.node?.sourceUrl;
             let img = "";
             if (featuredMediaUrl) {
-              img = `<image:image><image:loc>${featuredMediaUrl.replace(
-                /&/g,
-                "&amp;"
+              img = `<image:image><image:loc>${escapeXml(
+                featuredMediaUrl
               )}</image:loc></image:image>`;
             }
             const newsTitle =
               typeof title === "string" ? title : (title?.rendered ?? "");
+            const keywordParts = [
+              categories.nodes[0].name,
+              ...(tags?.nodes?.map((tag: { name: string }) => tag.name) ?? []),
+            ].filter(Boolean);
             return `
                 <url>
-                    <loc>https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/news/${
-                      categories.nodes[0].slug
-                    }/${slug}/</loc>
+                    <loc>${escapeXml(
+                      absoluteUrl(`/news/${categories.nodes[0].slug}/${slug}/`)
+                    )}</loc>
                     <news:news>
                         <news:publication>
-                            <news:name>${i18n.meta.siteName}</news:name>
+                            <news:name>${escapeXml(i18n.meta.siteName)}</news:name>
                             <news:language>en</news:language>
                         </news:publication>
                         <news:publication_date>${date}</news:publication_date>
-                        <news:title>${newsTitle}</news:title>
-                        <news:keywords>${categories.nodes[0].name}, ${tags.nodes
-                          ?.map((tag: { name: string }) => tag.name)
-                          .join(", ")}</news:keywords>
+                        <news:title>${escapeXml(newsTitle)}</news:title>
+                        <news:keywords>${escapeXml(
+                          keywordParts.join(", ")
+                        )}</news:keywords>
                     </news:news>
                     ${img}
                     <lastmod>${modified}</lastmod>

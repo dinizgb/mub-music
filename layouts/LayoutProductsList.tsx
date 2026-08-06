@@ -5,7 +5,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 // COMPONENTS
 import Header from "components/Tags/Header";
 import Footer from "components/Tags/Footer";
-import { H2, H3, P } from "components/Texts/Typographies";
+import { H1, H3, P } from "components/Texts/Typographies";
 import PaginationWidget from "components/Widgets/PaginationWidget";
 import ProductCardList from "components/Lists/ProductCardList";
 import {
@@ -17,7 +17,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 // TYPES
 import { ProductsCategoriesType } from "types/productsCategoriesType";
-import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
+import { PageSeoCopy } from "types/pageSeoCopy";
 import { ProductFilterType } from "types/productFilterType";
 import { i18n, t } from "@/i18n";
 
@@ -29,7 +29,7 @@ type LayoutProductsListProps = {
   productSubCategoryData: string | null;
   productBrandsData: Array<ProductFilterType>;
   productPriceAverageData: Array<ProductFilterType>;
-  seoData: SEOTagsConstructorTypes;
+  seoData: PageSeoCopy;
   totalCount: number;
   currentPage: number;
 };
@@ -213,7 +213,7 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                     sm:gap-x-6 md:gap-x-10"
                 >
                   <div className="mt-10 sm:col-span-6 md:col-span-8">
-                    <H2
+                    <H1
                       className="text-text-4"
                       fontWeight={600}
                       fontSize={26}
@@ -222,7 +222,7 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                       xsLineHeight={30}
                     >
                       {props.seoData.pageTitle}
-                    </H2>
+                    </H1>
                     <P
                       className="text-subtitle mt-1.25 mb-2.5"
                       fontWeight={400}

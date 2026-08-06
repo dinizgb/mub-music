@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import LayoutListWithAside from "layouts/LayoutListWithAside";
 import { fetchQuery } from "services/graphql/fetchQuery";
@@ -7,14 +6,16 @@ import getAllProductCategories from "services/graphql/queries/getAllProductCateg
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { QueryParameters } from "types/queryParams";
 import { i18n } from "@/i18n";
+import { buildPageMetadata } from "lib/seo/buildPageMetadata";
+import JsonLd from "lib/seo/JsonLd";
+import { buildBreadcrumbJsonLd } from "lib/seo/jsonld/breadcrumb";
+import { absoluteUrl } from "lib/seo/absoluteUrl";
 
-export const metadata: Metadata = {
+export const metadata = buildPageMetadata({
   title: i18n.news.title,
   description: i18n.news.description,
-  alternates: {
-    canonical: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/news/`,
-  },
-};
+  path: "/news/",
+});
 
 /**
  * News index page.
@@ -37,15 +38,23 @@ export default async function NewsHome() {
     getProductCategories.props.data.productCategories.nodes;
 
   return (
-    <LayoutListWithAside
-      postData={lastNews.props.data.posts.nodes}
-      TopFiveWidgetData={""}
-      TopFiveWidgetTitle={i18n.news.lastNews}
-      layoutSection={`news`}
-      layoutTitle={i18n.news.title}
-      layoutSlug={``}
-      layoutDescription={i18n.news.description}
-      productsCategories={productsCategories}
-    />
+    <>
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: i18n.article.breadcrumbHome, item: absoluteUrl("/") },
+          { name: i18n.news.title, item: absoluteUrl("/news/") },
+        ])}
+      />
+      <LayoutListWithAside
+        postData={lastNews.props.data.posts.nodes}
+        TopFiveWidgetData={""}
+        TopFiveWidgetTitle={i18n.news.lastNews}
+        layoutSection={`news`}
+        layoutTitle={i18n.news.title}
+        layoutSlug={``}
+        layoutDescription={i18n.news.description}
+        productsCategories={productsCategories}
+      />
+    </>
   );
 }

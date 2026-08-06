@@ -10,13 +10,17 @@ import productFilterConstructor from "services/filters/productFilterConstructor"
 import paginationOffsetFormatter from "utils/paginationOffsetFormatter";
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { QueryParameters } from "types/queryParams";
-import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
+import { PageSeoCopy } from "types/pageSeoCopy";
 import { ProductType } from "types/productType";
 import {
   ProductFilterType,
   ProductFilterResponseType,
 } from "types/productFilterType";
 import { i18n, t } from "@/i18n";
+import { buildPageMetadata } from "lib/seo/buildPageMetadata";
+import { absoluteUrl } from "lib/seo/absoluteUrl";
+import JsonLd from "lib/seo/JsonLd";
+import { buildBreadcrumbJsonLd } from "lib/seo/jsonld/breadcrumb";
 
 type PageProps = {
   params: Promise<{ category: string; subcategory: string }>;
@@ -24,6 +28,35 @@ type PageProps = {
 };
 
 export const dynamic = "force-dynamic";
+
+/**
+ * Resolves category and subcategory display names.
+ * @param {string} category Category slug.
+ * @param {string} subcategory Subcategory slug.
+ * @return {Promise<{categoryTitle: string, subcategoryTitle: string}>} Titles.
+ */
+async function resolveTitles(category: string, subcategory: string) {
+  const products = await fetchQuery(
+    getAllProducts({
+      where: {
+        catSlug: category,
+        subCatSlug: subcategory,
+        offsetPagination: { size: 1, offset: 0 },
+      },
+    })
+  );
+  if (!products.notFound && products.props.data.products.nodes[0]) {
+    const info = products.props.data.products.nodes[0].product_info;
+    return {
+      categoryTitle: info.category.title,
+      subcategoryTitle: info.subcategory.title,
+    };
+  }
+  return {
+    categoryTitle: category,
+    subcategoryTitle: subcategory,
+  };
+}
 
 /**
  * Builds metadata for a product subcategory page.
@@ -34,15 +67,14 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { category, subcategory } = await params;
-  return {
-    title: subcategory.toUpperCase(),
+  const { subcategoryTitle } = await resolveTitles(category, subcategory);
+  return buildPageMetadata({
+    title: subcategoryTitle,
     description: t(i18n.products.categoryDescription, {
-      name: subcategory.toUpperCase(),
+      name: subcategoryTitle,
     }),
-    alternates: {
-      canonical: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/products/${category}/${subcategory}/`,
-    },
-  };
+    path: `/products/${category}/${subcategory}/`,
+  });
 }
 
 /**
@@ -50,53 +82,50 @@ export async function generateMetadata({
  * @param {PageProps} props Route params and search params.
  * @return {Promise<ReactElement>} Subcategory products page.
  */
-export default async function ProductsSubCategoryPage({
+export default async function ProductsSubcategoryPage({
   params,
   searchParams,
 }: PageProps) {
   const { category, subcategory } = await params;
   const query = await searchParams;
-  const brand = query.brand;
-  const page = query.page;
-  const offset = page ? paginationOffsetFormatter(page) : 0;
-  const currentPage = page ? parseInt(page, 10) : 1;
+  const offset = query.page ? paginationOffsetFormatter(query.page) : 0;
+  const currentPage = query.page ? parseInt(query.page, 10) : 1;
 
   const lastProductsDefaultParams: QueryParameters = {
     where: {
+      catSlug: category,
       subCatSlug: subcategory,
       offsetPagination: { size: 20, offset: offset },
     },
   };
   const lastProductsByBrandParams: QueryParameters = {
     where: {
-      brandSlug: brand,
+      brandSlug: query.brand,
+      catSlug: category,
       subCatSlug: subcategory,
       offsetPagination: { size: 20, offset: offset },
     },
   };
-  const lastProductsParams: QueryParameters = brand
+  const lastProductsParams: QueryParameters = query.brand
     ? lastProductsByBrandParams
     : lastProductsDefaultParams;
 
   const lastProducts = await fetchQuery(getAllProducts(lastProductsParams));
   if (lastProducts.notFound) notFound();
 
-  const lastProductsResponse: Array<ProductType> =
+  const lastProductsResponse: ProductType[] =
     lastProducts.props.data.products.nodes;
   const lastProductsTotalRecords: number =
     lastProducts.props.data.products.pageInfo.offsetPagination.total;
 
-  const productsFiltersParams: QueryParameters = {
-    where: {
-      subCatSlug: subcategory,
-      offsetPagination: {
-        size: lastProductsTotalRecords,
-        offset: 1,
-      },
-    },
-  };
   const productsFilters = await fetchQuery(
-    getAllProductFiltersInfos(productsFiltersParams)
+    getAllProductFiltersInfos({
+      where: {
+        catSlug: category,
+        subCatSlug: subcategory,
+        offsetPagination: { size: 100, offset: 0 },
+      },
+    })
   );
   if (productsFilters.notFound) notFound();
 
@@ -128,72 +157,49 @@ export default async function ProductsSubCategoryPage({
   );
 
   const productsPrefix = lastProductsResponse[0];
-  const seoData: SEOTagsConstructorTypes = {
-    pageTitle: `${
-      productsPrefix
-        ? productsPrefix.product_info.subcategory.title
-        : subcategory.toUpperCase()
-    }`,
+  const categoryTitle = productsPrefix?.product_info.category.title ?? category;
+  const subcategoryTitle =
+    productsPrefix?.product_info.subcategory.title ?? subcategory;
+  const seoData: PageSeoCopy = {
+    pageTitle: subcategoryTitle,
     pageExcerpt: t(i18n.products.categoryDescription, {
-      name: productsPrefix
-        ? productsPrefix.product_info.subcategory.title
-        : subcategory.toUpperCase(),
+      name: subcategoryTitle,
     }),
-    pageType: "product",
-    pagePath: `products/${category}/${subcategory}`,
-    pageThumb: productsPrefix
-      ? productsPrefix.product_info.thumbnail.sourceUrl
-      : "",
-    breadcrumbItemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: i18n.products.breadcrumbHome,
-        item: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/`,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: i18n.products.breadcrumbProducts,
-        item: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/products/`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: `${
-          productsPrefix
-            ? productsPrefix.product_info.category.title
-            : category.toUpperCase()
-        }`,
-        item: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/products/${category}/`,
-      },
-      {
-        "@type": "ListItem",
-        position: 4,
-        name: `${
-          productsPrefix
-            ? productsPrefix.product_info.subcategory.title
-            : subcategory.toUpperCase()
-        }`,
-        item: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/products/${category}/${subcategory}/`,
-      },
-    ],
   };
 
   return (
-    <Suspense fallback={null}>
-      <LayoutProductsList
-        productData={lastProductsResponse}
-        productCategoryData={category}
-        productsCategories={getProductCategoriesResponse}
-        productSubCategories={productSubCategoryCategories}
-        productSubCategoryData={subcategory}
-        productBrandsData={brands}
-        productPriceAverageData={priceAverage}
-        seoData={seoData}
-        totalCount={lastProductsTotalRecords}
-        currentPage={currentPage}
+    <>
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: i18n.products.breadcrumbHome, item: absoluteUrl("/") },
+          {
+            name: i18n.products.breadcrumbProducts,
+            item: absoluteUrl("/products/"),
+          },
+          {
+            name: categoryTitle,
+            item: absoluteUrl(`/products/${category}/`),
+          },
+          {
+            name: subcategoryTitle,
+            item: absoluteUrl(`/products/${category}/${subcategory}/`),
+          },
+        ])}
       />
-    </Suspense>
+      <Suspense fallback={null}>
+        <LayoutProductsList
+          productData={lastProductsResponse}
+          productCategoryData={category}
+          productsCategories={getProductCategoriesResponse}
+          productSubCategories={productSubCategoryCategories}
+          productSubCategoryData={subcategory}
+          productBrandsData={brands}
+          productPriceAverageData={priceAverage}
+          seoData={seoData}
+          totalCount={lastProductsTotalRecords}
+          currentPage={currentPage}
+        />
+      </Suspense>
+    </>
   );
 }

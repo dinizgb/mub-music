@@ -1,5 +1,3 @@
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 import LayoutHomePage from "layouts/LayoutHomePage";
 import { fetchQuery } from "services/graphql/fetchQuery";
 import getAllNews from "services/graphql/queries/getAllNews";
@@ -7,27 +5,19 @@ import getAllProducts from "services/graphql/queries/getAllProducts";
 import getAllProductCategories from "services/graphql/queries/getAllProductCategories";
 import { QueryParameters } from "types/queryParams";
 import { ProductsCategoriesType } from "types/productsCategoriesType";
-import { i18n, t } from "@/i18n";
+import { i18n } from "@/i18n";
+import { buildPageMetadata } from "lib/seo/buildPageMetadata";
+import { absoluteUrl } from "lib/seo/absoluteUrl";
+import { notFound } from "next/navigation";
 
 const layoutDescription = i18n.home.metaDescription;
 
-export const metadata: Metadata = {
-  title: {
-    absolute: t(i18n.home.metaTitle, { description: layoutDescription }),
-  },
+export const metadata = buildPageMetadata({
+  title: { absolute: i18n.home.metaTitle },
   description: layoutDescription,
-  alternates: {
-    canonical: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/`,
-  },
-  openGraph: {
-    title: t(i18n.home.metaTitle, { description: layoutDescription }),
-    description: layoutDescription,
-    url: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/`,
-    images: [
-      `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/images/mub-logo-icon.png`,
-    ],
-  },
-};
+  path: "/",
+  image: absoluteUrl("/images/home-art.png"),
+});
 
 /**
  * Home page.
