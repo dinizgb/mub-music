@@ -33,7 +33,7 @@ export function buildNewsArticleJsonLd(
     publisher: {
       "@type": "Organization",
       name: "Mub Music",
-      url: "https://mubmusic.com/",
+      url: "https://mubmusic.com",
     },
     isAccessibleForFree: true,
   };

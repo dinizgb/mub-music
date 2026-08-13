@@ -8,7 +8,7 @@ export default function robots() {
   return {
     rules: {
       userAgent: "*",
-      disallow: ["/preview/"],
+      disallow: ["/preview"],
     },
     sitemap: absoluteUrl("/sitemap.xml"),
   };

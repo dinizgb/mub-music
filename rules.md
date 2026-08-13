@@ -30,7 +30,7 @@ Single source of truth for coding conventions. Cursor and Claude configs point h
 
 - External offer/review links: wrap the row in `<a href={url} target="_blank" rel="noreferrer">` (see `ReviewsSidebarList` / `OffersSidebarList`)
 - Keep `"use client"` only where hooks, Redux, or browser APIs are required
-- Preserve existing URL shapes and `trailingSlash: true`
+- Prefer URLs **without** a trailing slash (`trailingSlash: false`); SEO canonicals use `absoluteUrl()` from `lib/seo/`
 
 ## Formatting & lint
 

@@ -10,7 +10,7 @@ const nextConfig = {
       },
     ],
   },
-  trailingSlash: true,
+  trailingSlash: false,
   turbopack: {
     root: __dirname,
   },

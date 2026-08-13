@@ -11,26 +11,30 @@ describe("absoluteUrl", () => {
     process.env.NEXT_PUBLIC_ENV_DOMAIN = originalDomain;
   });
 
-  it("returns the site root with trailing slash by default", () => {
-    expect(absoluteUrl()).toBe("https://mubmusic.com/");
+  it("returns the site root without a trailing slash by default", () => {
+    expect(absoluteUrl()).toBe("https://mubmusic.com");
   });
 
-  it("adds a leading and trailing slash when missing", () => {
-    expect(absoluteUrl("news")).toBe("https://mubmusic.com/news/");
+  it("adds a leading slash and strips trailing slashes", () => {
+    expect(absoluteUrl("news")).toBe("https://mubmusic.com/news");
+    expect(absoluteUrl("/news/")).toBe("https://mubmusic.com/news");
   });
 
-  it("preserves an already-normalized path", () => {
+  it("normalizes nested paths without a trailing slash", () => {
     expect(absoluteUrl("/products/guitars/")).toBe(
-      "https://mubmusic.com/products/guitars/"
+      "https://mubmusic.com/products/guitars"
     );
   });
 
-  it("does not force a trailing slash on sitemap files", () => {
+  it("keeps sitemap and file paths without forcing a trailing slash", () => {
     expect(absoluteUrl("/sitemap.xml")).toBe(
       "https://mubmusic.com/sitemap.xml"
     );
     expect(absoluteUrl("/news/sitemap.xml")).toBe(
       "https://mubmusic.com/news/sitemap.xml"
+    );
+    expect(absoluteUrl("/images/home-art.png")).toBe(
+      "https://mubmusic.com/images/home-art.png"
     );
   });
 });
