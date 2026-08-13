@@ -106,7 +106,7 @@ Mirror the source area under `__tests__/`, with a flat file name matching the mo
 - Runner: Jest (`npm test` / `npm test -- --coverage`). Config: `jest.config.js` + `jest.setup.ts`.
 - React Testing Library v16+ (React 19). Path alias `@/*` is mapped in Jest.
 - Avatar (and similar Radix-heavy UI) may be mocked in `jest.setup.ts` when unit tests do not need the real primitive.
-- Run coverage for touched files before claiming done; fix failures before commit (husky runs the project checks).
+- Don't commit or push changes.
 
 ### Exceptions
 
