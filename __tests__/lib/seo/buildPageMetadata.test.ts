@@ -27,7 +27,7 @@ describe("buildPageMetadata", () => {
 
   it("supports absolute titles and article times", () => {
     const metadata = buildPageMetadata({
-      title: { absolute: "Mub Music | Reviews, Offers, Specs and much more! Find your Sound!" },
+      title: { absolute: "Mub Music | Reviews, Offers & Specs" },
       description: "Headline",
       path: "/",
       type: "article",
@@ -37,7 +37,7 @@ describe("buildPageMetadata", () => {
     });
 
     expect(metadata.title).toEqual({
-      absolute: "Mub Music | Reviews, Offers, Specs and much more! Find your Sound!",
+      absolute: "Mub Music | Reviews, Offers & Specs",
     });
     expect(metadata.openGraph?.images).toEqual(["https://cdn.example/img.jpg"]);
   });
