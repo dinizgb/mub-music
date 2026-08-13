@@ -15,7 +15,7 @@ Full technical SEO pass: fix known home canonical/description issues, then harde
 | Scope                 | Full technical SEO (metadata, canonicals, OG/Twitter, JSON-LD, sitemaps, headings, robots, not-found)              |
 | Home meta description | Use existing headline: “Reviews, Offers, Specs and much more! Find everything you need about any musical product!” |
 | Home `<title>`        | Brand + short tagline: `Mub Music \| Reviews, Offers & Specs` (absolute)                                           |
-| Canonical mismatch    | Preferred URL has **no** trailing slash (`https://mubmusic.com`, `trailingSlash: false`) |
+| Canonical mismatch    | Preferred URL has **no** trailing slash (`https://mubmusic.com`, `trailingSlash: false`)                           |
 | Architecture          | Metadata API only; delete unused `*SEOConstructor` components                                                      |
 | JSON-LD               | Real Product / NewsArticle / BreadcrumbList from CMS data; never ship hardcoded fake Product schema                |
 
@@ -40,7 +40,7 @@ New code lives under `lib/seo/`. Legacy files under `services/SEO/` are deleted 
 | Unit                    | Responsibility                                                   |
 | ----------------------- | ---------------------------------------------------------------- |
 | `siteConfig.ts`         | `siteName`, domain from `NEXT_PUBLIC_ENV_DOMAIN`, `metadataBase` |
-| `absoluteUrl.ts`        | `https://{domain}{path}` with normalized trailing slash          |
+| `absoluteUrl.ts`        | `https://{domain}{path}` with trailing slashes stripped          |
 | `buildPageMetadata.ts`  | Shared title, description, canonical, Open Graph, Twitter shape  |
 | `jsonld/product.ts`     | Product schema from live `ProductType`                           |
 | `jsonld/newsArticle.ts` | NewsArticle from post fields                                     |
@@ -88,7 +88,7 @@ Drop unused `seoData` props that existed only to feed those tags (keep visible p
 
 - `/sitemap.xml` index → `news`, `products`, and static URLs (home, `/news/`, `/products/`) via a static sitemap or inline static entries.
 - `/news/sitemap.xml` — keep Google News extensions; increase coverage beyond first 50 (paginate GraphQL or split sitemaps if needed). Escape XML entities; skip items missing category slug.
-- `/products/sitemap.xml` — new; product detail URLs with trailing slash.
+- `/products/sitemap.xml` — new; product detail URLs without trailing slash.
 - Replace hardcoded `public/robots.txt` with `app/robots.ts` using `absoluteUrl` for the sitemap loc. Keep `Disallow: /preview/` if still relevant.
 
 ### Heading hierarchy (P2)
@@ -148,7 +148,7 @@ Add `app/not-found.tsx` with `robots: { index: false }`.
 ## Success criteria
 
 - Home SERP title/description match approved copy.
-- Auditing the apex URL without a trailing slash no longer reports a conflicting canonical once redirect + preferred URL align (or auditor follows redirect to the slash URL).
+- Auditing the apex URL without a trailing slash matches the preferred canonical (`https://mubmusic.com`); slash URLs should redirect to the non-slash form.
 - No `https://undefined` URLs in HTML or sitemaps when env is set.
 - Product and article pages expose valid JSON-LD without fabricated offers/reviews.
 - Sitemaps discover home, news, and product URLs.
