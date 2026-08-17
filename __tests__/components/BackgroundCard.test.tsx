@@ -6,7 +6,7 @@ describe("BackgroundCard", () => {
     render(
       <BackgroundCard
         backgroundCardThumbnail="https://example.com/bg.jpg"
-        backgroundCardUrl="/products/guitars"
+        backgroundCardUrl="/products/guitars/"
         backgroundCardTitle="Guitars"
       />
     );
@@ -14,7 +14,7 @@ describe("BackgroundCard", () => {
     expect(screen.getByText("Guitars")).toBeInTheDocument();
     expect(screen.getByRole("link")).toHaveAttribute(
       "href",
-      "/products/guitars"
+      "/products/guitars/"
     );
   });
 });

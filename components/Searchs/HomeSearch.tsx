@@ -1,4 +1,4 @@
-import { H2, H3, Span, P } from "components/Texts/Typographies";
+import { H1, Span, P } from "components/Texts/Typographies";
 import SearchInput from "components/Inputs/SearchInput";
 import { i18n } from "@/i18n";
 
@@ -27,7 +27,7 @@ export default function HomeSearch() {
                 &#119062;&#119062;&#119062;&#119062;&#119062;&#119062;&#11044;&nbsp;&nbsp;
                 {i18n.home.findYourSound} &nbsp;&#119136;
               </P>
-              <H2
+              <H1
                 className="text-text-4"
                 fontWeight={600}
                 fontSize={42}
@@ -36,7 +36,7 @@ export default function HomeSearch() {
                 xsLineHeight={64}
               >
                 {i18n.home.headline}
-              </H2>
+              </H1>
               <SearchInput
                 className="mt-10"
                 placeholder={i18n.home.searchPlaceholder}
@@ -47,7 +47,7 @@ export default function HomeSearch() {
                   [&_div]:text-center [&_div:last-child]:border-r-0"
               >
                 <div>
-                  <H3
+                  <P
                     className="text-text-4"
                     fontWeight={600}
                     fontSize={21}
@@ -56,7 +56,7 @@ export default function HomeSearch() {
                     xsLineHeight={30}
                   >
                     {i18n.home.statsValue}
-                  </H3>
+                  </P>
                   <Span
                     className="text-subtitle mb-5"
                     fontWeight={600}
@@ -69,7 +69,7 @@ export default function HomeSearch() {
                   </Span>
                 </div>
                 <div>
-                  <H3
+                  <P
                     className="text-text-4"
                     fontWeight={600}
                     fontSize={21}
@@ -78,7 +78,7 @@ export default function HomeSearch() {
                     xsLineHeight={30}
                   >
                     {i18n.home.statsValue}
-                  </H3>
+                  </P>
                   <Span
                     className="text-subtitle mb-5"
                     fontWeight={600}
@@ -91,7 +91,7 @@ export default function HomeSearch() {
                   </Span>
                 </div>
                 <div>
-                  <H3
+                  <P
                     className="text-text-4"
                     fontWeight={600}
                     fontSize={21}
@@ -100,7 +100,7 @@ export default function HomeSearch() {
                     xsLineHeight={30}
                   >
                     {i18n.home.statsValue}
-                  </H3>
+                  </P>
                   <Span
                     className="text-subtitle mb-5"
                     fontWeight={600}

@@ -1,4 +1,4 @@
-import { H4 } from "components/Texts/Typographies";
+import { H3 } from "components/Texts/Typographies";
 
 type BackgroundCardProps = {
   backgroundCardThumbnail: string;
@@ -22,7 +22,7 @@ export default function BackgroundCard(props: BackgroundCardProps) {
         className="flex w-full items-end bg-black/50 px-3.75 py-5
           hover:bg-black/30"
       >
-        <H4
+        <H3
           fontWeight={700}
           fontSize={20}
           lineHeight={24}
@@ -31,7 +31,7 @@ export default function BackgroundCard(props: BackgroundCardProps) {
           className="text-text-4 mt-11.25 uppercase"
         >
           {props.backgroundCardTitle}
-        </H4>
+        </H3>
       </a>
     </div>
   );

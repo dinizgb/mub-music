@@ -1,20 +1,21 @@
-import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import LayoutProductCategoryList from "layouts/LayoutProductCategoryList";
 import { fetchQuery } from "services/graphql/fetchQuery";
 import getAllProductCategories from "services/graphql/queries/getAllProductCategories";
 import { QueryParameters } from "types/queryParams";
-import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
+import { PageSeoCopy } from "types/pageSeoCopy";
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { i18n } from "@/i18n";
+import { buildPageMetadata } from "lib/seo/buildPageMetadata";
+import JsonLd from "lib/seo/JsonLd";
+import { buildBreadcrumbJsonLd } from "lib/seo/jsonld/breadcrumb";
+import { absoluteUrl } from "lib/seo/absoluteUrl";
 
-export const metadata: Metadata = {
+export const metadata = buildPageMetadata({
   title: i18n.products.title,
   description: i18n.products.description,
-  alternates: {
-    canonical: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/products/`,
-  },
-};
+  path: "/products/",
+});
 
 /**
  * Products index page.
@@ -34,32 +35,27 @@ export default async function ProductsHomePage() {
   const lastProductsCategoriesTotalRecords: number =
     lastProducts.props.data.productCategories.pageInfo.offsetPagination.total;
 
-  const seoData: SEOTagsConstructorTypes = {
+  const seoData: PageSeoCopy = {
     pageTitle: i18n.products.title,
     pageExcerpt: i18n.products.description,
-    pageType: "product",
-    pagePath: "products",
-    breadcrumbItemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: i18n.products.breadcrumbHome,
-        item: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/`,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: i18n.products.breadcrumbProducts,
-        item: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/products/`,
-      },
-    ],
   };
 
   return (
-    <LayoutProductCategoryList
-      lastProductsCategories={lastProductsCategoriesResponse}
-      seoData={seoData}
-      totalCount={lastProductsCategoriesTotalRecords}
-    />
+    <>
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: i18n.products.breadcrumbHome, item: absoluteUrl("/") },
+          {
+            name: i18n.products.breadcrumbProducts,
+            item: absoluteUrl("/products/"),
+          },
+        ])}
+      />
+      <LayoutProductCategoryList
+        lastProductsCategories={lastProductsCategoriesResponse}
+        seoData={seoData}
+        totalCount={lastProductsCategoriesTotalRecords}
+      />
+    </>
   );
 }

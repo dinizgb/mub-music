@@ -30,7 +30,7 @@ Single source of truth for coding conventions. Cursor and Claude configs point h
 
 - External offer/review links: wrap the row in `<a href={url} target="_blank" rel="noreferrer">` (see `ReviewsSidebarList` / `OffersSidebarList`)
 - Keep `"use client"` only where hooks, Redux, or browser APIs are required
-- Preserve existing URL shapes and `trailingSlash: true`
+- Prefer URLs **with** a trailing slash (`trailingSlash: true`); SEO canonicals use `absoluteUrl()` from `lib/seo/`
 
 ## Formatting & lint
 
@@ -106,7 +106,6 @@ Mirror the source area under `__tests__/`, with a flat file name matching the mo
 - Runner: Jest (`npm test` / `npm test -- --coverage`). Config: `jest.config.js` + `jest.setup.ts`.
 - React Testing Library v16+ (React 19). Path alias `@/*` is mapped in Jest.
 - Avatar (and similar Radix-heavy UI) may be mocked in `jest.setup.ts` when unit tests do not need the real primitive.
-- Run coverage for touched files before claiming done; fix failures before commit (husky runs the project checks).
 
 ### Exceptions
 
@@ -119,3 +118,7 @@ Mirror the source area under `__tests__/`, with a flat file name matching the mo
 - Do not redesign spacing, typography, or palette unless asked
 - After UI changes, smoke-check key routes: `/`, `/products/`, product detail, news article
 - New modules must include tests under `__tests__/` as described above
+
+## Git
+
+- Never run git add / git commit / git push unless I explicitly ask in that message.

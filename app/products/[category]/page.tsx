@@ -7,16 +7,21 @@ import getAllProducts from "services/graphql/queries/getAllProducts";
 import getAllProductFiltersInfos from "services/graphql/queries/getAllProductFiltersInfos";
 import productFilterConstructor from "services/filters/productFilterConstructor";
 import getAllProductCategories from "services/graphql/queries/getAllProductCategories";
+import getProductCategoryBy from "services/graphql/queries/getProductCategoryBy";
 import paginationOffsetFormatter from "utils/paginationOffsetFormatter";
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { QueryParameters } from "types/queryParams";
-import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
+import { PageSeoCopy } from "types/pageSeoCopy";
 import { ProductType } from "types/productType";
 import {
   ProductFilterType,
   ProductFilterResponseType,
 } from "types/productFilterType";
 import { i18n, t } from "@/i18n";
+import { buildPageMetadata } from "lib/seo/buildPageMetadata";
+import { absoluteUrl } from "lib/seo/absoluteUrl";
+import JsonLd from "lib/seo/JsonLd";
+import { buildBreadcrumbJsonLd } from "lib/seo/jsonld/breadcrumb";
 
 type PageProps = {
   params: Promise<{ category: string }>;
@@ -24,6 +29,35 @@ type PageProps = {
 };
 
 export const dynamic = "force-dynamic";
+
+/**
+ * Resolves a human category title from CMS when possible.
+ * @param {string} category Category slug.
+ * @return {Promise<string>} Display name.
+ */
+async function resolveCategoryTitle(category: string): Promise<string> {
+  const categoryReq = await fetchQuery(
+    getProductCategoryBy({ slug: category })
+  );
+  if (
+    !categoryReq.notFound &&
+    categoryReq.props.data.productCategoryBy?.title
+  ) {
+    return categoryReq.props.data.productCategoryBy.title;
+  }
+  const products = await fetchQuery(
+    getAllProducts({
+      where: {
+        catSlug: category,
+        offsetPagination: { size: 1, offset: 0 },
+      },
+    })
+  );
+  if (!products.notFound && products.props.data.products.nodes[0]) {
+    return products.props.data.products.nodes[0].product_info.category.title;
+  }
+  return category;
+}
 
 /**
  * Builds metadata for a product category page.
@@ -34,15 +68,12 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { category } = await params;
-  return {
-    title: category.toUpperCase(),
-    description: t(i18n.products.categoryDescription, {
-      name: category.toUpperCase(),
-    }),
-    alternates: {
-      canonical: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/products/${category}/`,
-    },
-  };
+  const name = await resolveCategoryTitle(category);
+  return buildPageMetadata({
+    title: name,
+    description: t(i18n.products.categoryDescription, { name }),
+    path: `/products/${category}/`,
+  });
 }
 
 /**
@@ -79,22 +110,18 @@ export default async function ProductsCategoryPage({
   const lastProducts = await fetchQuery(getAllProducts(lastProductsParams));
   if (lastProducts.notFound) notFound();
 
-  const lastProductsResponse: Array<ProductType> =
+  const lastProductsResponse: ProductType[] =
     lastProducts.props.data.products.nodes;
   const lastProductsTotalRecords: number =
     lastProducts.props.data.products.pageInfo.offsetPagination.total;
 
-  const productsFiltersParams: QueryParameters = {
-    where: {
-      catSlug: category,
-      offsetPagination: {
-        size: lastProductsTotalRecords,
-        offset: 1,
-      },
-    },
-  };
   const productsFilters = await fetchQuery(
-    getAllProductFiltersInfos(productsFiltersParams)
+    getAllProductFiltersInfos({
+      where: {
+        catSlug: category,
+        offsetPagination: { size: lastProductsTotalRecords, offset: 0 },
+      },
+    })
   );
   if (productsFilters.notFound) notFound();
 
@@ -124,62 +151,45 @@ export default async function ProductsCategoryPage({
   );
 
   const productsPrefix = lastProductsResponse[0];
-  const seoData: SEOTagsConstructorTypes = {
-    pageTitle: `${
-      productsPrefix
-        ? productsPrefix.product_info.category.title
-        : category.toUpperCase()
-    }`,
+  const categoryTitle =
+    productsPrefix?.product_info.category.title ??
+    (await resolveCategoryTitle(category));
+  const seoData: PageSeoCopy = {
+    pageTitle: categoryTitle,
     pageExcerpt: t(i18n.products.categoryDescription, {
-      name: productsPrefix
-        ? productsPrefix.product_info.category.title
-        : category.toUpperCase(),
+      name: categoryTitle,
     }),
-    pageType: "product",
-    pagePath: `products/${category}`,
-    pageThumb: productsPrefix
-      ? productsPrefix.product_info.thumbnail.sourceUrl
-      : "",
-    breadcrumbItemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: i18n.products.breadcrumbHome,
-        item: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/`,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: i18n.products.breadcrumbProducts,
-        item: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/products/`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: `${
-          productsPrefix
-            ? productsPrefix.product_info.category.title
-            : category.toUpperCase()
-        }`,
-        item: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/products/${category}/`,
-      },
-    ],
   };
 
   return (
-    <Suspense fallback={null}>
-      <LayoutProductsList
-        productData={lastProductsResponse}
-        productCategoryData={category}
-        productsCategories={getProductCategoriesResponse}
-        productSubCategories={productSubCategoryCategories}
-        productSubCategoryData={null}
-        productBrandsData={brands}
-        productPriceAverageData={priceAverage}
-        seoData={seoData}
-        totalCount={lastProductsTotalRecords}
-        currentPage={currentPage}
+    <>
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: i18n.products.breadcrumbHome, item: absoluteUrl("/") },
+          {
+            name: i18n.products.breadcrumbProducts,
+            item: absoluteUrl("/products/"),
+          },
+          {
+            name: categoryTitle,
+            item: absoluteUrl(`/products/${category}/`),
+          },
+        ])}
       />
-    </Suspense>
+      <Suspense fallback={null}>
+        <LayoutProductsList
+          productData={lastProductsResponse}
+          productCategoryData={category}
+          productsCategories={getProductCategoriesResponse}
+          productSubCategories={productSubCategoryCategories}
+          productSubCategoryData={null}
+          productBrandsData={brands}
+          productPriceAverageData={priceAverage}
+          seoData={seoData}
+          totalCount={lastProductsTotalRecords}
+          currentPage={currentPage}
+        />
+      </Suspense>
+    </>
   );
 }

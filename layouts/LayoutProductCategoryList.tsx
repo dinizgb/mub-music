@@ -3,16 +3,16 @@
 // COMPONENTS
 import Header from "components/Tags/Header";
 import Footer from "components/Tags/Footer";
-import { H2, P } from "components/Texts/Typographies";
+import { H1, H2, P } from "components/Texts/Typographies";
 import BackgroundCard from "components/Cards/BackgroundCard";
 // TYPES
-import { SEOTagsConstructorTypes } from "types/SEOTagsConstructorTypes";
+import { PageSeoCopy } from "types/pageSeoCopy";
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { i18n, t } from "@/i18n";
 
 type LayoutProductCategoryListProps = {
   lastProductsCategories: ProductsCategoriesType[];
-  seoData: SEOTagsConstructorTypes;
+  seoData: PageSeoCopy;
   totalCount: number;
 };
 
@@ -38,7 +38,7 @@ export default function LayoutProductCategoryList(
                   md:gap-x-10"
               >
                 <div className="col-span-8 mt-10 sm:col-span-6 md:col-span-8">
-                  <H2
+                  <H1
                     className="text-text-4"
                     fontWeight={600}
                     fontSize={26}
@@ -46,9 +46,9 @@ export default function LayoutProductCategoryList(
                     xsFontSize={26}
                     xsLineHeight={30}
                   >
-                    {i18n.products.title}
-                  </H2>
-                  <P
+                    {props.seoData.pageTitle || i18n.products.title}
+                  </H1>
+                  <H2
                     className="text-subtitle mt-1.25 mb-2.5"
                     fontWeight={400}
                     fontSize={16}
@@ -57,7 +57,7 @@ export default function LayoutProductCategoryList(
                     xsLineHeight={36}
                   >
                     {i18n.products.subtitle}
-                  </P>
+                  </H2>
                 </div>
                 <div className="col-span-4 sm:col-span-6 md:col-span-4">
                   <div
@@ -94,7 +94,7 @@ export default function LayoutProductCategoryList(
                           backgroundCardThumbnail={
                             product_category_info.thumbnail.sourceUrl
                           }
-                          backgroundCardUrl={`${slug}`}
+                          backgroundCardUrl={`/products/${slug}/`}
                           backgroundCardTitle={title}
                         />
                       </div>

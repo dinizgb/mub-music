@@ -17,7 +17,7 @@ describe("fetchSearchProducts", () => {
       { slug: "strat" },
     ]);
     expect(global.fetch).toHaveBeenCalledWith(
-      "/api/search/products/?q=strat",
+      "/api/search/products?q=strat",
       undefined
     );
   });
@@ -31,7 +31,7 @@ describe("fetchSearchProducts", () => {
 
     await fetchSearchProducts("strat", controller.signal);
 
-    expect(global.fetch).toHaveBeenCalledWith("/api/search/products/?q=strat", {
+    expect(global.fetch).toHaveBeenCalledWith("/api/search/products?q=strat", {
       signal: controller.signal,
     });
   });
