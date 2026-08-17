@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Nav from "./Nav";
-import { H1 } from "../Texts/Typographies";
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { cn } from "@/lib/utils";
 import { i18n } from "@/i18n";
@@ -33,19 +32,12 @@ export default function Header(props: HeaderProps) {
         >
           <div className="md:col-span-3">
             <a href="/" title={i18n.header.home}>
-              <H1
-                className="text-text-4"
-                fontWeight={400}
-                fontSize={28}
-                lineHeight={28}
-              >
-                <Image
-                  src={"/images/mub-logo-icon.png"}
-                  alt={i18n.header.logoAlt}
-                  width={31}
-                  height={35}
-                />
-              </H1>
+              <Image
+                src={"/images/mub-logo-icon.png"}
+                alt={i18n.header.logoAlt}
+                width={31}
+                height={35}
+              />
             </a>
           </div>
           <div className="md:col-span-9">
