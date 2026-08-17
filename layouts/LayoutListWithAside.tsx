@@ -1,7 +1,7 @@
 // COMPONENTS
 import Header from "components/Tags/Header";
 import Footer from "components/Tags/Footer";
-import { H2, P } from "components/Texts/Typographies";
+import { H1, H2 } from "components/Texts/Typographies";
 import BigHorizontalCardList from "components/Lists/BigHorizontalCardList";
 // TYPES
 import { ProductsCategoriesType } from "types/productsCategoriesType";
@@ -37,9 +37,8 @@ export default function LayoutListWithAside(props: LayoutListWithAsideProps) {
                 md:grid-cols-12 md:gap-x-6"
             >
               <div className="md:col-span-9">
-                <H2
-                  fontType={"MainTitle"}
-                  className="text-text-4"
+                <H1
+                  className="text-text-4 font-heading"
                   fontWeight={400}
                   fontSize={76}
                   lineHeight={100}
@@ -47,8 +46,8 @@ export default function LayoutListWithAside(props: LayoutListWithAsideProps) {
                   xsLineHeight={70}
                 >
                   {props.layoutTitle}
-                </H2>
-                <P
+                </H1>
+                <H2
                   className="text-text-4 my-7.5"
                   fontWeight={300}
                   fontSize={24}
@@ -57,7 +56,7 @@ export default function LayoutListWithAside(props: LayoutListWithAsideProps) {
                   xsLineHeight={36}
                 >
                   {props.layoutDescription}
-                </P>
+                </H2>
               </div>
             </div>
           </div>

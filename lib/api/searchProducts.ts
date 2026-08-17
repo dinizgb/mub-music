@@ -9,7 +9,7 @@ export async function fetchSearchProducts(
   signal?: AbortSignal
 ): Promise<any[]> {
   const response = await fetch(
-    `/api/search/products/?q=${encodeURIComponent(text)}`,
+    `/api/search/products?q=${encodeURIComponent(text)}`,
     signal ? { signal } : undefined
   );
 

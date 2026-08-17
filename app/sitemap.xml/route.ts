@@ -1,3 +1,5 @@
+import { absoluteUrl } from "lib/seo/absoluteUrl";
+
 export const revalidate = 86400;
 
 /**
@@ -5,17 +7,16 @@ export const revalidate = 86400;
  * @return {Promise<Response>} XML sitemap index.
  */
 export async function GET() {
-  const sitemaps = ["news"];
+  const sitemaps = ["static", "news", "products"];
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    ${sitemaps
-      .map(
-        (item) =>
-          `<sitemap>
-            <loc>https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/${item}/sitemap.xml</loc>
-        </sitemap>`
-      )
-      .join("")}
+${sitemaps
+  .map(
+    (item) => `  <sitemap>
+    <loc>${absoluteUrl(`/${item}/sitemap.xml`)}</loc>
+  </sitemap>`
+  )
+  .join("\n")}
 </sitemapindex>
 `;
 

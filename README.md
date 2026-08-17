@@ -61,3 +61,12 @@ Open [http://localhost:3000](http://localhost:3000).
 - Install uses `.npmrc` with `legacy-peer-deps=true` so peer ranges match the existing React 19 stack.
 - Browser data fetching goes through Next.js Route Handlers under `app/api/` (e.g. product search). Server Components call GraphQL via `services/` directly.
 - Coding conventions live in [`rules.md`](./rules.md).
+
+## Branch rules
+
+- Features: feat/branch-name
+- Bugs: bugfix/branch-name
+- Hot fixes: hotfix/branch-name
+- Security: security/branch-name
+- Documentation: doc/branch-name
+- Analytics: analytics/branch-name

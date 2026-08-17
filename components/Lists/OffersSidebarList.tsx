@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { H3, H4, Span } from "components/Texts/Typographies";
+import { H2, H3, Span } from "components/Texts/Typographies";
 import { cn } from "@/lib/utils";
 import { i18n, t } from "@/i18n";
 
@@ -35,7 +35,7 @@ export default function OffersSidebarList(props: OffersSidebarListProps) {
             : "bg-odd-section text-text-4"
         )}
       >
-        <H3
+        <H2
           className={cn(
             props.isPrimaryTitle ? "text-background" : "text-text-4"
           )}
@@ -46,7 +46,7 @@ export default function OffersSidebarList(props: OffersSidebarListProps) {
           xsLineHeight={36}
         >
           {props.title}
-        </H3>
+        </H2>
       </div>
       <ul className="flex flex-col p-2.5 px-3.75">
         {props.data ? (
@@ -72,7 +72,7 @@ export default function OffersSidebarList(props: OffersSidebarListProps) {
                         className="rounded-full object-cover"
                       />
                     </div>
-                    <H4
+                    <H3
                       className="text-text-4 group-hover:text-black!"
                       fontWeight={500}
                       fontSize={16}
@@ -81,7 +81,7 @@ export default function OffersSidebarList(props: OffersSidebarListProps) {
                       xsLineHeight={36}
                     >
                       {store}
-                    </H4>
+                    </H3>
                   </figure>
                   <div>
                     <Span

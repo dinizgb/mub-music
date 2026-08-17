@@ -47,6 +47,10 @@ export default function getAllNews(props: QueryParameters) {
             }
           }
         }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
       }
     }`;
   return query;

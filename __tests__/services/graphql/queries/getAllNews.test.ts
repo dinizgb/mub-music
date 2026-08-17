@@ -10,4 +10,14 @@ describe("getAllNews", () => {
     expect(query).toContain("featuredImage");
     expect(query).toContain("categories");
   });
+
+  it("supports cursor pagination fields used by the news sitemap", () => {
+    const query = getAllNews({ first: 200, after: "cursor123" });
+
+    expect(query).toContain("first: 200");
+    expect(query).toContain('after: "cursor123"');
+    expect(query).toContain("pageInfo");
+    expect(query).toContain("hasNextPage");
+    expect(query).toContain("endCursor");
+  });
 });

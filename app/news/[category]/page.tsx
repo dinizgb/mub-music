@@ -8,6 +8,10 @@ import getAllProductCategories from "services/graphql/queries/getAllProductCateg
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { QueryParameters } from "types/queryParams";
 import { i18n } from "@/i18n";
+import { buildPageMetadata } from "lib/seo/buildPageMetadata";
+import { absoluteUrl } from "lib/seo/absoluteUrl";
+import JsonLd from "lib/seo/JsonLd";
+import { buildBreadcrumbJsonLd } from "lib/seo/jsonld/breadcrumb";
 
 type PageProps = {
   params: Promise<{ category: string }>;
@@ -43,25 +47,23 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { category } = await params;
+  const path = `/news/${category}/`;
   const lastNews = await fetchQuery(
     getAllNews({ first: 5, where: { categoryName: category } })
   );
   if (lastNews.notFound || !lastNews.props.data.posts.nodes[0]) {
-    return {
+    return buildPageMetadata({
       title: category,
-      alternates: {
-        canonical: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/news/${category}/`,
-      },
-    };
+      description: i18n.news.description,
+      path,
+    });
   }
   const first = lastNews.props.data.posts.nodes[0].categories.nodes[0];
-  return {
+  return buildPageMetadata({
     title: first.name,
-    description: first.description,
-    alternates: {
-      canonical: `https://${process.env.NEXT_PUBLIC_ENV_DOMAIN}/news/${category}/`,
-    },
-  };
+    description: first.description || i18n.news.description,
+    path,
+  });
 }
 
 /**
@@ -79,6 +81,8 @@ export default async function NewsCategoryPage({ params }: PageProps) {
   if (lastNews.notFound || !lastNews.props.data.posts.nodes[0]) notFound();
 
   const newsData = lastNews.props.data.posts.nodes;
+  const categoryName = newsData[0].categories.nodes[0].name;
+  const categoryDescription = newsData[0].categories.nodes[0].description;
 
   const getProductCategoriesParams: QueryParameters = {
     where: { offsetPagination: { size: 100, offset: 1 } },
@@ -92,15 +96,27 @@ export default async function NewsCategoryPage({ params }: PageProps) {
     getProductCategories.props.data.productCategories.nodes;
 
   return (
-    <LayoutListWithAside
-      postData={newsData}
-      TopFiveWidgetData={""}
-      TopFiveWidgetTitle={i18n.news.lastNews}
-      layoutSection={`news`}
-      layoutTitle={newsData[0].categories.nodes[0].name}
-      layoutSlug={``}
-      layoutDescription={newsData[0].categories.nodes[0].description}
-      productsCategories={productsCategories}
-    />
+    <>
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: i18n.article.breadcrumbHome, item: absoluteUrl("/") },
+          { name: i18n.news.title, item: absoluteUrl("/news/") },
+          {
+            name: categoryName,
+            item: absoluteUrl(`/news/${category}/`),
+          },
+        ])}
+      />
+      <LayoutListWithAside
+        postData={newsData}
+        TopFiveWidgetData={""}
+        TopFiveWidgetTitle={i18n.news.lastNews}
+        layoutSection={`news`}
+        layoutTitle={categoryName}
+        layoutSlug={``}
+        layoutDescription={categoryDescription}
+        productsCategories={productsCategories}
+      />
+    </>
   );
 }
