@@ -7,7 +7,7 @@ import { Share2 } from "lucide-react";
 import { ContentBody } from "components/Texts/ContentBody";
 import Header from "components/Tags/Header";
 import Footer from "components/Tags/Footer";
-import { H1, H2, H3 } from "components/Texts/Typographies";
+import { H1, H2 } from "components/Texts/Typographies";
 import StarsWidget from "components/Widgets/StarsWidget";
 import OffersSidebarList from "components/Lists/OffersSidebarList";
 import ReviewsSidebarList from "components/Lists/ReviewsSidebarList";
@@ -181,7 +181,7 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
               <div
                 className="bg-secondary mb-5 rounded-lg px-7.5 py-5 md:mb-7.5"
               >
-                <H3
+                <H2
                   className="text-text-4 mb-5"
                   fontWeight={600}
                   fontSize={21}
@@ -190,7 +190,7 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
                   xsLineHeight={36}
                 >
                   {i18n.product.photos}
-                </H3>
+                </H2>
                 <ImageGallery
                   items={productGallery}
                   showIndex={true}
@@ -201,7 +201,7 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
                 <div
                   className="bg-secondary mb-5 rounded-lg px-7.5 py-5 md:mb-7.5"
                 >
-                  <H3
+                  <H2
                     className="text-text-4 mb-5"
                     fontWeight={600}
                     fontSize={21}
@@ -210,7 +210,7 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
                     xsLineHeight={36}
                   >
                     {i18n.product.featuredVideo}
-                  </H3>
+                  </H2>
                   <YoutubeIframe
                     url={productPrefix.product_info.featureVideo}
                   />
@@ -219,7 +219,7 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
               <div
                 className="bg-secondary mb-5 rounded-lg px-7.5 py-5 md:mb-7.5"
               >
-                <H3
+                <H2
                   className="text-text-4"
                   fontWeight={600}
                   fontSize={21}
@@ -228,7 +228,7 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
                   xsLineHeight={36}
                 >
                   {i18n.product.description}
-                </H3>
+                </H2>
                 <ContentBody
                   dangerouslySetInnerHTML={{
                     __html: productPrefix.product_info.description,
@@ -238,7 +238,7 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
               <div
                 className="bg-secondary mb-5 rounded-lg px-7.5 py-5 md:mb-7.5"
               >
-                <H3
+                <H2
                   className="text-text-4"
                   fontWeight={600}
                   fontSize={21}
@@ -247,7 +247,7 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
                   xsLineHeight={36}
                 >
                   {i18n.product.specifications}
-                </H3>
+                </H2>
                 <ContentBody
                   dangerouslySetInnerHTML={{
                     __html: productPrefix.product_info.specifications,

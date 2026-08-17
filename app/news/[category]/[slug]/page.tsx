@@ -94,9 +94,7 @@ export async function generateMetadata({
   if (!newsData) {
     return { title: slug };
   }
-  const description = truncateMetaDescription(
-    htmlTagCleaner(newsData.excerpt)
-  );
+  const description = truncateMetaDescription(htmlTagCleaner(newsData.excerpt));
   const categorySlug = newsData.categories.nodes[0].slug;
   return buildPageMetadata({
     title: newsData.title,

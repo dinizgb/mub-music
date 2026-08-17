@@ -5,7 +5,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 // COMPONENTS
 import Header from "components/Tags/Header";
 import Footer from "components/Tags/Footer";
-import { H1, H3, P } from "components/Texts/Typographies";
+import { H1, H2, P } from "components/Texts/Typographies";
 import PaginationWidget from "components/Widgets/PaginationWidget";
 import ProductCardList from "components/Lists/ProductCardList";
 import {
@@ -62,9 +62,67 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
               className="grid w-full grid-cols-1 gap-x-2 sm:gap-x-6
                 md:grid-cols-12 md:gap-x-10"
             >
-              <div className="md:col-span-3">
+              <div className="order-2 md:order-2 md:col-span-9">
+                <div
+                  className="grid w-full grid-cols-1 gap-x-2 sm:grid-cols-12
+                    sm:gap-x-6 md:gap-x-10"
+                >
+                  <div className="mt-10 sm:col-span-6 md:col-span-8">
+                    <H1
+                      className="text-text-4"
+                      fontWeight={600}
+                      fontSize={26}
+                      lineHeight={30}
+                      xsFontSize={26}
+                      xsLineHeight={30}
+                    >
+                      {props.seoData.pageTitle}
+                    </H1>
+                    <H2
+                      className="text-subtitle mt-1.25 mb-2.5"
+                      fontWeight={400}
+                      fontSize={16}
+                      lineHeight={40}
+                      xsFontSize={16}
+                      xsLineHeight={36}
+                    >
+                      {props.seoData.pageExcerpt}
+                    </H2>
+                  </div>
+                  <div className="sm:col-span-6 md:col-span-4">
+                    <div
+                      className="mt-18.75 text-right max-sm:mt-0 max-sm:mb-5
+                        max-sm:text-left"
+                    >
+                      <P
+                        className="text-subtitle mb-3.75"
+                        fontWeight={600}
+                        fontSize={15}
+                        lineHeight={36}
+                        xsFontSize={16}
+                        xsLineHeight={36}
+                      >
+                        {t(i18n.products.itemsFound, {
+                          count: props.totalCount,
+                        })}
+                      </P>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-1.5">
+                  <ProductCardList productList={props.productData} />
+                </div>
+                <div className="mt-7.5">
+                  <PaginationWidget
+                    totalItens={props.totalCount}
+                    currentPage={props.currentPage}
+                    range={20}
+                  />
+                </div>
+              </div>
+              <div className="order-1 md:order-1 md:col-span-3">
                 <div className="mt-11.25">
-                  <H3
+                  <H2
                     className="text-text-4 mb-8.75"
                     fontWeight={600}
                     fontSize={22}
@@ -73,7 +131,7 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                     xsLineHeight={24}
                   >
                     {i18n.products.filters}
-                  </H3>
+                  </H2>
                 </div>
                 <div>
                   {props.productCategoryData && props.productData.length ? (
@@ -205,64 +263,6 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                       </AccordionItem>
                     </Accordion>
                   ) : null}
-                </div>
-              </div>
-              <div className="md:col-span-9">
-                <div
-                  className="grid w-full grid-cols-1 gap-x-2 sm:grid-cols-12
-                    sm:gap-x-6 md:gap-x-10"
-                >
-                  <div className="mt-10 sm:col-span-6 md:col-span-8">
-                    <H1
-                      className="text-text-4"
-                      fontWeight={600}
-                      fontSize={26}
-                      lineHeight={30}
-                      xsFontSize={26}
-                      xsLineHeight={30}
-                    >
-                      {props.seoData.pageTitle}
-                    </H1>
-                    <P
-                      className="text-subtitle mt-1.25 mb-2.5"
-                      fontWeight={400}
-                      fontSize={16}
-                      lineHeight={40}
-                      xsFontSize={16}
-                      xsLineHeight={36}
-                    >
-                      {props.seoData.pageExcerpt}
-                    </P>
-                  </div>
-                  <div className="sm:col-span-6 md:col-span-4">
-                    <div
-                      className="mt-18.75 text-right max-sm:mt-0 max-sm:mb-5
-                        max-sm:text-left"
-                    >
-                      <P
-                        className="text-subtitle mb-3.75"
-                        fontWeight={600}
-                        fontSize={15}
-                        lineHeight={36}
-                        xsFontSize={16}
-                        xsLineHeight={36}
-                      >
-                        {t(i18n.products.itemsFound, {
-                          count: props.totalCount,
-                        })}
-                      </P>
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-1.5">
-                  <ProductCardList productList={props.productData} />
-                </div>
-                <div className="mt-7.5">
-                  <PaginationWidget
-                    totalItens={props.totalCount}
-                    currentPage={props.currentPage}
-                    range={20}
-                  />
                 </div>
               </div>
             </div>

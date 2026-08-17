@@ -3,7 +3,7 @@
 // COMPONENTS
 import Header from "components/Tags/Header";
 import Footer from "components/Tags/Footer";
-import { H1, P } from "components/Texts/Typographies";
+import { H1, H2, P } from "components/Texts/Typographies";
 import BackgroundCard from "components/Cards/BackgroundCard";
 // TYPES
 import { PageSeoCopy } from "types/pageSeoCopy";
@@ -48,7 +48,7 @@ export default function LayoutProductCategoryList(
                   >
                     {props.seoData.pageTitle || i18n.products.title}
                   </H1>
-                  <P
+                  <H2
                     className="text-subtitle mt-1.25 mb-2.5"
                     fontWeight={400}
                     fontSize={16}
@@ -57,7 +57,7 @@ export default function LayoutProductCategoryList(
                     xsLineHeight={36}
                   >
                     {i18n.products.subtitle}
-                  </P>
+                  </H2>
                 </div>
                 <div className="col-span-4 sm:col-span-6 md:col-span-4">
                   <div
