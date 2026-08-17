@@ -94,7 +94,7 @@ export default function LayoutProductCategoryList(
                           backgroundCardThumbnail={
                             product_category_info.thumbnail.sourceUrl
                           }
-                          backgroundCardUrl={`${slug}`}
+                          backgroundCardUrl={`/products/${slug}/`}
                           backgroundCardTitle={title}
                         />
                       </div>

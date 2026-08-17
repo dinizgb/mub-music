@@ -10,6 +10,7 @@ import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { ProductType } from "types/productType";
 import { i18n } from "@/i18n";
 import htmlTagCleaner from "utils/htmlTagCleaner";
+import truncateMetaDescription from "utils/truncateMetaDescription";
 import { buildPageMetadata } from "lib/seo/buildPageMetadata";
 import { absoluteUrl } from "lib/seo/absoluteUrl";
 import JsonLd from "lib/seo/JsonLd";
@@ -92,7 +93,7 @@ export async function generateMetadata({
   const cleaned = product.product_info?.description
     ? htmlTagCleaner(product.product_info.description).trim()
     : "";
-  const description = cleaned || product.title;
+  const description = truncateMetaDescription(cleaned || product.title);
   const path = productDetailPath(
     product.product_info.category.slug,
     product.product_info.subcategory.slug,

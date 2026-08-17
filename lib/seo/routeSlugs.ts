@@ -1,15 +1,15 @@
 /**
- * Builds a news article path from CMS slugs (no trailing slash).
+ * Builds a news article path from CMS slugs (with trailing slash).
  * @param {string} categorySlug Category slug.
  * @param {string} slug Article slug.
  * @return {string} Path.
  */
 export function newsArticlePath(categorySlug: string, slug: string): string {
-  return `/news/${categorySlug}/${slug}`;
+  return `/news/${categorySlug}/${slug}/`;
 }
 
 /**
- * Builds a product detail path from CMS slugs (no trailing slash).
+ * Builds a product detail path from CMS slugs (with trailing slash).
  * @param {string} category Category slug.
  * @param {string} subcategory Subcategory slug.
  * @param {string} slug Product slug.
@@ -20,7 +20,7 @@ export function productDetailPath(
   subcategory: string,
   slug: string
 ): string {
-  return `/products/${category}/${subcategory}/${slug}`;
+  return `/products/${category}/${subcategory}/${slug}/`;
 }
 
 /**

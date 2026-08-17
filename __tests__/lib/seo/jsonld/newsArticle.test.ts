@@ -33,7 +33,7 @@ describe("buildNewsArticleJsonLd", () => {
     expect(schema.publisher).toEqual({
       "@type": "Organization",
       name: "Mub Music",
-      url: "https://staging.mubmusic.com",
+      url: "https://staging.mubmusic.com/",
     });
   });
 

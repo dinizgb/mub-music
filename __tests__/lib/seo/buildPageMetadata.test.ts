@@ -18,8 +18,8 @@ describe("buildPageMetadata", () => {
       path: "/news",
     });
 
-    expect(metadata.alternates?.canonical).toBe("https://mubmusic.com/news");
-    expect(metadata.openGraph?.url).toBe("https://mubmusic.com/news");
+    expect(metadata.alternates?.canonical).toBe("https://mubmusic.com/news/");
+    expect(metadata.openGraph?.url).toBe("https://mubmusic.com/news/");
     expect(metadata.openGraph?.title).toBe("News | Mub Music");
     expect(metadata.twitter).toMatchObject({ card: "summary_large_image" });
     expect(metadata.description).toBe("Daily news");

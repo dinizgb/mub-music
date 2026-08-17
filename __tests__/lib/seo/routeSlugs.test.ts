@@ -7,10 +7,10 @@ import {
 describe("routeSlugs", () => {
   it("builds news and product paths from CMS slugs", () => {
     expect(newsArticlePath("releases", "album-x")).toBe(
-      "/news/releases/album-x"
+      "/news/releases/album-x/"
     );
     expect(productDetailPath("guitars", "electric", "strat")).toBe(
-      "/products/guitars/electric/strat"
+      "/products/guitars/electric/strat/"
     );
   });
 

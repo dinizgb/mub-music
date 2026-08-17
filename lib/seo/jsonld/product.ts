@@ -1,4 +1,5 @@
 import htmlTagCleaner from "utils/htmlTagCleaner";
+import truncateMetaDescription from "utils/truncateMetaDescription";
 import { ProductType } from "types/productType";
 
 type OfferLike = {
@@ -44,7 +45,9 @@ export function buildProductJsonLd(
   const descriptionSource = info?.description
     ? htmlTagCleaner(info.description).trim()
     : "";
-  const description = descriptionSource || product.title;
+  const description = truncateMetaDescription(
+    descriptionSource || product.title
+  );
   const image = info?.thumbnail?.sourceUrl;
 
   const schema: Record<string, unknown> = {

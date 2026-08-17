@@ -8,6 +8,7 @@ import getAllProductCategories from "services/graphql/queries/getAllProductCateg
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { QueryParameters } from "types/queryParams";
 import htmlTagCleaner from "utils/htmlTagCleaner";
+import truncateMetaDescription from "utils/truncateMetaDescription";
 import { i18n } from "@/i18n";
 import { buildPageMetadata } from "lib/seo/buildPageMetadata";
 import { absoluteUrl } from "lib/seo/absoluteUrl";
@@ -93,7 +94,9 @@ export async function generateMetadata({
   if (!newsData) {
     return { title: slug };
   }
-  const description = htmlTagCleaner(newsData.excerpt);
+  const description = truncateMetaDescription(
+    htmlTagCleaner(newsData.excerpt)
+  );
   const categorySlug = newsData.categories.nodes[0].slug;
   return buildPageMetadata({
     title: newsData.title,
@@ -150,7 +153,7 @@ export default async function NewsArticlePage({ params }: PageProps) {
       <JsonLd
         data={buildNewsArticleJsonLd({
           title: newsData.title,
-          description: articleExcerpt,
+          description: truncateMetaDescription(articleExcerpt),
           image: newsData.featuredImage?.node?.sourceUrl,
           datePublished: newsData.date,
           dateModified: newsData.modified,
