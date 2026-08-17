@@ -1,3 +1,6 @@
+import { absoluteUrl } from "lib/seo/absoluteUrl";
+import { getSiteConfig } from "lib/seo/siteConfig";
+
 export type NewsArticleJsonLdInput = {
   title: string;
   description: string;
@@ -17,6 +20,7 @@ export type NewsArticleJsonLdInput = {
 export function buildNewsArticleJsonLd(
   input: NewsArticleJsonLdInput
 ): Record<string, unknown> {
+  const { siteName } = getSiteConfig();
   const schema: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "NewsArticle",
@@ -32,8 +36,8 @@ export function buildNewsArticleJsonLd(
     },
     publisher: {
       "@type": "Organization",
-      name: "Mub Music",
-      url: "https://mubmusic.com",
+      name: siteName,
+      url: absoluteUrl("/"),
     },
     isAccessibleForFree: true,
   };

@@ -120,4 +120,5 @@ Mirror the source area under `__tests__/`, with a flat file name matching the mo
 - New modules must include tests under `__tests__/` as described above
 
 ## Git
+
 - Never run git add / git commit / git push unless I explicitly ask in that message.

@@ -1,8 +1,10 @@
 import { fetchQuery } from "services/graphql/fetchQuery";
 import getAllNews from "services/graphql/queries/getAllNews";
-import { QueryParameters } from "types/queryParams";
 import { i18n } from "@/i18n";
 import { absoluteUrl } from "lib/seo/absoluteUrl";
+import { paginateConnection } from "lib/seo/paginateConnection";
+import { newsArticlePath } from "lib/seo/routeSlugs";
+import { newsSitemapPageParams } from "lib/seo/newsSitemapPageParams";
 
 export const revalidate = 60;
 
@@ -20,18 +22,37 @@ function escapeXml(value: string): string {
     .replace(/'/g, "&apos;");
 }
 
+type NewsSitemapNode = {
+  slug?: string;
+  date?: string;
+  modified?: string;
+  title?: string | { rendered?: string };
+  featuredImage?: { node?: { sourceUrl?: string } };
+  categories?: { nodes?: Array<{ slug?: string }> };
+};
+
 /**
  * News sitemap route.
+ * Uses WPGraphQL first/after cursor pagination (verified against live CMS).
  * @return {Promise<Response>} XML news sitemap.
  */
 export async function GET() {
-  let lastNewsResponse: any[] = [];
+  let lastNewsResponse: NewsSitemapNode[] = [];
   try {
-    const newsParams: QueryParameters = {
-      first: 200,
-    };
-    const lastNews = await fetchQuery(getAllNews(newsParams));
-    lastNewsResponse = lastNews.notFound ? [] : lastNews.props.data.posts.nodes;
+    lastNewsResponse = await paginateConnection(async (pageSize, after) => {
+      const lastNews = await fetchQuery(
+        getAllNews(newsSitemapPageParams(pageSize, after))
+      );
+      if (lastNews.notFound) {
+        return { nodes: [], hasNextPage: false, endCursor: null };
+      }
+      const posts = lastNews.props.data.posts;
+      return {
+        nodes: (posts.nodes ?? []) as NewsSitemapNode[],
+        hasNextPage: Boolean(posts.pageInfo?.hasNextPage),
+        endCursor: posts.pageInfo?.endCursor ?? null,
+      };
+    });
   } catch {
     lastNewsResponse = [];
   }
@@ -52,10 +73,11 @@ export async function GET() {
             }
             const newsTitle =
               typeof title === "string" ? title : (title?.rendered ?? "");
+            const categorySlug = categories!.nodes![0].slug!;
             return `
                 <url>
                     <loc>${escapeXml(
-                      absoluteUrl(`/news/${categories.nodes[0].slug}/${slug}`)
+                      absoluteUrl(newsArticlePath(categorySlug, slug!))
                     )}</loc>
                     <news:news>
                         <news:publication>

@@ -74,20 +74,27 @@ export function buildProductJsonLd(
     const prices = offers
       .map((offer) => offer.price)
       .filter((price): price is number => typeof price === "number");
-    schema.offers = {
+    const aggregate: Record<string, unknown> = {
       "@type": "AggregateOffer",
       priceCurrency: "USD",
-      lowPrice: prices.length ? Math.min(...prices) : undefined,
-      highPrice: prices.length ? Math.max(...prices) : undefined,
       offerCount: offers.length,
-      offers: offers.map((offer) => ({
-        "@type": "Offer",
-        priceCurrency: "USD",
-        price: offer.price,
-        url: offer.url,
-        availability: "https://schema.org/InStock",
-      })),
+      offers: offers.map((offer) => {
+        const entry: Record<string, unknown> = {
+          "@type": "Offer",
+          priceCurrency: "USD",
+          url: offer.url,
+        };
+        if (typeof offer.price === "number") {
+          entry.price = offer.price;
+        }
+        return entry;
+      }),
     };
+    if (prices.length > 0) {
+      aggregate.lowPrice = Math.min(...prices);
+      aggregate.highPrice = Math.max(...prices);
+    }
+    schema.offers = aggregate;
   }
 
   const reviews = collectUrlEntries(

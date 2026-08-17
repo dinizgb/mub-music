@@ -15,6 +15,8 @@ import { absoluteUrl } from "lib/seo/absoluteUrl";
 import JsonLd from "lib/seo/JsonLd";
 import { buildBreadcrumbJsonLd } from "lib/seo/jsonld/breadcrumb";
 import { buildProductJsonLd } from "lib/seo/jsonld/product";
+import { productDetailPath } from "lib/seo/routeSlugs";
+import { productMatchesRoute } from "lib/seo/matchCmsRoute";
 
 type PageProps = {
   params: Promise<{ category: string; subcategory: string; slug: string }>;
@@ -52,6 +54,29 @@ export async function generateStaticParams() {
 }
 
 /**
+ * Loads a product and ensures route params match CMS category/subcategory slugs.
+ * @param {string} category Route category slug.
+ * @param {string} subcategory Route subcategory slug.
+ * @param {string} slug Product slug.
+ * @return {Promise<ProductType | null>} Product or null when missing/mismatched.
+ */
+async function loadMatchingProduct(
+  category: string,
+  subcategory: string,
+  slug: string
+): Promise<ProductType | null> {
+  const getProduct = await fetchQuery(getProductBy({ slug }));
+  if (getProduct.notFound || !getProduct.props.data.productBy) {
+    return null;
+  }
+  const product: ProductType = getProduct.props.data.productBy;
+  if (!productMatchesRoute(product, category, subcategory, slug)) {
+    return null;
+  }
+  return product;
+}
+
+/**
  * Builds metadata for a product detail page.
  * @param {PageProps} props Route params.
  * @return {Promise<Metadata>} Page metadata.
@@ -60,19 +85,23 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { category, subcategory, slug } = await params;
-  const getProduct = await fetchQuery(getProductBy({ slug }));
-  if (getProduct.notFound) {
+  const product = await loadMatchingProduct(category, subcategory, slug);
+  if (!product) {
     return { title: slug };
   }
-  const product: ProductType = getProduct.props.data.productBy;
   const cleaned = product.product_info?.description
     ? htmlTagCleaner(product.product_info.description).trim()
     : "";
   const description = cleaned || product.title;
+  const path = productDetailPath(
+    product.product_info.category.slug,
+    product.product_info.subcategory.slug,
+    product.slug
+  );
   return buildPageMetadata({
     title: product.title,
     description,
-    path: `/products/${category}/${subcategory}/${slug}/`,
+    path,
     image: product.product_info?.thumbnail?.sourceUrl,
   });
 }
@@ -84,13 +113,17 @@ export async function generateMetadata({
  */
 export default async function ProductSinglePage({ params }: PageProps) {
   const { category, subcategory, slug } = await params;
-  const getProduct = await fetchQuery(getProductBy({ slug }));
-  if (getProduct.notFound || !getProduct.props.data.productBy) notFound();
+  const product = await loadMatchingProduct(category, subcategory, slug);
+  if (!product) notFound();
 
-  const product: ProductType = getProduct.props.data.productBy;
-  const productUrl = absoluteUrl(
-    `/products/${category}/${subcategory}/${slug}/`
+  const cmsCategory = product.product_info.category.slug;
+  const cmsSubcategory = product.product_info.subcategory.slug;
+  const productPath = productDetailPath(
+    cmsCategory,
+    cmsSubcategory,
+    product.slug
   );
+  const productUrl = absoluteUrl(productPath);
 
   const getProductCategoriesParams: QueryParameters = {
     where: { offsetPagination: { size: 100, offset: 1 } },
@@ -117,11 +150,11 @@ export default async function ProductSinglePage({ params }: PageProps) {
           },
           {
             name: categoryTitle,
-            item: absoluteUrl(`/products/${category}/`),
+            item: absoluteUrl(`/products/${cmsCategory}/`),
           },
           {
             name: subcategoryTitle,
-            item: absoluteUrl(`/products/${category}/${subcategory}/`),
+            item: absoluteUrl(`/products/${cmsCategory}/${cmsSubcategory}/`),
           },
           { name: product.title, item: productUrl },
         ])}

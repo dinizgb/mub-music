@@ -1,3 +1,5 @@
+import { serializeJsonLd } from "lib/seo/serializeJsonLd";
+
 /**
  * Renders a JSON-LD script tag for structured data.
  * @param {object} props Component props.
@@ -13,7 +15,7 @@ export default function JsonLd({
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify(data),
+        __html: serializeJsonLd(data),
       }}
     />
   );

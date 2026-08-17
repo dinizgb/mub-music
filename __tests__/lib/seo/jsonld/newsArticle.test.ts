@@ -1,6 +1,16 @@
 import { buildNewsArticleJsonLd } from "lib/seo/jsonld/newsArticle";
 
 describe("buildNewsArticleJsonLd", () => {
+  const originalDomain = process.env.NEXT_PUBLIC_ENV_DOMAIN;
+
+  beforeAll(() => {
+    process.env.NEXT_PUBLIC_ENV_DOMAIN = "staging.mubmusic.com";
+  });
+
+  afterAll(() => {
+    process.env.NEXT_PUBLIC_ENV_DOMAIN = originalDomain;
+  });
+
   it("builds a NewsArticle schema", () => {
     const schema = buildNewsArticleJsonLd({
       title: "Concert Halls",
@@ -10,7 +20,7 @@ describe("buildNewsArticleJsonLd", () => {
       dateModified: "2024-01-02T00:00:00.000Z",
       authorName: "Mub Music Staff",
       sectionName: "News",
-      url: "https://mubmusic.com/news/history/concert-halls/",
+      url: "https://staging.mubmusic.com/news/history/concert-halls",
     });
 
     expect(schema["@type"]).toBe("NewsArticle");
@@ -19,6 +29,11 @@ describe("buildNewsArticleJsonLd", () => {
     expect(schema.author).toEqual({
       "@type": "Person",
       name: "Mub Music Staff",
+    });
+    expect(schema.publisher).toEqual({
+      "@type": "Organization",
+      name: "Mub Music",
+      url: "https://staging.mubmusic.com",
     });
   });
 
@@ -30,7 +45,7 @@ describe("buildNewsArticleJsonLd", () => {
       dateModified: "2024-01-02T00:00:00.000Z",
       authorName: "Mub Music Staff",
       sectionName: "News",
-      url: "https://mubmusic.com/news/history/concert-halls/",
+      url: "https://staging.mubmusic.com/news/history/concert-halls",
     });
 
     expect(schema.image).toBeUndefined();

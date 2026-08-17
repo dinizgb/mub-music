@@ -123,7 +123,7 @@ export default async function ProductsSubcategoryPage({
       where: {
         catSlug: category,
         subCatSlug: subcategory,
-        offsetPagination: { size: 100, offset: 0 },
+        offsetPagination: { size: lastProductsTotalRecords, offset: 0 },
       },
     })
   );

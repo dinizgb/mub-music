@@ -119,7 +119,7 @@ export default async function ProductsCategoryPage({
     getAllProductFiltersInfos({
       where: {
         catSlug: category,
-        offsetPagination: { size: 100, offset: 0 },
+        offsetPagination: { size: lastProductsTotalRecords, offset: 0 },
       },
     })
   );

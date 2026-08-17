@@ -1,7 +1,8 @@
 import { fetchQuery } from "services/graphql/fetchQuery";
 import getAllProducts from "services/graphql/queries/getAllProducts";
 import { absoluteUrl } from "lib/seo/absoluteUrl";
-import { QueryParameters } from "types/queryParams";
+import { paginateNodes } from "lib/seo/paginateNodes";
+import { productDetailPath } from "lib/seo/routeSlugs";
 
 export const revalidate = 3600;
 
@@ -19,25 +20,31 @@ function escapeXml(value: string): string {
     .replace(/'/g, "&apos;");
 }
 
+type ProductSitemapNode = {
+  slug: string;
+  product_info: {
+    category: { slug: string };
+    subcategory: { slug: string };
+  };
+};
+
 /**
  * Products sitemap route.
  * @return {Promise<Response>} XML sitemap.
  */
 export async function GET() {
-  let products: Array<{
-    slug: string;
-    product_info: {
-      category: { slug: string };
-      subcategory: { slug: string };
-    };
-  }> = [];
+  let products: ProductSitemapNode[] = [];
 
   try {
-    const params: QueryParameters = { first: 200 };
-    const result = await fetchQuery(getAllProducts(params));
-    if (!result.notFound) {
-      products = result.props.data.products.nodes;
-    }
+    products = await paginateNodes(async (pageSize, offset) => {
+      const result = await fetchQuery(
+        getAllProducts({
+          where: { offsetPagination: { size: pageSize, offset } },
+        })
+      );
+      if (result.notFound) return [];
+      return result.props.data.products.nodes as ProductSitemapNode[];
+    });
   } catch {
     products = [];
   }
@@ -53,7 +60,11 @@ ${products
   )
   .map((item) => {
     const loc = absoluteUrl(
-      `/products/${item.product_info.category.slug}/${item.product_info.subcategory.slug}/${item.slug}/`
+      productDetailPath(
+        item.product_info.category.slug,
+        item.product_info.subcategory.slug,
+        item.slug
+      )
     );
     return `  <url>
     <loc>${escapeXml(loc)}</loc>
