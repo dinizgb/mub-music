@@ -41,14 +41,8 @@ export async function GET() {
         ${lastNewsResponse
           .filter((item) => item?.slug && item?.categories?.nodes?.[0]?.slug)
           .map((item) => {
-            const {
-              slug,
-              categories,
-              date,
-              modified,
-              title,
-              featuredImage,
-            } = item;
+            const { slug, categories, date, modified, title, featuredImage } =
+              item;
             const featuredMediaUrl = featuredImage?.node?.sourceUrl;
             let img = "";
             if (featuredMediaUrl) {
