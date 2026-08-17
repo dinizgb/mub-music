@@ -30,6 +30,7 @@ export function buildPageMetadata(input: BuildPageMetadataInput): Metadata {
   return {
     title: input.title,
     description: input.description,
+    publisher: siteName,
     alternates: {
       canonical,
     },

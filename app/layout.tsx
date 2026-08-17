@@ -14,6 +14,7 @@ export const metadata: Metadata = {
     template: i18n.meta.titleTemplate,
   },
   description: i18n.meta.defaultDescription,
+  publisher: i18n.meta.siteName,
   icons: {
     icon: "/images/favicon.ico?w=64",
     shortcut: "/images/favicon.ico?w=64",

@@ -23,11 +23,13 @@ describe("buildPageMetadata", () => {
     expect(metadata.openGraph?.title).toBe("News | Mub Music");
     expect(metadata.twitter).toMatchObject({ card: "summary_large_image" });
     expect(metadata.description).toBe("Daily news");
+    expect(metadata.publisher).toBe("Mub Music");
+    expect(metadata.keywords).toBeUndefined();
   });
 
   it("supports absolute titles and article times", () => {
     const metadata = buildPageMetadata({
-      title: { absolute: "Mub Music | Reviews, Offers & Specs" },
+      title: { absolute: "Mub Music | Reviews, Offers, Specs and much more!" },
       description: "Headline",
       path: "/",
       type: "article",
@@ -37,7 +39,7 @@ describe("buildPageMetadata", () => {
     });
 
     expect(metadata.title).toEqual({
-      absolute: "Mub Music | Reviews, Offers & Specs",
+      absolute: "Mub Music | Reviews, Offers, Specs and much more!",
     });
     expect(metadata.openGraph?.images).toEqual(["https://cdn.example/img.jpg"]);
   });

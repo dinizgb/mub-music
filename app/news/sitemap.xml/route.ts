@@ -47,7 +47,6 @@ export async function GET() {
               date,
               modified,
               title,
-              tags,
               featuredImage,
             } = item;
             const featuredMediaUrl = featuredImage?.node?.sourceUrl;
@@ -59,14 +58,10 @@ export async function GET() {
             }
             const newsTitle =
               typeof title === "string" ? title : (title?.rendered ?? "");
-            const keywordParts = [
-              categories.nodes[0].name,
-              ...(tags?.nodes?.map((tag: { name: string }) => tag.name) ?? []),
-            ].filter(Boolean);
             return `
                 <url>
                     <loc>${escapeXml(
-                      absoluteUrl(`/news/${categories.nodes[0].slug}/${slug}/`)
+                      absoluteUrl(`/news/${categories.nodes[0].slug}/${slug}`)
                     )}</loc>
                     <news:news>
                         <news:publication>
@@ -75,9 +70,6 @@ export async function GET() {
                         </news:publication>
                         <news:publication_date>${date}</news:publication_date>
                         <news:title>${escapeXml(newsTitle)}</news:title>
-                        <news:keywords>${escapeXml(
-                          keywordParts.join(", ")
-                        )}</news:keywords>
                     </news:news>
                     ${img}
                     <lastmod>${modified}</lastmod>
