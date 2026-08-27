@@ -25,7 +25,11 @@ type LayoutHomePageProps = {
 export default function LayoutHomePage(props: LayoutHomePageProps) {
   return (
     <>
-      <Header noBg={true} productsCategories={props.productsCategories} />
+      <Header
+        noBg={true}
+        noSearch={true}
+        productsCategories={props.productsCategories}
+      />
       <HomeSearch />
       <main>
         <div className="mx-auto w-full max-w-screen-2xl px-4">

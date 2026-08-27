@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 type SearchInputsProps = {
   className?: string;
   placeholder?: string;
+  compact?: boolean;
 };
 
 const DEBOUNCE_MS = 450;
@@ -92,33 +93,49 @@ export default function SearchInput(props: SearchInputsProps) {
   };
 
   return (
-    <>
+    <div className={cn(props.compact && "relative w-full")}>
       <div
         className={cn(
-          `group border-text-4 text-text-1 hover:bg-text-4 relative flex w-[93%]
-          flex-row rounded-[50px] border-4 bg-transparent px-[3%] py-5
-          text-[21px] font-semibold outline-none`,
+          `group border-text-4 text-text-1 hover:bg-text-4 relative flex
+          flex-row border-4 bg-transparent font-semibold outline-none`,
+          props.compact
+            ? `hover:border-text-4 focus-within:border-text-4 w-full
+              items-center rounded-[8px] border-2 border-[#393d4b] px-3 py-2
+              text-sm`
+            : "w-[93%] rounded-[50px] px-[3%] py-5 text-[21px]",
           props.className
         )}
       >
-        <Search className="text-text-4 group-hover:text-text-1" />
+        <Search
+          className={cn(
+            "text-text-4 group-hover:text-text-1 shrink-0",
+            props.compact ? "h-4 w-4" : ""
+          )}
+        />
         <input
-          className="text-text-4 group-hover:text-text-1 w-[96%] rounded-[50px]
-            border-none bg-transparent px-[2%] text-[21px] font-semibold
-            outline-none"
+          className={cn(
+            `text-text-4 group-hover:text-text-1 w-[96%] border-none
+            bg-transparent font-semibold outline-none`,
+            props.compact
+              ? "rounded-[8px] px-2 text-sm"
+              : "rounded-[50px] px-[2%] text-[21px]"
+          )}
           placeholder={props.placeholder}
           onChange={handleSearch}
         />
       </div>
       <div
         className={cn(
-          `bg-text-4 text-text-1 relative z-1 mx-auto w-[86%] rounded-b-[20px]
-          p-[2%]`,
+          "bg-text-4 text-text-1 p-[2%]",
+          props.compact
+            ? `absolute top-full right-0 left-0 z-50 mt-1 w-full
+              rounded-b-[8px]`
+            : "relative z-1 mx-auto w-[86%] rounded-b-[20px]",
           searchAutoFillStatus ? "block" : "hidden"
         )}
       >
         <SearchAutoFillResultList data={searchAutoFillResultsStatus} />
       </div>
-    </>
+    </div>
   );
 }

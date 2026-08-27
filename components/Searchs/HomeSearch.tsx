@@ -24,8 +24,7 @@ export default function HomeSearch() {
                 xsFontSize={24}
                 xsLineHeight={48}
               >
-                &#119062;&#119062;&#119062;&#119062;&#119062;&#119062;&#11044;&nbsp;&nbsp;
-                {i18n.home.findYourSound} &nbsp;&#119136;
+                {i18n.home.findYourSound}
               </P>
               <H1
                 className="text-text-4"

@@ -17,7 +17,7 @@ export default function MobileMenu(props: MobileMenuProps) {
   return (
     <div
       className={cn(
-        `bg-background fixed top-0 left-0 z-26 h-full w-[270px] flex-col
+        `bg-background fixed top-0 left-0 z-50 flex h-full w-[270px] flex-col
         overflow-y-hidden`,
         props.display === "none" ? "hidden" : "flex"
       )}
@@ -30,19 +30,19 @@ export default function MobileMenu(props: MobileMenuProps) {
       >
         <div className="relative">
           <div
-            className="bg-secondary font-heading text-text-4 w-4/5 px-[10%]
+            className="bg-primary font-heading text-all-black w-full px-[10%]
               py-4.5 pb-5 text-lg font-bold"
           >
             {i18n.nav.products}
           </div>
-          <ul className="flex flex-col items-start border-none p-0">
+          <ul className="flex w-full flex-col items-stretch border-none p-0">
             {props.productsCategories.map(({ slug, title }) => {
               return (
                 <li key={slug} className="contents">
                   <a
                     href={`/products/${slug}`}
                     className="border-background-contrast text-text-3
-                      hover:bg-all-black hover:text-text-4 w-4/5 border-b-2
+                      hover:bg-all-black hover:text-text-4 w-full border-b-2
                       bg-black px-[10%] py-3.75 text-base font-normal
                       no-underline"
                   >
@@ -55,18 +55,18 @@ export default function MobileMenu(props: MobileMenuProps) {
         </div>
         <div className="relative">
           <div
-            className="bg-secondary font-heading text-text-4 w-4/5 px-[10%]
+            className="bg-primary font-heading text-all-black w-full px-[10%]
               py-4.5 pb-5 text-lg font-bold"
           >
             {i18n.nav.news}
           </div>
-          <ul className="flex flex-col items-start border-none p-0">
+          <ul className="flex w-full flex-col items-stretch border-none p-0">
             <li className="contents">
               <a
                 href={`/news/awards`}
                 className="border-background-contrast text-text-3
-                  hover:bg-all-black hover:text-text-4 w-4/5 border-b-2 bg-black
-                  px-[10%] py-3.75 text-base font-normal no-underline"
+                  hover:bg-all-black hover:text-text-4 w-full border-b-2
+                  bg-black px-[10%] py-3.75 text-base font-normal no-underline"
               >
                 {i18n.nav.awards}
               </a>
@@ -75,8 +75,8 @@ export default function MobileMenu(props: MobileMenuProps) {
               <a
                 href={`/news/music-business`}
                 className="border-background-contrast text-text-3
-                  hover:bg-all-black hover:text-text-4 w-4/5 border-b-2 bg-black
-                  px-[10%] py-3.75 text-base font-normal no-underline"
+                  hover:bg-all-black hover:text-text-4 w-full border-b-2
+                  bg-black px-[10%] py-3.75 text-base font-normal no-underline"
               >
                 {i18n.nav.musicBusiness}
               </a>
@@ -85,8 +85,8 @@ export default function MobileMenu(props: MobileMenuProps) {
               <a
                 href={`/news/people`}
                 className="border-background-contrast text-text-3
-                  hover:bg-all-black hover:text-text-4 w-4/5 border-b-2 bg-black
-                  px-[10%] py-3.75 text-base font-normal no-underline"
+                  hover:bg-all-black hover:text-text-4 w-full border-b-2
+                  bg-black px-[10%] py-3.75 text-base font-normal no-underline"
               >
                 {i18n.nav.people}
               </a>
@@ -95,8 +95,8 @@ export default function MobileMenu(props: MobileMenuProps) {
               <a
                 href={`/news/releases`}
                 className="border-background-contrast text-text-3
-                  hover:bg-all-black hover:text-text-4 w-4/5 border-b-2 bg-black
-                  px-[10%] py-3.75 text-base font-normal no-underline"
+                  hover:bg-all-black hover:text-text-4 w-full border-b-2
+                  bg-black px-[10%] py-3.75 text-base font-normal no-underline"
               >
                 {i18n.nav.releases}
               </a>
