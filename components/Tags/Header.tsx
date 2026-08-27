@@ -21,16 +21,13 @@ export default function Header(props: HeaderProps) {
   return (
     <header
       className={cn(
-        "relative z-2 py-4 pb-2.75",
+        "relative z-50 py-4 pb-2.75",
         !props.noBg && "border-b border-white/20"
       )}
     >
       <div className="mx-auto w-full max-w-screen-2xl px-4">
-        <div
-          className="grid w-full grid-cols-2 items-center gap-2 sm:gap-4
-            md:grid-cols-12 md:gap-6"
-        >
-          <div className="md:col-span-3">
+        <div className="flex w-full items-center gap-6.25">
+          <div className="shrink-0">
             <a href="/" title={i18n.header.home}>
               <Image
                 src={"/images/mub-logo-icon.png"}
@@ -40,8 +37,11 @@ export default function Header(props: HeaderProps) {
               />
             </a>
           </div>
-          <div className="md:col-span-9">
-            <Nav productsCategories={props.productsCategories} />
+          <div className="min-w-0 flex-1">
+            <Nav
+              productsCategories={props.productsCategories}
+              noSearch={props.noSearch}
+            />
           </div>
         </div>
       </div>
