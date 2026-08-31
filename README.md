@@ -70,3 +70,13 @@ Open [http://localhost:3000](http://localhost:3000).
 - Security: security/branch-name
 - Documentation: doc/branch-name
 - Analytics: analytics/branch-name
+
+## License
+
+Copyright 2026 Mub Music.
+
+This project is licensed under the
+[PolyForm Noncommercial License 1.0.0](./LICENSE).
+You may view, clone, modify, and redistribute it for
+**noncommercial** purposes only. Commercial use requires
+permission from the copyright holder.
