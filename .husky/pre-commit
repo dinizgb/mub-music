@@ -9,13 +9,6 @@ if ! npx prettier --write .; then
 fi
 git add -u
 
-# Check Prettier standards
-npm run check-format ||
-(
-    echo '🛑✋ Styling errors found.';
-    false;
-)
-
 # Check ESLint Standards
 npm run check-lint ||
 (
