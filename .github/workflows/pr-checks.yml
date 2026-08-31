@@ -1,4 +1,4 @@
-name: PR Checks
+name: Pull Request Checks
 
 on:
   pull_request:
@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   checks:
-    name: Pull Request Checks
+    name: Install / Lint / Tests / Build
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
@@ -46,6 +46,25 @@ jobs:
 
       - name: Run unit tests
         run: npm test
+
+      - name: Verify build env
+        run: |
+          missing=
+          for key in ENV_API_ROOT_PATH ENV_API_USER ENV_API_PASSWORD ENV_MEDIA_ROOT_PATH NEXT_PUBLIC_ENV_DOMAIN; do
+            eval "value=\${$key}"
+            if [ -z "$value" ]; then
+              missing="$missing $key"
+            fi
+          done
+          if [ -n "$missing" ]; then
+            echo "Missing required env vars:$missing"
+            echo "Add them as repository Actions Variables (and ENV_API_PASSWORD as a Secret),"
+            echo "or set job.environment to your GitHub Environment name."
+            exit 1
+          fi
+          echo "ENV_API_ROOT_PATH=$ENV_API_ROOT_PATH"
+          echo "ENV_MEDIA_ROOT_PATH=$ENV_MEDIA_ROOT_PATH"
+          echo "NEXT_PUBLIC_ENV_DOMAIN=$NEXT_PUBLIC_ENV_DOMAIN"
 
       - name: Build Next.js
         run: npm run build
