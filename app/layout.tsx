@@ -52,7 +52,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           href="https://fonts.googleapis.com/css2?family=Teko:wght@600&display=swap"
           rel="stylesheet"
         />
-        <link href="/image-gallery.css" rel="stylesheet" />
       </head>
       <body>
         <Providers>{children}</Providers>

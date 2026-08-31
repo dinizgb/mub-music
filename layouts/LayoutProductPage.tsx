@@ -12,6 +12,7 @@ import StarsWidget from "components/Widgets/StarsWidget";
 import OffersSidebarList from "components/Lists/OffersSidebarList";
 import ReviewsSidebarList from "components/Lists/ReviewsSidebarList";
 import ImageGallery from "react-image-gallery";
+import "react-image-gallery/styles/image-gallery.css";
 import YoutubeIframe, {
   getYoutubeVideoId,
 } from "components/Tags/YoutubeIframe";
