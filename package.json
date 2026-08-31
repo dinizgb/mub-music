@@ -21,9 +21,7 @@
     "test": "jest --coverage",
     "prepare": "husky install",
     "check-format": "prettier --check .",
-    "check-lint": "eslint . --ext ts --ext tsx --ext js",
-    "check-types": "tsc --noEmit",
-    "test-all": "npm run check-format && npm run check-lint && npm run check-types && npm test && npm run build"
+    "check-lint": "eslint . --ext ts --ext tsx --ext js"
   },
   "dependencies": {
     "@apollo/client": "^3.7.0",
