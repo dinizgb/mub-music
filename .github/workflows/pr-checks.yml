@@ -19,6 +19,7 @@ jobs:
     name: Install / Lint / Tests / Build
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    environment: ci
 
     env:
       HUSKY: "0"
@@ -58,8 +59,8 @@ jobs:
           done
           if [ -n "$missing" ]; then
             echo "Missing required env vars:$missing"
-            echo "Add them as repository Actions Variables (and ENV_API_PASSWORD as a Secret),"
-            echo "or set job.environment to your GitHub Environment name."
+            echo "On GitHub Environment 'ci': set NEXT_PUBLIC_ENV_DOMAIN as a Variable,"
+            echo "and ENV_MEDIA_ROOT_PATH / ENV_API_* as Secrets."
             exit 1
           fi
           echo "ENV_API_ROOT_PATH=$ENV_API_ROOT_PATH"
