@@ -65,7 +65,7 @@
   },
   "devDependencies": {
     "@testing-library/dom": "^10.4.0",
-    "@types/node": "^22.0.0",
+    "@types/node": "^26.4.0",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "eslint": "^8.15.0",
