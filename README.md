@@ -4,7 +4,7 @@ Next.js App Router site for music news, product discovery, offers, and reviews.
 
 ## Requirements
 
-- Node.js 20+ (recommended)
+- Node.js 22+ (recommended)
 - npm (comes with Node)
 
 ## Setup
@@ -44,16 +44,14 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Scripts
 
-| Command                | Description                           |
-| ---------------------- | ------------------------------------- |
-| `npm run dev`          | Start Next.js in development          |
-| `npm run build`        | Production build                      |
-| `npm start`            | Serve the production build            |
-| `npm test`             | Run Jest with coverage                |
-| `npm run check-format` | Prettier check                        |
-| `npm run check-lint`   | ESLint                                |
-| `npm run check-types`  | TypeScript (`tsc --noEmit`)           |
-| `npm run test-all`     | Format + lint + types + tests + build |
+| Command                | Description                  |
+| ---------------------- | ---------------------------- |
+| `npm run dev`          | Start Next.js in development |
+| `npm run build`        | Production build             |
+| `npm start`            | Serve the production build   |
+| `npm test`             | Run Jest with coverage       |
+| `npm run check-format` | Prettier check               |
+| `npm run check-lint`   | ESLint                       |
 
 ## Project notes
 
