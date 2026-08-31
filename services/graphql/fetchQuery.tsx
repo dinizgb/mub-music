@@ -13,13 +13,17 @@ export type FetchQueryResult<TData = any> =
 export async function fetchQuery<TData = any>(
   query: string
 ): Promise<FetchQueryResult<TData>> {
-  const { data } = await client.query({
+  const { data } = await client.query<TData>({
     query: gql`
       ${query}
     `,
   });
 
-  if (data.length == 0) {
+  if (
+    data == null ||
+    (Array.isArray(data) && data.length === 0) ||
+    (typeof data === "object" && Object.keys(data as object).length === 0)
+  ) {
     return {
       notFound: true,
     };

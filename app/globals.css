@@ -276,3 +276,28 @@
     margin-top: 10px;
   }
 }
+
+/* react-image-gallery v2 theming (brand overrides on package CSS) */
+.image-gallery {
+  --ig-primary-color: var(--color-primary);
+  --ig-thumbnail-border-width: 3px;
+  --ig-thumbnail-border-width-small: 3px;
+}
+
+.image-gallery-slides {
+  background: #fff;
+  margin-bottom: 4px;
+  border-radius: 8px;
+}
+
+.image-gallery-thumbnail {
+  border-radius: 8px;
+}
+
+.image-gallery-thumbnail .image-gallery-thumbnail-image {
+  border-radius: 6px;
+}
+
+.image-gallery-index {
+  border-bottom-left-radius: 8px;
+}
