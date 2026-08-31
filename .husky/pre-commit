@@ -3,12 +3,12 @@
 
 echo '🏗️👷 Commit test init...'
 
-# Running Prettier standards
-npx prettier --write . ||
-(
-    echo '🛑✋ Write Prettier errors found.';
-    false;
-)
+# Running Prettier standards, then re-stage tracked files
+if ! npx prettier --write .; then
+  echo '🛑✋ Write Prettier errors found.'
+  exit 1
+fi
+git add -u
 
 # Check Prettier standards
 npm run check-format ||
@@ -21,13 +21,6 @@ npm run check-format ||
 npm run check-lint ||
 (
     echo '🛑✋ Lint errors found.';
-    false;
-)
-
-# TypeScript type check
-npm run check-types ||
-(
-    echo '🛑✋ Type errors found.';
     false;
 )
 

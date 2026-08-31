@@ -1,0 +1,71 @@
+name: Pull Request Checks
+
+on:
+  pull_request:
+    branches:
+      - main
+      - development
+  push:
+    branches:
+      - main
+      - development
+
+concurrency:
+  group: pr-checks-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: Install / Lint / Tests / Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: ci
+
+    env:
+      HUSKY: "0"
+      NEXT_PUBLIC_ENV_DOMAIN: ${{ vars.NEXT_PUBLIC_ENV_DOMAIN || 'mubmusic.com' }}
+      ENV_MEDIA_ROOT_PATH: ${{ secrets.ENV_MEDIA_ROOT_PATH }}
+      ENV_API_ROOT_PATH: ${{ secrets.ENV_API_ROOT_PATH }}
+      ENV_API_USER: ${{ secrets.ENV_API_USER }}
+      ENV_API_PASSWORD: ${{ secrets.ENV_API_PASSWORD }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --include=optional
+
+      - name: Check ESLint
+        run: npm run check-lint
+
+      - name: Run unit tests
+        run: npm test
+
+      - name: Verify build env
+        run: |
+          missing=
+          for key in ENV_API_ROOT_PATH ENV_API_USER ENV_API_PASSWORD ENV_MEDIA_ROOT_PATH NEXT_PUBLIC_ENV_DOMAIN; do
+            eval "value=\${$key}"
+            if [ -z "$value" ]; then
+              missing="$missing $key"
+            fi
+          done
+          if [ -n "$missing" ]; then
+            echo "Missing required env vars:$missing"
+            echo "On GitHub Environment 'ci': set NEXT_PUBLIC_ENV_DOMAIN as a Variable,"
+            echo "and ENV_MEDIA_ROOT_PATH / ENV_API_* as Secrets."
+            exit 1
+          fi
+          echo "ENV_API_ROOT_PATH=$ENV_API_ROOT_PATH"
+          echo "ENV_MEDIA_ROOT_PATH=$ENV_MEDIA_ROOT_PATH"
+          echo "NEXT_PUBLIC_ENV_DOMAIN=$NEXT_PUBLIC_ENV_DOMAIN"
+
+      - name: Build Next.js
+        run: npm run build
