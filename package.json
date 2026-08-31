@@ -1,4 +1,18 @@
 {
+  "name": "mub-music",
+  "version": "1.2.0",
+  "description": "mubmusic.com codebase",
+  "main": "index.js",
+  "author": "Mub Music",
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "homepage": "https://mub.music",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mub-music/mub-music.git"
+  },
+  "contributors": [
+    "Gabriel Diniz <mubadmin01@gmail.com>"
+  ],
   "private": true,
   "scripts": {
     "dev": "next",
