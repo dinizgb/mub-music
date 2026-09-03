@@ -10,11 +10,17 @@ import { configureStore } from "@reduxjs/toolkit";
 import SearchInput from "components/Inputs/SearchInput";
 import mobileMenuReducer from "redux/slices/mobileMenu/";
 import searchAutoFillReducer from "redux/slices/searchAutoFill";
+import { AnalyticsEvents } from "lib/analytics/events";
+import { trackEvent } from "lib/analytics/track";
 
 const fetchSearchProductsMock = jest.fn();
 
 jest.mock("@/lib/api/searchProducts", () => ({
   fetchSearchProducts: (...args: unknown[]) => fetchSearchProductsMock(...args),
+}));
+
+jest.mock("lib/analytics/track", () => ({
+  trackEvent: jest.fn(),
 }));
 
 /**
@@ -34,6 +40,7 @@ describe("SearchInput", () => {
   beforeEach(() => {
     jest.useFakeTimers();
     fetchSearchProductsMock.mockReset();
+    (trackEvent as jest.Mock).mockClear();
   });
 
   afterEach(() => {
@@ -79,6 +86,10 @@ describe("SearchInput", () => {
       expect(fetchSearchProductsMock).toHaveBeenCalledWith(
         "Fender",
         expect.any(AbortSignal)
+      );
+      expect(trackEvent).toHaveBeenCalledWith(
+        AnalyticsEvents.SEARCH_PERFORMED,
+        { query: "Fender", source: "home" }
       );
     });
 

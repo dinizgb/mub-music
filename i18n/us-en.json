@@ -15,7 +15,45 @@
     "releases": "Releases"
   },
   "footer": {
-    "copyright": "Mub Music - All rights reserved."
+    "copyright": "Mub Music - All rights reserved.",
+    "privacyPolicy": "Privacy Policy"
+  },
+  "consent": {
+    "ariaLabel": "Cookie consent",
+    "message": "We use cookies and similar technologies for analytics to understand how the site is used. You can accept or decline analytics cookies.",
+    "privacyLink": "Privacy Policy",
+    "accept": "Accept",
+    "decline": "Decline"
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "metaDescription": "How Mub Music collects, uses, and protects information when you visit our site, including Google Analytics and Mixpanel when you consent.",
+    "lastUpdatedLabel": "Last updated",
+    "lastUpdatedDate": "September 2, 2026",
+    "intro": "This Privacy Policy explains how Mub Music (\"we\", \"us\", or \"our\") handles information when you visit mubmusic.com and related preview or development environments of this website.",
+    "whoWeAreTitle": "Who we are",
+    "whoWeAreBody": "Mub Music is a music news and product discovery site. For privacy questions, contact us at {email}.",
+    "contactEmail": "privacy@mubmusic.com",
+    "informationTitle": "Information we collect",
+    "informationBody": "Depending on how you use the site, we may process:",
+    "informationItemUsage": "Usage data such as pages viewed, clicks and other on-page interactions, approximate location derived from IP, device/browser type, and referral information — only if you accept analytics cookies.",
+    "informationItemSession": "Session recordings (screen activity on our site) via Mixpanel Session Replay — only if you accept analytics cookies.",
+    "informationItemConsent": "Your analytics cookie preference, stored in your browser via localStorage so we remember Accept or Decline.",
+    "informationItemTechnical": "Technical data required to operate the site (for example, server logs needed for security and reliability).",
+    "analyticsTitle": "Analytics (Google Analytics and Mixpanel)",
+    "analyticsBody": "If you choose Accept on our cookie banner, we load Google Analytics 4 (via Google’s gtag) and Mixpanel. Both use project identifiers configured per environment (local/preview vs production). Google Analytics helps us measure traffic and page views. Mixpanel helps us understand product usage; with our current setup it may automatically capture interactions (autocapture) and record sessions (Session Replay). If you choose Decline, or make no choice, we do not load Google Analytics or Mixpanel.",
+    "cookiesTitle": "Cookies and local storage",
+    "cookiesBody": "We use localStorage key mub-analytics-consent to store your analytics preference (accepted or declined). After you accept, Google Analytics and Mixpanel may set their own cookies or similar identifiers in your browser. Essential operation of the site does not require accepting analytics.",
+    "changeMindTitle": "How to change your choice",
+    "changeMindBody": "To change your analytics preference, clear this site’s data for mubmusic.com in your browser (or remove the mub-analytics-consent localStorage entry), then reload the page. The cookie banner will appear again so you can Accept or Decline.",
+    "thirdPartiesTitle": "Third parties",
+    "thirdPartiesBody": "When analytics is enabled, Google and Mixpanel process analytics data under their respective terms and privacy policies (including Google Analytics and Mixpanel’s privacy documentation). We do not sell your personal information.",
+    "childrenTitle": "Children",
+    "childrenBody": "This site is not directed at children under 13, and we do not knowingly collect personal information from children.",
+    "changesTitle": "Changes to this policy",
+    "changesBody": "We may update this Privacy Policy from time to time. The \"Last updated\" date at the top of this page will change when we do. Continued use of the site after updates means you acknowledge the revised policy.",
+    "contactTitle": "Contact",
+    "contactBody": "Questions about this policy or your analytics preference: {email}."
   },
   "home": {
     "findYourSound": "Find your Sound",

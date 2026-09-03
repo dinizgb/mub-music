@@ -1,7 +1,9 @@
 /* eslint-disable camelcase */
 import { ProductsCategoriesType } from "types/productsCategoriesType";
+import Anchor from "components/Tags/Anchor";
 import { cn } from "@/lib/utils";
 import { i18n } from "@/i18n";
+import { AnalyticsEvents } from "lib/analytics/events";
 
 type MobileMenuProps = {
   display: string;
@@ -39,15 +41,21 @@ export default function MobileMenu(props: MobileMenuProps) {
             {props.productsCategories.map(({ slug, title }) => {
               return (
                 <li key={slug} className="contents">
-                  <a
+                  <Anchor
                     href={`/products/${slug}`}
+                    event={AnalyticsEvents.MOBILE_MENU_ITEM_CLICKED}
+                    properties={{
+                      section: "products",
+                      label: title,
+                      url: `/products/${slug}`,
+                    }}
                     className="border-background-contrast text-text-3
                       hover:bg-all-black hover:text-text-4 w-full border-b-2
                       bg-black px-[10%] py-3.75 text-base font-normal
                       no-underline"
                   >
                     {title}
-                  </a>
+                  </Anchor>
                 </li>
               );
             })}
@@ -62,44 +70,68 @@ export default function MobileMenu(props: MobileMenuProps) {
           </div>
           <ul className="flex w-full flex-col items-stretch border-none p-0">
             <li className="contents">
-              <a
+              <Anchor
                 href={`/news/awards`}
+                event={AnalyticsEvents.MOBILE_MENU_ITEM_CLICKED}
+                properties={{
+                  section: "news",
+                  label: i18n.nav.awards,
+                  url: "/news/awards",
+                }}
                 className="border-background-contrast text-text-3
                   hover:bg-all-black hover:text-text-4 w-full border-b-2
                   bg-black px-[10%] py-3.75 text-base font-normal no-underline"
               >
                 {i18n.nav.awards}
-              </a>
+              </Anchor>
             </li>
             <li className="contents">
-              <a
+              <Anchor
                 href={`/news/music-business`}
+                event={AnalyticsEvents.MOBILE_MENU_ITEM_CLICKED}
+                properties={{
+                  section: "news",
+                  label: i18n.nav.musicBusiness,
+                  url: "/news/music-business",
+                }}
                 className="border-background-contrast text-text-3
                   hover:bg-all-black hover:text-text-4 w-full border-b-2
                   bg-black px-[10%] py-3.75 text-base font-normal no-underline"
               >
                 {i18n.nav.musicBusiness}
-              </a>
+              </Anchor>
             </li>
             <li className="contents">
-              <a
+              <Anchor
                 href={`/news/people`}
+                event={AnalyticsEvents.MOBILE_MENU_ITEM_CLICKED}
+                properties={{
+                  section: "news",
+                  label: i18n.nav.people,
+                  url: "/news/people",
+                }}
                 className="border-background-contrast text-text-3
                   hover:bg-all-black hover:text-text-4 w-full border-b-2
                   bg-black px-[10%] py-3.75 text-base font-normal no-underline"
               >
                 {i18n.nav.people}
-              </a>
+              </Anchor>
             </li>
             <li className="contents">
-              <a
+              <Anchor
                 href={`/news/releases`}
+                event={AnalyticsEvents.MOBILE_MENU_ITEM_CLICKED}
+                properties={{
+                  section: "news",
+                  label: i18n.nav.releases,
+                  url: "/news/releases",
+                }}
                 className="border-background-contrast text-text-3
                   hover:bg-all-black hover:text-text-4 w-full border-b-2
                   bg-black px-[10%] py-3.75 text-base font-normal no-underline"
               >
                 {i18n.nav.releases}
-              </a>
+              </Anchor>
             </li>
           </ul>
         </div>

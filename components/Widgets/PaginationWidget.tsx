@@ -5,6 +5,8 @@ import type { AnchorHTMLAttributes } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Span } from "components/Texts/Typographies";
 import { cn } from "@/lib/utils";
+import { AnalyticsEvents } from "lib/analytics/events";
+import { trackEvent } from "lib/analytics/track";
 
 type PaginationWidgetProps = {
   totalItens: number;
@@ -97,6 +99,12 @@ export default function PaginationWidget(props: PaginationWidgetProps) {
                 key={item}
                 active={props.currentPage == item}
                 href={bulletLink(item)}
+                onClick={() =>
+                  trackEvent(AnalyticsEvents.PAGINATION_CLICKED, {
+                    page: item,
+                    url: bulletLink(item),
+                  })
+                }
               >
                 {item}
               </PaginationBullet>

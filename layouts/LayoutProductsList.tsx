@@ -20,6 +20,8 @@ import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { PageSeoCopy } from "types/pageSeoCopy";
 import { ProductFilterType } from "types/productFilterType";
 import { i18n, t } from "@/i18n";
+import { AnalyticsEvents } from "lib/analytics/events";
+import { trackEvent } from "lib/analytics/track";
 
 type LayoutProductsListProps = {
   productData: any;
@@ -150,6 +152,10 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                                 : ""
                             }
                             onValueChange={(slug) => {
+                              trackEvent(AnalyticsEvents.FILTER_APPLIED, {
+                                filter_type: "subcategory",
+                                value: slug,
+                              });
                               window.location.href = `/products/${props.productCategoryData}/${slug}`;
                             }}
                           >
@@ -194,6 +200,10 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                             }
                             name="brand-group"
                             onValueChange={(slug) => {
+                              trackEvent(AnalyticsEvents.FILTER_APPLIED, {
+                                filter_type: "brand",
+                                value: slug,
+                              });
                               window.location.href = brandHandler(slug);
                             }}
                           >

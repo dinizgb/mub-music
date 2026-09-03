@@ -1,6 +1,12 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import ProductCard from "components/Cards/ProductCard";
 import { i18n } from "@/i18n";
+import { AnalyticsEvents } from "lib/analytics/events";
+import { trackEvent } from "lib/analytics/track";
+
+jest.mock("lib/analytics/track", () => ({
+  trackEvent: jest.fn(),
+}));
 
 const defaultProps = {
   cardTitle: "Fender Stratocaster",
@@ -29,6 +35,22 @@ describe("ProductCard", () => {
     expect(screen.getByRole("link")).toHaveAttribute(
       "href",
       "/products/guitars/electric/fender-stratocaster"
+    );
+  });
+
+  it("tracks product_card_clicked on click", () => {
+    render(<ProductCard {...defaultProps} />);
+
+    fireEvent.click(screen.getByRole("link"));
+
+    expect(trackEvent).toHaveBeenCalledWith(
+      AnalyticsEvents.PRODUCT_CARD_CLICKED,
+      {
+        title: "Fender Stratocaster",
+        url: "/products/guitars/electric/fender-stratocaster",
+        price: 999,
+        rating: 4.5,
+      }
     );
   });
 });
