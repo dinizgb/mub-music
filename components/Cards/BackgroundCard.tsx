@@ -1,4 +1,6 @@
 import { H3 } from "components/Texts/Typographies";
+import Anchor from "components/Tags/Anchor";
+import { AnalyticsEvents } from "lib/analytics/events";
 
 type BackgroundCardProps = {
   backgroundCardThumbnail: string;
@@ -17,8 +19,13 @@ export default function BackgroundCard(props: BackgroundCardProps) {
       className="flex min-h-50 w-full flex-row rounded-md bg-cover"
       style={{ backgroundImage: `url(${props.backgroundCardThumbnail})` }}
     >
-      <a
+      <Anchor
         href={props.backgroundCardUrl}
+        event={AnalyticsEvents.CATEGORY_CARD_CLICKED}
+        properties={{
+          title: props.backgroundCardTitle,
+          url: props.backgroundCardUrl,
+        }}
         className="flex w-full items-end bg-black/50 px-3.75 py-5
           hover:bg-black/30"
       >
@@ -32,7 +39,7 @@ export default function BackgroundCard(props: BackgroundCardProps) {
         >
           {props.backgroundCardTitle}
         </H3>
-      </a>
+      </Anchor>
     </div>
   );
 }

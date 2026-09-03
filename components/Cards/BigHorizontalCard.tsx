@@ -2,8 +2,10 @@ import Image from "next/image";
 import { H3, H4, Span } from "components/Texts/Typographies";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import formatDate from "utils/formatDate";
+import Anchor from "components/Tags/Anchor";
 import { cn } from "@/lib/utils";
 import { i18n, t } from "@/i18n";
+import { AnalyticsEvents } from "lib/analytics/events";
 
 type BigHorizontalCardProps = {
   cardImage: string;
@@ -23,9 +25,17 @@ type BigHorizontalCardProps = {
  * @return {TSX.Element}: The TSX code for the card.
  */
 export default function BigHorizontalCard(props: BigHorizontalCardProps) {
+  const url = `/${props.cardSection}/${props.cardCategorySlug}/${props.cardSlug}/`;
+
   return (
-    <a
-      href={`/${props.cardSection}/${props.cardCategorySlug}/${props.cardSlug}/`}
+    <Anchor
+      href={url}
+      event={AnalyticsEvents.NEWS_CARD_CLICKED}
+      properties={{
+        title: props.cardTitle,
+        url,
+        category: props.cardCategory,
+      }}
     >
       <div
         className={cn(
@@ -109,6 +119,6 @@ export default function BigHorizontalCard(props: BigHorizontalCardProps) {
           </div>
         </div>
       </div>
-    </a>
+    </Anchor>
   );
 }

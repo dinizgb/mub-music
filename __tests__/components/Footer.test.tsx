@@ -8,4 +8,12 @@ describe("Footer", () => {
 
     expect(screen.getByText(i18n.footer.copyright)).toBeInTheDocument();
   });
+
+  it("links to the privacy policy page", () => {
+    render(<Footer />);
+
+    expect(
+      screen.getByRole("link", { name: i18n.footer.privacyPolicy })
+    ).toHaveAttribute("href", "/privacy-policy/");
+  });
 });

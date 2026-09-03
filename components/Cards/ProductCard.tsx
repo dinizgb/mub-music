@@ -1,8 +1,10 @@
 import Image from "next/image";
 import { H3, Span } from "components/Texts/Typographies";
 import StarsWidget from "components/Widgets/StarsWidget";
+import Anchor from "components/Tags/Anchor";
 import { cn } from "@/lib/utils";
 import { i18n } from "@/i18n";
+import { AnalyticsEvents } from "lib/analytics/events";
 
 type ProductCardProps = {
   cardTitle: string;
@@ -22,7 +24,16 @@ type ProductCardProps = {
  */
 export default function ProductCard(props: ProductCardProps) {
   return (
-    <a href={props.cardLink}>
+    <Anchor
+      href={props.cardLink}
+      event={AnalyticsEvents.PRODUCT_CARD_CLICKED}
+      properties={{
+        title: props.cardTitle,
+        url: props.cardLink,
+        price: props.cardPrice,
+        rating: props.cardRating,
+      }}
+    >
       <div
         className={cn(
           `bg-secondary hover:bg-secondary-hover relative h-full w-full
@@ -83,6 +94,6 @@ export default function ProductCard(props: ProductCardProps) {
           </div>
         </div>
       </div>
-    </a>
+    </Anchor>
   );
 }

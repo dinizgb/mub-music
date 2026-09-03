@@ -1,5 +1,7 @@
 import { P } from "components/Texts/Typographies";
+import Anchor from "components/Tags/Anchor";
 import { i18n } from "@/i18n";
+import { AnalyticsEvents } from "lib/analytics/events";
 
 /**
  * Footer Component.
@@ -12,7 +14,7 @@ export default function Footer() {
         pt-7.5 pb-2.5 text-center max-sm:mt-12.5"
     >
       <div className="mx-auto w-full max-w-300 px-4">
-        <div className="mb-4 w-full">
+        <div className="mb-4 flex w-full flex-col items-center gap-2">
           <P
             className="text-text-4"
             fontWeight={400}
@@ -23,6 +25,15 @@ export default function Footer() {
           >
             {i18n.footer.copyright}
           </P>
+          <Anchor
+            href="/privacy-policy/"
+            className="text-subtitle hover:text-primary text-sm
+              underline-offset-2 hover:underline"
+            event={AnalyticsEvents.PRIVACY_POLICY_CLICKED}
+            properties={{ source: "footer", url: "/privacy-policy/" }}
+          >
+            {i18n.footer.privacyPolicy}
+          </Anchor>
         </div>
       </div>
     </footer>

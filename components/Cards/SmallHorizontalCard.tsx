@@ -1,7 +1,9 @@
 import Image from "next/image";
 import { H3, H4 } from "components/Texts/Typographies";
 import formatDate from "utils/formatDate";
+import Anchor from "components/Tags/Anchor";
 import { cn } from "@/lib/utils";
+import { AnalyticsEvents } from "lib/analytics/events";
 
 type SmallHorizontalCardProps = {
   cardTitle: string;
@@ -18,7 +20,14 @@ type SmallHorizontalCardProps = {
  */
 export default function SmallHorizontalCard(props: SmallHorizontalCardProps) {
   return (
-    <a href={props.cardLink}>
+    <Anchor
+      href={props.cardLink}
+      event={AnalyticsEvents.NEWS_CARD_CLICKED}
+      properties={{
+        title: props.cardTitle,
+        url: props.cardLink,
+      }}
+    >
       <div className={cn("bg-secondary relative w-full", props.className)}>
         <div
           className="grid w-full grid-cols-1 gap-2 sm:grid-cols-2
@@ -59,6 +68,6 @@ export default function SmallHorizontalCard(props: SmallHorizontalCardProps) {
           </div>
         </div>
       </div>
-    </a>
+    </Anchor>
   );
 }

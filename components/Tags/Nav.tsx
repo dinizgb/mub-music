@@ -3,11 +3,14 @@
 import { Menu } from "lucide-react";
 import MobileMenu from "../Menus/MobileMenu";
 import SearchInput from "components/Inputs/SearchInput";
+import Anchor from "components/Tags/Anchor";
 import { useAppSelector, useAppDispatch } from "redux/store";
 import { toggleMobileMenu } from "redux/slices/mobileMenu/";
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { cn } from "@/lib/utils";
 import { i18n } from "@/i18n";
+import { AnalyticsEvents } from "lib/analytics/events";
+import { trackEvent } from "lib/analytics/track";
 
 type NavProps = {
   productsCategories: ProductsCategoriesType[];
@@ -25,7 +28,11 @@ export default function Nav(props: NavProps) {
     (state) => state.mobileMenuEvents.showMobileMenu
   );
   const handleToggleMobileMenu = () => {
-    dispatch(toggleMobileMenu(!mobileMenuStatus ? true : false));
+    const nextOpen = !mobileMenuStatus;
+    trackEvent(AnalyticsEvents.MOBILE_MENU_CLICKED, {
+      action: nextOpen ? "open" : "close",
+    });
+    dispatch(toggleMobileMenu(nextOpen));
   };
 
   return (
@@ -46,22 +53,26 @@ export default function Nav(props: NavProps) {
           </li>
         ) : null}
         <li className="hidden min-[886px]:flex">
-          <a
+          <Anchor
             href="/news/"
             className="font-heading hover:text-primary-hover font-medium
               tracking-[0.5px] text-white no-underline"
+            event={AnalyticsEvents.HEADER_NAV_CLICKED}
+            properties={{ label: i18n.header.news, url: "/news/" }}
           >
             {i18n.header.news}
-          </a>
+          </Anchor>
         </li>
         <li className="hidden min-[886px]:flex">
-          <a
+          <Anchor
             href="/products/"
             className="font-heading hover:text-primary-hover font-medium
               tracking-[0.5px] text-white no-underline"
+            event={AnalyticsEvents.HEADER_NAV_CLICKED}
+            properties={{ label: i18n.header.products, url: "/products/" }}
           >
             {i18n.header.products}
-          </a>
+          </Anchor>
         </li>
         <li
           className="hover:text-primary-hover shrink-0 cursor-pointer text-white

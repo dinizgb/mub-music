@@ -2,7 +2,7 @@ import Image from "next/image";
 // COMPONENTS
 import Header from "components/Tags/Header";
 import Footer from "components/Tags/Footer";
-import { H1, H2, A, Span } from "components/Texts/Typographies";
+import { H1, H2, Span } from "components/Texts/Typographies";
 import { ContentBody } from "components/Texts/ContentBody";
 import {
   Breadcrumb,
@@ -16,6 +16,8 @@ import { ProductsCategoriesType } from "types/productsCategoriesType";
 // UTILS
 import formatDate from "utils/formatDate";
 import { i18n } from "@/i18n";
+import Anchor from "components/Tags/Anchor";
+import { AnalyticsEvents } from "lib/analytics/events";
 
 type LayoutArticlePageProps = {
   articleTitle: string;
@@ -56,45 +58,69 @@ export default function LayoutArticlePage(props: LayoutArticlePageProps) {
                       [&>li[role=presentation]]:text-text-2"
                   >
                     <BreadcrumbItem>
-                      <A
-                        className="text-text-2 hover:text-text-4"
-                        fontWeight={500}
-                        fontSize={15}
-                        lineHeight={24}
-                        xsFontSize={15}
-                        xsLineHeight={24}
+                      <Anchor
+                        className="typography-responsive font-open text-text-2
+                          hover:text-text-4"
+                        style={{
+                          fontWeight: 500,
+                          ["--typo-font-size" as string]: "15px",
+                          ["--typo-line-height" as string]: "24px",
+                          ["--typo-xs-font-size" as string]: "15px",
+                          ["--typo-xs-line-height" as string]: "24px",
+                        }}
                         href="/"
+                        event={AnalyticsEvents.BREADCRUMB_CLICKED}
+                        properties={{
+                          label: i18n.article.breadcrumbHome,
+                          url: "/",
+                        }}
                       >
                         {i18n.article.breadcrumbHome}
-                      </A>
+                      </Anchor>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator>›</BreadcrumbSeparator>
                     <BreadcrumbItem>
-                      <A
-                        className="text-text-2 hover:text-text-4"
-                        fontWeight={500}
-                        fontSize={15}
-                        lineHeight={24}
-                        xsFontSize={15}
-                        xsLineHeight={24}
+                      <Anchor
+                        className="typography-responsive font-open text-text-2
+                          hover:text-text-4"
+                        style={{
+                          fontWeight: 500,
+                          ["--typo-font-size" as string]: "15px",
+                          ["--typo-line-height" as string]: "24px",
+                          ["--typo-xs-font-size" as string]: "15px",
+                          ["--typo-xs-line-height" as string]: "24px",
+                        }}
                         href="/news/"
+                        event={AnalyticsEvents.BREADCRUMB_CLICKED}
+                        properties={{
+                          label: i18n.article.breadcrumbNews,
+                          url: "/news/",
+                        }}
                       >
                         {i18n.article.breadcrumbNews}
-                      </A>
+                      </Anchor>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator>›</BreadcrumbSeparator>
                     <BreadcrumbItem>
-                      <A
-                        className="text-text-2 hover:text-text-4"
-                        fontWeight={500}
-                        fontSize={15}
-                        lineHeight={24}
-                        xsFontSize={15}
-                        xsLineHeight={24}
+                      <Anchor
+                        className="typography-responsive font-open text-text-2
+                          hover:text-text-4"
+                        style={{
+                          fontWeight: 500,
+                          ["--typo-font-size" as string]: "15px",
+                          ["--typo-line-height" as string]: "24px",
+                          ["--typo-xs-font-size" as string]: "15px",
+                          ["--typo-xs-line-height" as string]: "24px",
+                        }}
                         href={`/news/${props.articleCategorySlug}/`}
+                        event={AnalyticsEvents.BREADCRUMB_CLICKED}
+                        properties={{
+                          label: props.articleCategoryName,
+                          url: `/news/${props.articleCategorySlug}/`,
+                        }}
                       >
                         {props.articleCategoryName}
-                      </A>
+                      </Anchor>
                     </BreadcrumbItem>
                   </BreadcrumbList>
                 </Breadcrumb>
