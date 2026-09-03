@@ -11,6 +11,8 @@ import {
 } from "redux/slices/searchAutoFill";
 import { fetchSearchProducts } from "@/lib/api/searchProducts";
 import { cn } from "@/lib/utils";
+import { AnalyticsEvents } from "lib/analytics/events";
+import { trackEvent } from "lib/analytics/track";
 
 type SearchInputsProps = {
   className?: string;
@@ -74,6 +76,10 @@ export default function SearchInput(props: SearchInputsProps) {
       const controller = new AbortController();
       abortControllerRef.current = controller;
 
+      trackEvent(AnalyticsEvents.SEARCH_PERFORMED, {
+        query,
+        source: props.compact ? "header" : "home",
+      });
       dispatch(toggleSearchAutoFillResults());
       fetchSearchProducts(query, controller.signal)
         .then((products) => {

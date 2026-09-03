@@ -2,13 +2,14 @@
 import Header from "components/Tags/Header";
 import Footer from "components/Tags/Footer";
 import { H2 } from "components/Texts/Typographies";
-import { WhiteButton } from "components/Inputs/Buttons";
-import HomeSearch from "components/Searchs/HomeSearch";
+import HomeSearch from "components/Searches/HomeSearch";
 import BigHorizontalCardList from "components/Lists/BigHorizontalCardList";
 import ProductCardList from "components/Lists/ProductCardList";
+import Anchor from "components/Tags/Anchor";
 // TYPES
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { i18n } from "@/i18n";
+import { AnalyticsEvents } from "lib/analytics/events";
 
 type LayoutHomePageProps = {
   postData: any;
@@ -69,13 +70,17 @@ export default function LayoutHomePage(props: LayoutHomePageProps) {
                   </H2>
                   <BigHorizontalCardList postList={props.postData} />
                   <div className="flex">
-                    <WhiteButton
-                      className="mb-7.5"
+                    <Anchor
+                      className="border-text-4 text-text-4 hover:bg-text-4
+                        hover:text-text-1 mb-7.5 border-[3px] py-3.75
+                        text-center text-[21px] font-semibold transition-colors"
+                      style={{ width: "100%" }}
                       href="/news/"
-                      width={`100%`}
+                      event={AnalyticsEvents.MORE_NEWS_CLICKED}
+                      properties={{ url: "/news/" }}
                     >
                       {i18n.home.moreNews}
-                    </WhiteButton>
+                    </Anchor>
                   </div>
                 </div>
               </div>

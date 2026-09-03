@@ -1,7 +1,9 @@
 /* eslint-disable camelcase */
 import { Loader2 } from "lucide-react";
 import { H3 } from "components/Texts/Typographies";
+import Anchor from "components/Tags/Anchor";
 import { ProductType } from "types/productType";
+import { AnalyticsEvents } from "lib/analytics/events";
 
 type SearchAutoFillResultListProps = {
   data: ProductType[];
@@ -19,10 +21,13 @@ export default function SearchAutoFillResultList(
     <ul className="m-0 flex w-full flex-col p-0">
       {props.data ? (
         props.data.map(({ title, slug, product_info }) => {
+          const url = `/products/${product_info.category.slug}/${product_info.subcategory.slug}/${slug}`;
           return (
             <li key={slug} className="my-1.25 w-full">
-              <a
-                href={`/products/${product_info.category.slug}/${product_info.subcategory.slug}/${slug}`}
+              <Anchor
+                href={url}
+                event={AnalyticsEvents.SEARCH_RESULT_CLICKED}
+                properties={{ title, url, slug }}
                 className="border-light-line-bottom hover:bg-light-line-bottom
                   relative flex flex-row items-center rounded-none border-b
                   px-3.75 py-3.25 hover:rounded-lg [&_img]:mr-3.75
@@ -39,7 +44,7 @@ export default function SearchAutoFillResultList(
                 >
                   {title}
                 </H3>
-              </a>
+              </Anchor>
             </li>
           );
         })

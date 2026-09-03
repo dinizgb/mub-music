@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { i18n } from "@/i18n";
+import Anchor from "components/Tags/Anchor";
+import { AnalyticsEvents } from "lib/analytics/events";
 
 export const metadata: Metadata = {
   title: "Not found",
@@ -23,9 +24,14 @@ export default function NotFound() {
       <p className="text-subtitle mb-8">
         The page you requested could not be found.
       </p>
-      <Link className="text-primary underline" href="/">
+      <Anchor
+        className="text-primary underline"
+        href="/"
+        event={AnalyticsEvents.NOT_FOUND_HOME_CLICKED}
+        properties={{ url: "/" }}
+      >
         {i18n.header.home}
-      </Link>
+      </Anchor>
     </main>
   );
 }

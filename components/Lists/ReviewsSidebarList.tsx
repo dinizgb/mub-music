@@ -1,8 +1,10 @@
 import Image from "next/image";
 import { H2, H3, Span } from "components/Texts/Typographies";
 import StarsWidget from "components/Widgets/StarsWidget";
+import Anchor from "components/Tags/Anchor";
 import { cn } from "@/lib/utils";
 import { i18n, t } from "@/i18n";
+import { AnalyticsEvents } from "lib/analytics/events";
 
 type ReviewsSidebarListProps = {
   isPrimaryTitle: boolean;
@@ -51,7 +53,14 @@ export default function ReviewsSidebarList(props: ReviewsSidebarListProps) {
         {props.data.length > 0 ? (
           props.data.map(({ count, logo, rate, store, url }) => {
             return (
-              <a href={url} target="_blank" rel="noreferrer" key={url}>
+              <Anchor
+                href={url}
+                target="_blank"
+                rel="noreferrer"
+                key={url}
+                event={AnalyticsEvents.REVIEW_CLICKED}
+                properties={{ store, rate, url }}
+              >
                 <li
                   className="group border-line-bottom hover:bg-primary flex
                     cursor-pointer flex-row items-center justify-between
@@ -90,7 +99,7 @@ export default function ReviewsSidebarList(props: ReviewsSidebarListProps) {
                     />
                   </div>
                 </li>
-              </a>
+              </Anchor>
             );
           })
         ) : (
