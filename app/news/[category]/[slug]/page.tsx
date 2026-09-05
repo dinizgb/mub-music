@@ -22,6 +22,7 @@ type PageProps = {
   params: Promise<{ category: string; slug: string }>;
 };
 
+export const revalidate = 3600;
 export const dynamicParams = true;
 
 /**
