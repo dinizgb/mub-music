@@ -11,6 +11,8 @@ import JsonLd from "lib/seo/JsonLd";
 import { buildBreadcrumbJsonLd } from "lib/seo/jsonld/breadcrumb";
 import { absoluteUrl } from "lib/seo/absoluteUrl";
 
+export const revalidate = 3600;
+
 export const metadata = buildPageMetadata({
   title: i18n.products.title,
   description: i18n.products.description,

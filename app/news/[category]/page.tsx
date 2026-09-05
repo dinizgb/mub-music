@@ -12,11 +12,17 @@ import { buildPageMetadata } from "lib/seo/buildPageMetadata";
 import { absoluteUrl } from "lib/seo/absoluteUrl";
 import JsonLd from "lib/seo/JsonLd";
 import { buildBreadcrumbJsonLd } from "lib/seo/jsonld/breadcrumb";
+import {
+  NEWS_LIST_PAGE_SIZE,
+  paginationFromSearchParam,
+} from "utils/listPagination";
 
 type PageProps = {
   params: Promise<{ category: string }>;
+  searchParams: Promise<{ page?: string }>;
 };
 
+export const revalidate = 3600;
 export const dynamicParams = true;
 
 /**
@@ -71,16 +77,28 @@ export async function generateMetadata({
  * @param {PageProps} props Route params.
  * @return {Promise<ReactElement>} News category page.
  */
-export default async function NewsCategoryPage({ params }: PageProps) {
+export default async function NewsCategoryPage({
+  params,
+  searchParams,
+}: PageProps) {
   const { category } = await params;
+  const { page } = await searchParams;
+  const { currentPage, offset } = paginationFromSearchParam(
+    page,
+    NEWS_LIST_PAGE_SIZE
+  );
   const lastNewsParams: QueryParameters = {
-    first: 5,
-    where: { categoryName: category },
+    where: {
+      categoryName: category,
+      offsetPagination: { size: NEWS_LIST_PAGE_SIZE, offset },
+    },
   };
   const lastNews = await fetchQuery(getAllNews(lastNewsParams));
   if (lastNews.notFound || !lastNews.props.data.posts.nodes[0]) notFound();
 
   const newsData = lastNews.props.data.posts.nodes;
+  const lastNewsTotalRecords: number =
+    lastNews.props.data.posts.pageInfo.offsetPagination.total;
   const categoryName = newsData[0].categories.nodes[0].name;
   const categoryDescription = newsData[0].categories.nodes[0].description;
 
@@ -116,6 +134,8 @@ export default async function NewsCategoryPage({ params }: PageProps) {
         layoutSlug={``}
         layoutDescription={categoryDescription}
         productsCategories={productsCategories}
+        totalCount={lastNewsTotalRecords}
+        currentPage={currentPage}
       />
     </>
   );

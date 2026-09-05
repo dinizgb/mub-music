@@ -20,4 +20,17 @@ describe("getAllNews", () => {
     expect(query).toContain("hasNextPage");
     expect(query).toContain("endCursor");
   });
+
+  it("requests offset pagination totals used by news list pages", () => {
+    const query = getAllNews({
+      where: { offsetPagination: { size: 5, offset: 5 } },
+    });
+
+    expect(query).toContain("offsetPagination");
+    expect(query).toContain("size: 5");
+    expect(query).toContain("offset: 5");
+    expect(query).toContain("hasMore");
+    expect(query).toContain("hasPrevious");
+    expect(query).toContain("total");
+  });
 });

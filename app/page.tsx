@@ -10,6 +10,8 @@ import { buildPageMetadata } from "lib/seo/buildPageMetadata";
 import { absoluteUrl } from "lib/seo/absoluteUrl";
 import { notFound } from "next/navigation";
 
+export const revalidate = 3600;
+
 const layoutDescription = i18n.home.metaDescription;
 
 export const metadata = buildPageMetadata({

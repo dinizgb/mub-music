@@ -1,11 +1,14 @@
+import { Suspense } from "react";
 // COMPONENTS
 import Header from "components/Tags/Header";
 import Footer from "components/Tags/Footer";
 import { H1, H2 } from "components/Texts/Typographies";
 import BigHorizontalCardList from "components/Lists/BigHorizontalCardList";
+import PaginationWidget from "components/Widgets/PaginationWidget";
 // TYPES
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { i18n } from "@/i18n";
+import { NEWS_LIST_PAGE_SIZE } from "utils/listPagination";
 
 type LayoutListWithAsideProps = {
   postData: any;
@@ -16,6 +19,8 @@ type LayoutListWithAsideProps = {
   layoutSlug: string;
   layoutDescription: string;
   productsCategories: ProductsCategoriesType[];
+  totalCount: number;
+  currentPage: number;
 };
 
 /**
@@ -75,6 +80,15 @@ export default function LayoutListWithAside(props: LayoutListWithAsideProps) {
                       layoutSection={props.layoutSection}
                     />
                   )}
+                </div>
+                <div className="mt-7.5">
+                  <Suspense fallback={null}>
+                    <PaginationWidget
+                      totalItens={props.totalCount}
+                      currentPage={props.currentPage}
+                      range={NEWS_LIST_PAGE_SIZE}
+                    />
+                  </Suspense>
                 </div>
               </div>
               <div className="md:col-span-4">{i18n.news.emptyAside}</div>
