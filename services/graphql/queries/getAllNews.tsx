@@ -50,6 +50,11 @@ export default function getAllNews(props: QueryParameters) {
         pageInfo {
           hasNextPage
           endCursor
+          offsetPagination {
+            hasMore
+            hasPrevious
+            total
+          }
         }
       }
     }`;
