@@ -71,6 +71,6 @@
     "prettier-plugin-classnames": "^0.10.4",
     "prettier-plugin-merge": "^0.10.1",
     "prettier-plugin-tailwindcss": "^0.8.1",
-    "typescript": "^5.9.3"
+    "typescript": "^7.0.2"
   }
 }
