@@ -35,7 +35,7 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^16.3.3",
     "@typescript-eslint/eslint-plugin": "^5.25.0",
-    "@typescript-eslint/parser": "^5.25.0",
+    "@typescript-eslint/parser": "^8.69.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "eslint-config-google": "^0.14.0",
