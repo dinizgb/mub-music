@@ -91,7 +91,7 @@ export default function LayoutListWithAside(props: LayoutListWithAsideProps) {
                   </Suspense>
                 </div>
               </div>
-              <div className="md:col-span-4">{i18n.news.emptyAside}</div>
+              <div className="md:col-span-4"></div>
             </div>
           </div>
         </div>

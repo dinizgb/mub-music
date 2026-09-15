@@ -23,7 +23,7 @@ export default function Header(props: HeaderProps) {
   return (
     <header
       className={cn(
-        "relative z-50 py-4 pb-2.75",
+        "relative z-50 flex h-16 items-center",
         !props.noBg && "border-b border-white/20"
       )}
     >
