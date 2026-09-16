@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import productFilterConstructor from "services/filters/productFilterConstructor";
 
 const products = [

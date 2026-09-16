@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 "use client";
 
 import { useEffect, useRef } from "react";
@@ -103,12 +102,13 @@ export default function SearchInput(props: SearchInputsProps) {
       <div
         className={cn(
           `group border-text-4 text-text-1 hover:bg-text-4 relative flex
-          flex-row border-4 bg-transparent font-semibold outline-none`,
+          flex-row bg-transparent font-semibold outline-none`,
           props.compact
-            ? `hover:border-text-4 focus-within:border-text-4 w-full
-              items-center rounded-[8px] border-2 border-[#393d4b] px-3 py-2
+            ? `hover:border-text-4 focus-within:border-text-4 flex h-9 w-full
+              items-center rounded-[8px] border-2 border-[#393d4b] px-3 py-0
               text-sm`
-            : "w-[93%] rounded-[50px] px-[3%] py-5 text-[21px]",
+            : `w-full rounded-[50px] border-4 px-[3%] py-5 text-[18px]
+              sm:w-[93%]`,
           props.className
         )}
       >
@@ -124,7 +124,7 @@ export default function SearchInput(props: SearchInputsProps) {
             bg-transparent font-semibold outline-none`,
             props.compact
               ? "rounded-[8px] px-2 text-sm"
-              : "rounded-[50px] px-[2%] text-[21px]"
+              : "rounded-[50px] px-[2%] text-[18px]"
           )}
           placeholder={props.placeholder}
           onChange={handleSearch}

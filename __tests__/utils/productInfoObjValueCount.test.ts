@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import productInfoObjValueCount from "utils/productInfoObjValueCount";
 
 describe("productInfoObjValueCount", () => {

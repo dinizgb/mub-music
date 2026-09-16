@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 export const productListMock = [
   {
     title: "Fender Stratocaster",

@@ -31,12 +31,11 @@
     ],
     "strictNullChecks": true
   },
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "__tests__", "jest.setup.ts", "coverage"],
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "__tests__/utils/custom-queries.js",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ]

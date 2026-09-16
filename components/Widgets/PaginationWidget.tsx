@@ -1,12 +1,12 @@
 "use client";
 
-/* eslint-disable camelcase */
 import type { AnchorHTMLAttributes } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Span } from "components/Texts/Typographies";
 import { cn } from "@/lib/utils";
 import { AnalyticsEvents } from "lib/analytics/events";
 import { trackEvent } from "lib/analytics/track";
+import { buildPaginationItems } from "utils/buildPaginationItems";
 
 type PaginationWidgetProps = {
   totalItens: number;
@@ -31,8 +31,9 @@ export function PaginationBullet({
   return (
     <a
       className={cn(
-        `font-open ml-2.5 flex size-4.5 items-center justify-center rounded-full
-        border-2 p-2.5 text-base font-semibold`,
+        `font-open ml-1.5 flex size-9 shrink-0 items-center justify-center
+        rounded-full border-2 text-sm font-semibold sm:ml-2.5 sm:size-10
+        sm:text-base`,
         active
           ? "border-primary-hover bg-primary-hover text-background"
           : "border-subtitle bg-background text-text-4",
@@ -58,43 +59,14 @@ export default function PaginationWidget(props: PaginationWidgetProps) {
     params.set("page", String(item));
     return `${pathname}?${params.toString()}`;
   };
-  const hasPages: boolean = props.totalItens > props.range ? true : false;
-  const totalPages: number = Math.floor(props.totalItens / props.range);
-  const smallerPaginationsRule: Array<number> = Array.from(
-    { length: Math.ceil(props.totalItens / props.range) },
-    (_, i) => i + 1
-  );
-  const biggerPaginationsRule: Array<any> | null =
-    totalPages > 9
-      ? props.currentPage <= 4
-        ? [1, 2, 3, 4, "...", totalPages] // if
-        : props.currentPage > 4 && props.currentPage < totalPages - 3
-          ? [
-              1,
-              "...",
-              props.currentPage,
-              props.currentPage + 1,
-              props.currentPage + 2,
-              "...",
-              totalPages,
-            ] // else if
-          : [
-              1,
-              "...",
-              totalPages - 3,
-              totalPages - 2,
-              totalPages - 1,
-              totalPages,
-            ] // else
-      : null;
-  const pagination: Array<any> =
-    totalPages > 9 ? (biggerPaginationsRule ?? []) : smallerPaginationsRule;
+  const totalPages = Math.ceil(props.totalItens / props.range);
+  const pagination = buildPaginationItems(props.currentPage, totalPages);
   return (
     <>
-      {hasPages ? (
-        <div className="mx-auto flex justify-end">
-          {pagination.map((item) => {
-            return !isNaN(item) ? (
+      {pagination.length > 0 ? (
+        <div className="mx-auto flex flex-wrap justify-end">
+          {pagination.map((item, index) => {
+            return typeof item === "number" ? (
               <PaginationBullet
                 key={item}
                 active={props.currentPage == item}
@@ -110,7 +82,7 @@ export default function PaginationWidget(props: PaginationWidgetProps) {
               </PaginationBullet>
             ) : (
               <Span
-                key={`ellipsis-${item}`}
+                key={`ellipsis-${index}`}
                 className="text-subtitle hover:text-subtitle mt-1.25 mr-1
                   ml-3.25"
                 fontWeight={400}

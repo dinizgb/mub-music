@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unknown-property */
 import getUrlParameterValue from "utils/getUrlParameterValue";
 import { i18n } from "@/i18n";
 

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import Anchor from "components/Tags/Anchor";
 import { cn } from "@/lib/utils";
@@ -9,6 +8,12 @@ type MobileMenuProps = {
   display: string;
   productsCategories: ProductsCategoriesType[];
 };
+
+const sectionHeaderClassName = `bg-primary font-heading text-all-black
+  hover:bg-primary-hover focus-visible:bg-primary-hover block w-full px-[10%]
+  py-4.5 pb-5 text-lg font-bold no-underline transition-colors
+  focus-visible:outline-2 focus-visible:outline-offset-[-4px]
+  focus-visible:outline-all-black`;
 
 /**
  * Mobile Menu Component.
@@ -31,12 +36,18 @@ export default function MobileMenu(props: MobileMenuProps) {
           [&::-webkit-scrollbar-thumb]:bg-white/10"
       >
         <div className="relative">
-          <div
-            className="bg-primary font-heading text-all-black w-full px-[10%]
-              py-4.5 pb-5 text-lg font-bold"
+          <Anchor
+            href="/products/"
+            event={AnalyticsEvents.MOBILE_MENU_ITEM_CLICKED}
+            properties={{
+              section: "products",
+              label: i18n.nav.products,
+              url: "/products/",
+            }}
+            className={sectionHeaderClassName}
           >
             {i18n.nav.products}
-          </div>
+          </Anchor>
           <ul className="flex w-full flex-col items-stretch border-none p-0">
             {props.productsCategories.map(({ slug, title }) => {
               return (
@@ -62,12 +73,18 @@ export default function MobileMenu(props: MobileMenuProps) {
           </ul>
         </div>
         <div className="relative">
-          <div
-            className="bg-primary font-heading text-all-black w-full px-[10%]
-              py-4.5 pb-5 text-lg font-bold"
+          <Anchor
+            href="/news/"
+            event={AnalyticsEvents.MOBILE_MENU_ITEM_CLICKED}
+            properties={{
+              section: "news",
+              label: i18n.nav.news,
+              url: "/news/",
+            }}
+            className={sectionHeaderClassName}
           >
             {i18n.nav.news}
-          </div>
+          </Anchor>
           <ul className="flex w-full flex-col items-stretch border-none p-0">
             <li className="contents">
               <Anchor

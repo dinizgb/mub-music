@@ -77,8 +77,8 @@ Open [http://localhost:3000](http://localhost:3000).
 
 Copyright 2026 Mub Music.
 
-This project is licensed under the
-[PolyForm Noncommercial License 1.0.0](./LICENSE).
-You may view, clone, modify, and redistribute it for
-**noncommercial** purposes only. Commercial use requires
-permission from the copyright holder.
+This project is licensed under the [PolyForm Noncommercial License 1.0.0](./LICENSE).
+
+You may view, clone, modify, and redistribute it for **noncommercial** purposes only.
+
+Commercial use requires permission from the copyright holder.
