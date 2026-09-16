@@ -34,10 +34,10 @@ export default function LayoutHomePage(props: LayoutHomePageProps) {
       <HomeSearch />
       <main>
         <div className="mx-auto w-full max-w-screen-2xl px-4">
-          <div className="bg-background relative z-0 w-full">
+          <div className="bg-background relative w-full">
             <div
-              className="mt-20 grid w-full grid-cols-1 gap-x-2 sm:gap-x-6
-                md:grid-cols-12 md:gap-x-10"
+              className="mt-8 grid w-full grid-cols-1 gap-x-2 sm:gap-x-6
+                md:mt-20 md:grid-cols-12 md:gap-x-10"
             >
               <div className="md:col-span-9">
                 <div className="mt-10">

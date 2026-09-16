@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import BigHorizontalCard from "components/Cards/BigHorizontalCard";
 
 /**
@@ -9,14 +8,19 @@ import BigHorizontalCard from "components/Cards/BigHorizontalCard";
 export default function BigHorizontalCardList(props) {
   return props.postList.map(
     ({ title, excerpt, slug, categories, date, featuredImage }) => {
+      const category = categories?.nodes?.[0];
+      if (!slug || !category) {
+        return null;
+      }
+
       return (
         <BigHorizontalCard
           key={slug}
           className="mb-7.5"
-          cardImage={featuredImage.node.sourceUrl}
+          cardImage={featuredImage?.node?.sourceUrl || "/images/home-art.png"}
           cardSection={`news`}
-          cardCategory={categories.nodes[0].name}
-          cardCategorySlug={categories.nodes[0].slug}
+          cardCategory={category.name}
+          cardCategorySlug={category.slug}
           cardTitle={title}
           cardSlug={slug}
           cardExcerpt={excerpt}

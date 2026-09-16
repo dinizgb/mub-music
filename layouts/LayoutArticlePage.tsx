@@ -45,13 +45,13 @@ export default function LayoutArticlePage(props: LayoutArticlePageProps) {
     <>
       <Header productsCategories={props.productsCategories} />
       <main>
-        <div className="mx-auto w-full max-w-screen-2xl px-4">
+        <div className="mx-auto w-full max-w-screen-2xl min-w-0 px-4">
           <div className="w-full">
             <div
-              className="mt-12.5 grid w-full grid-cols-1 gap-x-2 sm:gap-x-4
-                md:grid-cols-12 md:gap-x-6"
+              className="mt-12.5 grid w-full min-w-0 grid-cols-1 gap-x-2
+                sm:gap-x-4 md:grid-cols-12 md:gap-x-6"
             >
-              <div className="md:col-span-6">
+              <div className="min-w-0 md:col-span-6">
                 <Breadcrumb>
                   <BreadcrumbList
                     className="text-text-2
@@ -125,7 +125,7 @@ export default function LayoutArticlePage(props: LayoutArticlePageProps) {
                   </BreadcrumbList>
                 </Breadcrumb>
                 <H1
-                  className="text-text-4 font-heading"
+                  className="text-text-4 font-heading max-sm:break-words"
                   fontWeight={400}
                   fontSize={60}
                   lineHeight={85}
@@ -179,9 +179,9 @@ export default function LayoutArticlePage(props: LayoutArticlePageProps) {
               </div>
               <div className="md:col-span-6">
                 <div
-                  className="bg-secondary relative h-full w-full rounded-lg
-                    max-md:mx-auto max-md:mt-0 max-md:h-87.5 max-md:w-full
-                    [&_img]:rounded-lg"
+                  className="bg-secondary relative h-full w-full overflow-hidden
+                    rounded-lg max-md:mx-auto max-md:mt-0 max-md:h-87.5
+                    max-md:w-full [&_img]:rounded-lg"
                 >
                   <Image
                     src={props.articleFeaturedImage}
@@ -198,7 +198,7 @@ export default function LayoutArticlePage(props: LayoutArticlePageProps) {
               className="grid w-full grid-cols-1 gap-x-2 sm:gap-x-6
                 md:grid-cols-12 md:gap-x-10"
             >
-              <div className="mx-auto md:col-span-9">
+              <div className="mx-auto max-w-full min-w-0 md:col-span-9">
                 <div className="mt-10.25">
                   <ContentBody
                     dangerouslySetInnerHTML={{

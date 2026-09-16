@@ -55,8 +55,8 @@ export default function Nav(props: NavProps) {
         <li className="hidden min-[886px]:flex">
           <Anchor
             href="/news/"
-            className="font-heading hover:text-primary-hover font-medium
-              tracking-[0.5px] text-white no-underline"
+            className="font-heading hover:text-primary-hover flex items-center
+              leading-none font-medium tracking-[0.5px] text-white no-underline"
             event={AnalyticsEvents.HEADER_NAV_CLICKED}
             properties={{ label: i18n.header.news, url: "/news/" }}
           >
@@ -66,8 +66,8 @@ export default function Nav(props: NavProps) {
         <li className="hidden min-[886px]:flex">
           <Anchor
             href="/products/"
-            className="font-heading hover:text-primary-hover font-medium
-              tracking-[0.5px] text-white no-underline"
+            className="font-heading hover:text-primary-hover flex items-center
+              leading-none font-medium tracking-[0.5px] text-white no-underline"
             event={AnalyticsEvents.HEADER_NAV_CLICKED}
             properties={{ label: i18n.header.products, url: "/products/" }}
           >
@@ -75,8 +75,8 @@ export default function Nav(props: NavProps) {
           </Anchor>
         </li>
         <li
-          className="hover:text-primary-hover shrink-0 cursor-pointer text-white
-            max-[885px]:-ml-1"
+          className="hover:text-primary-hover flex size-6 shrink-0
+            cursor-pointer items-center text-white"
           onClick={handleToggleMobileMenu}
         >
           <Menu className="block size-6" />

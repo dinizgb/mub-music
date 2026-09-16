@@ -1,6 +1,5 @@
 "use client";
 
-/* eslint-disable new-cap */
 import { usePathname, useSearchParams } from "next/navigation";
 // COMPONENTS
 import Header from "components/Tags/Header";

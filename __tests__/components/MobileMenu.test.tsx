@@ -19,6 +19,36 @@ describe("MobileMenu", () => {
     expect(screen.getByText(i18n.nav.awards)).toBeInTheDocument();
   });
 
+  it("links the products and news headers to their home pages", () => {
+    render(
+      <MobileMenu display="block" productsCategories={productsCategories} />
+    );
+
+    expect(
+      screen.getByRole("link", { name: i18n.nav.products })
+    ).toHaveAttribute("href", "/products/");
+    expect(screen.getByRole("link", { name: i18n.nav.news })).toHaveAttribute(
+      "href",
+      "/news/"
+    );
+  });
+
+  it("gives the products and news headers hover and focus styles", () => {
+    render(
+      <MobileMenu display="block" productsCategories={productsCategories} />
+    );
+
+    const productsHeader = screen.getByRole("link", {
+      name: i18n.nav.products,
+    });
+    const newsHeader = screen.getByRole("link", { name: i18n.nav.news });
+
+    expect(productsHeader).toHaveClass("hover:bg-primary-hover");
+    expect(productsHeader).toHaveClass("focus-visible:bg-primary-hover");
+    expect(newsHeader).toHaveClass("hover:bg-primary-hover");
+    expect(newsHeader).toHaveClass("focus-visible:bg-primary-hover");
+  });
+
   it("hides the menu when display is none", () => {
     const { container } = render(
       <MobileMenu display="none" productsCategories={productsCategories} />

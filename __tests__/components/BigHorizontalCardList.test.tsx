@@ -27,4 +27,17 @@ describe("BigHorizontalCardList", () => {
     const { container } = render(<BigHorizontalCardList postList={[]} />);
     expect(container).toBeEmptyDOMElement();
   });
+
+  it("still renders a post that has no featured image", () => {
+    const postsWithoutImage = [
+      {
+        ...postListMock[0],
+        featuredImage: null,
+      },
+    ];
+
+    render(<BigHorizontalCardList postList={postsWithoutImage} />);
+
+    expect(screen.getByText("Test Post 1")).toBeInTheDocument();
+  });
 });
