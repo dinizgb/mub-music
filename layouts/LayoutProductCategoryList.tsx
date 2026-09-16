@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-/* eslint-disable new-cap */
+
 // COMPONENTS
 import Header from "components/Tags/Header";
 import Footer from "components/Tags/Footer";

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { buildProductJsonLd } from "lib/seo/jsonld/product";
 import { ProductType } from "types/productType";
 

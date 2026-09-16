@@ -1,6 +1,5 @@
 "use client";
 
-/* eslint-disable camelcase */
 import type { AnchorHTMLAttributes } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Span } from "components/Texts/Typographies";

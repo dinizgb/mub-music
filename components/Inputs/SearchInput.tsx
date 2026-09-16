@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 "use client";
 
 import { useEffect, useRef } from "react";

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import Anchor from "components/Tags/Anchor";
 import { cn } from "@/lib/utils";

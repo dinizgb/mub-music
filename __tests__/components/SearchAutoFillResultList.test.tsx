@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { render, screen } from "@testing-library/react";
 import SearchAutoFillResultList from "components/Lists/SearchAutoFillResultList";
 import { productListMock } from "__tests__/__mocks__/productListMock";
