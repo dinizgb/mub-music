@@ -4,10 +4,10 @@ import { notFound } from "next/navigation";
 import LayoutProductsList from "layouts/LayoutProductsList";
 import { fetchQuery } from "services/graphql/fetchQuery";
 import getAllProducts from "services/graphql/queries/getAllProducts";
-import getAllProductFiltersInfos from "services/graphql/queries/getAllProductFiltersInfos";
 import productFilterConstructor from "services/filters/productFilterConstructor";
 import getAllProductCategories from "services/graphql/queries/getAllProductCategories";
 import getProductCategoryBy from "services/graphql/queries/getProductCategoryBy";
+import { loadProductListPage } from "services/filters/loadProductListPage";
 import paginationOffsetFormatter from "utils/paginationOffsetFormatter";
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { QueryParameters } from "types/queryParams";
@@ -25,7 +25,11 @@ import { buildBreadcrumbJsonLd } from "lib/seo/jsonld/breadcrumb";
 
 type PageProps = {
   params: Promise<{ category: string }>;
-  searchParams: Promise<{ page?: string; brand?: string }>;
+  searchParams: Promise<{
+    page?: string;
+    brand?: string;
+    priceAverage?: string;
+  }>;
 };
 
 export const dynamic = "force-dynamic";
@@ -90,43 +94,18 @@ export default async function ProductsCategoryPage({
   const offset = query.page ? paginationOffsetFormatter(query.page) : 0;
   const currentPage = query.page ? parseInt(query.page, 10) : 1;
 
-  const lastProductsDefaultParams: QueryParameters = {
-    where: {
-      catSlug: category,
-      offsetPagination: { size: 20, offset: offset },
-    },
-  };
-  const lastProductsByBrandParams: QueryParameters = {
-    where: {
-      brandSlug: query.brand,
-      catSlug: category,
-      offsetPagination: { size: 20, offset: offset },
-    },
-  };
-  const lastProductsParams: QueryParameters = query.brand
-    ? lastProductsByBrandParams
-    : lastProductsDefaultParams;
+  const productList = await loadProductListPage({
+    category,
+    brand: query.brand,
+    priceAverage: query.priceAverage,
+    offset,
+  });
+  if ("notFound" in productList) notFound();
 
-  const lastProducts = await fetchQuery(getAllProducts(lastProductsParams));
-  if (lastProducts.notFound) notFound();
-
-  const lastProductsResponse: ProductType[] =
-    lastProducts.props.data.products.nodes;
-  const lastProductsTotalRecords: number =
-    lastProducts.props.data.products.pageInfo.offsetPagination.total;
-
-  const productsFilters = await fetchQuery(
-    getAllProductFiltersInfos({
-      where: {
-        catSlug: category,
-        offsetPagination: { size: lastProductsTotalRecords, offset: 0 },
-      },
-    })
-  );
-  if (productsFilters.notFound) notFound();
-
+  const lastProductsResponse: ProductType[] = productList.products;
+  const lastProductsTotalRecords: number = productList.totalCount;
   const productsFiltersResponse: Array<ProductFilterResponseType> =
-    productsFilters.props.data.products.nodes;
+    productList.filterNodes;
 
   const getProductCategoriesParams: QueryParameters = {
     where: { offsetPagination: { size: 100, offset: 1 } },

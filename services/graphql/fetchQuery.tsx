@@ -17,6 +17,7 @@ export async function fetchQuery<TData = any>(
     query: gql`
       ${query}
     `,
+    fetchPolicy: "no-cache",
   });
 
   if (

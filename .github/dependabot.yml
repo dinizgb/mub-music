@@ -4,8 +4,8 @@ updates:
     directory: "/"
     target-branch: development
     schedule:
-      interval: weekly
-      day: sunday
+      interval: cron
+      cronjob: "0 0 * * sun%2"
     open-pull-requests-limit: 10
     labels:
       - Dependencies
@@ -16,8 +16,8 @@ updates:
     directory: "/"
     target-branch: development
     schedule:
-      interval: weekly
-      day: sunday
+      interval: cron
+      cronjob: "0 0 * * sun%2"
     labels:
       - Dependencies
     commit-message:

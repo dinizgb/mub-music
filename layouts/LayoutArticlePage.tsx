@@ -173,7 +173,7 @@ export default function LayoutArticlePage(props: LayoutArticlePageProps) {
                     xsFontSize={15}
                     xsLineHeight={24}
                   >
-                    - {formatDate(props.articleDate)}
+                    at {formatDate(props.articleDate)}
                   </Span>
                 </div>
               </div>

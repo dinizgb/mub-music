@@ -104,7 +104,9 @@ export function buildProductJsonLd(
     info?.reviews?.reviewInfo as unknown as Record<string, unknown>
   ) as ReviewLike[];
   const ratingValue =
-    typeof info?.rating === "number" && info.rating > 0 ? info.rating : null;
+    typeof info?.rating === "number" && info.rating > 0 && info.rating <= 5
+      ? info.rating
+      : null;
   const reviewCount = reviews.reduce(
     (sum, review) =>
       sum + (typeof review.count === "number" ? review.count : 0),

@@ -132,4 +132,21 @@ describe("buildProductJsonLd", () => {
     expect(schema.aggregateRating).toBeUndefined();
     expect(schema.brand).toBeUndefined();
   });
+
+  it("omits aggregateRating when rating is outside the 0-5 scale", () => {
+    const product = {
+      ...baseProduct,
+      product_info: {
+        ...baseProduct.product_info,
+        rating: 1549.99,
+      },
+    } as unknown as ProductType;
+
+    const schema = buildProductJsonLd(
+      product,
+      "https://mubmusic.com/products/guitars/electric/fender-stratocaster/"
+    );
+
+    expect(schema.aggregateRating).toBeUndefined();
+  });
 });
