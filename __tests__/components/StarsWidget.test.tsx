@@ -52,4 +52,12 @@ describe("StarsWidget", () => {
 
     expect(container.querySelectorAll("svg")).toHaveLength(5);
   });
+
+  it("never renders more than five stars for out-of-range ratings", () => {
+    const { container } = render(
+      <StarsWidget fontSize={12} number={1549.99} withBackground={true} />
+    );
+
+    expect(container.querySelectorAll("svg")).toHaveLength(5);
+  });
 });

@@ -10,12 +10,14 @@ import Anchor from "components/Tags/Anchor";
 import { ProductsCategoriesType } from "types/productsCategoriesType";
 import { i18n } from "@/i18n";
 import { AnalyticsEvents } from "lib/analytics/events";
+import { HomeStats } from "utils/homeStats";
 
 type LayoutHomePageProps = {
   postData: any;
   productData: any;
   productsCategories: ProductsCategoriesType[];
   layoutDescription: string;
+  homeStats: HomeStats;
 };
 
 /**
@@ -31,7 +33,7 @@ export default function LayoutHomePage(props: LayoutHomePageProps) {
         noSearch={true}
         productsCategories={props.productsCategories}
       />
-      <HomeSearch />
+      <HomeSearch stats={props.homeStats} />
       <main>
         <div className="mx-auto w-full max-w-screen-2xl px-4">
           <div className="bg-background relative w-full">
@@ -54,6 +56,19 @@ export default function LayoutHomePage(props: LayoutHomePageProps) {
                 </div>
                 <div>
                   <ProductCardList productList={props.productData} />
+                  <div className="mt-8 flex">
+                    <Anchor
+                      className="border-text-4 text-text-4 hover:bg-text-4
+                        hover:text-text-1 mb-7.5 border-[3px] py-3.75
+                        text-center text-[21px] font-semibold transition-colors"
+                      style={{ width: "100%" }}
+                      href="/products/"
+                      event={AnalyticsEvents.MORE_PRODUCTS_CLICKED}
+                      properties={{ url: "/products/" }}
+                    >
+                      {i18n.home.moreProducts}
+                    </Anchor>
+                  </div>
                 </div>
               </div>
               <div className="md:col-span-9">

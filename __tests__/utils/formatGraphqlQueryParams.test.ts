@@ -14,4 +14,13 @@ describe("formatGraphqlQueryParams", () => {
     expect(result).toContain("categoryName:");
     expect(result).toContain("tech");
   });
+
+  it("formats a numeric in list", () => {
+    const result = formatGraphqlQueryParams({
+      first: 3,
+      where: { in: [3610, 3601, 2834] },
+    });
+
+    expect(result).toBe("first: 3, where: {in: [3610,3601,2834]}");
+  });
 });

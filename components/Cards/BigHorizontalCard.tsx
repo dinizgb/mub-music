@@ -50,7 +50,7 @@ export default function BigHorizontalCard(props: BigHorizontalCardProps) {
           <div
             className="mt-6.25 max-sm:mx-auto max-sm:mt-2.5 max-sm:w-[90%]
               max-sm:[&_h3]:mt-1.5 max-sm:[&_h3]:ml-0 max-sm:[&_h4]:ml-0
-              max-sm:[&_span]:ml-0"
+              max-sm:[&>span]:ml-0"
           >
             <Span
               className="text-text-2 ml-10"

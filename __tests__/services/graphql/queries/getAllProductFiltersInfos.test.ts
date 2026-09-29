@@ -10,6 +10,7 @@ describe("getAllProductFiltersInfos", () => {
     expect(query).toContain("products(");
     expect(query).toContain("brand");
     expect(query).toContain("priceAverage");
+    expect(query).toContain("databaseId");
     expect(query).toContain("guitars");
   });
 });

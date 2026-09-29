@@ -27,6 +27,9 @@ describe("fetchQuery", () => {
     ).resolves.toEqual({
       props: { data },
     });
+    expect(queryMock).toHaveBeenCalledWith(
+      expect.objectContaining({ fetchPolicy: "no-cache" })
+    );
   });
 
   it("returns notFound when data.length is 0", async () => {

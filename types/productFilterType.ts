@@ -1,5 +1,3 @@
-import { BrandType } from "types/productType";
-
 export interface ProductFilterType {
   count?: number;
   id?: string;
@@ -7,10 +5,15 @@ export interface ProductFilterType {
   title: string;
 }
 
-export interface ProductFilterResponseType {
-  brand: BrandType;
+export interface ProductFilterInfoType {
+  brand: ProductFilterType;
   category: ProductFilterType;
   priceAverage: ProductFilterType;
   rating: number;
   subcategory: ProductFilterType;
+}
+
+export interface ProductFilterResponseType {
+  databaseId?: number;
+  product_info: ProductFilterInfoType;
 }

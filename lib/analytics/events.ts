@@ -7,6 +7,7 @@ export const AnalyticsEvents = {
   NEWS_CARD_CLICKED: "news_card_clicked",
   CATEGORY_CARD_CLICKED: "category_card_clicked",
   MORE_NEWS_CLICKED: "more_news_clicked",
+  MORE_PRODUCTS_CLICKED: "more_products_clicked",
   SEARCH_PERFORMED: "search_performed",
   SEARCH_RESULT_CLICKED: "search_result_clicked",
   OFFER_CLICKED: "offer_clicked",
@@ -76,6 +77,9 @@ export type AnalyticsEventMap = {
   [AnalyticsEvents.MORE_NEWS_CLICKED]: {
     url: string;
   };
+  [AnalyticsEvents.MORE_PRODUCTS_CLICKED]: {
+    url: string;
+  };
   [AnalyticsEvents.SEARCH_PERFORMED]: {
     query: string;
     source: "home" | "header";
@@ -96,7 +100,7 @@ export type AnalyticsEventMap = {
     url: string;
   };
   [AnalyticsEvents.FILTER_APPLIED]: {
-    filter_type: "subcategory" | "brand";
+    filter_type: "subcategory" | "brand" | "price_average";
     value: string;
   };
   [AnalyticsEvents.PAGINATION_CLICKED]: {

@@ -17,8 +17,12 @@ type StarsConstructorProps = {
  */
 export default function StarsWidget(props: StarsConstructorProps) {
   let stars: ReactElement[] = [];
-  const firstNumber = separateDecimalNumber(props.number, 0);
-  const secondNumber = separateDecimalNumber(props.number, 1);
+  const rawRating = Number(props.number);
+  const rating = Number.isFinite(rawRating)
+    ? Math.min(5, Math.max(0, rawRating))
+    : 0;
+  const firstNumber = separateDecimalNumber(rating, 0);
+  const secondNumber = separateDecimalNumber(rating, 1);
   const remainingNumber = 5 - firstNumber;
   const style = { width: props.fontSize, height: props.fontSize };
 
