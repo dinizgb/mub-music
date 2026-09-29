@@ -1,12 +1,18 @@
 import { H1, Span, P } from "components/Texts/Typographies";
 import SearchInput from "components/Inputs/SearchInput";
 import { i18n } from "@/i18n";
+import { HomeStats } from "utils/homeStats";
+
+type HomeSearchProps = {
+  stats: HomeStats;
+};
 
 /**
  * HomeSearch Component.
+ * @param {HomeSearchProps} props Home hero stats.
  * @return {TSX.Element}: The TSX code for the HomeSearch Component.
  */
-export default function HomeSearch() {
+export default function HomeSearch(props: HomeSearchProps) {
   return (
     <div
       className="relative z-20 mt-5 min-h-0 bg-[url(/images/home-art.png)]
@@ -28,7 +34,7 @@ export default function HomeSearch() {
                 {i18n.home.findYourSound}
               </P>
               <H1
-                className="text-text-4 max-sm:break-words"
+                className="text-text-4 max-sm:wrap-break-word"
                 fontWeight={600}
                 fontSize={42}
                 lineHeight={64}
@@ -57,7 +63,7 @@ export default function HomeSearch() {
                     xsFontSize={21}
                     xsLineHeight={30}
                   >
-                    {i18n.home.statsValue}
+                    {props.stats.products}+
                   </P>
                   <Span
                     className="text-subtitle mb-5"
@@ -79,7 +85,7 @@ export default function HomeSearch() {
                     xsFontSize={21}
                     xsLineHeight={30}
                   >
-                    {i18n.home.statsValue}
+                    {props.stats.reviews}+
                   </P>
                   <Span
                     className="text-subtitle mb-5"
@@ -101,7 +107,7 @@ export default function HomeSearch() {
                     xsFontSize={21}
                     xsLineHeight={30}
                   >
-                    {i18n.home.statsValue}
+                    {props.stats.offers}+
                   </P>
                   <Span
                     className="text-subtitle mb-5"

@@ -17,6 +17,7 @@ const client = new ApolloClient({
     headers: {
       Authorization: getApiAuthorizationHeader(),
     },
+    fetchOptions: { cache: "no-store" },
   }),
   cache: new InMemoryCache(),
 });

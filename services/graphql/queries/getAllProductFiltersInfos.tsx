@@ -11,6 +11,7 @@ export default function getAllProductFiltersInfos(props: QueryParameters) {
     query getAllProductFiltersInfos {
       products(${formatGraphqlQueryParams(props)}) {
         nodes {
+          databaseId
           product_info {
             brand {
               ... on Brand {

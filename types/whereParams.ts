@@ -9,4 +9,5 @@ export interface whereParams {
   subCatSlug?: string;
   offsetPagination?: OffsetPaginationTypes;
   search?: string;
+  in?: number[];
 }

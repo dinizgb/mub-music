@@ -1,6 +1,5 @@
 "use client";
 
-/* eslint-disable guard-for-in */
 import Image from "next/image";
 import { Share2 } from "lucide-react";
 // COMPONENTS
@@ -18,8 +17,11 @@ import YoutubeIframe, {
 } from "components/Tags/YoutubeIframe";
 // TYPES
 import { ProductsCategoriesType } from "types/productsCategoriesType";
-import { ProductType } from "types/productType";
+import { ProductType, ReviewerType } from "types/productType";
+import { OfferType } from "types/offerType";
 import { i18n } from "@/i18n";
+import { acfGroupItems } from "utils/acfGroupItems";
+import { buildProductGallery } from "utils/buildProductGallery";
 
 type LayoutProductPageProps = {
   productData: ProductType;
@@ -37,58 +39,31 @@ export default function LayoutProductPage(props: LayoutProductPageProps) {
     productPrefix.product_info.featureVideo
   );
 
-  // FILTERS
-  const buildProductGallery = (obj) => {
-    const result: any[] = [];
-    for (const key in obj) {
-      result.push(obj[key]);
-    }
-    result.shift();
-    return result.filter((obj) => obj.image !== null);
-  };
-  const buildReviewsAndOffersList = (obj) => {
-    const result: any[] = [];
-    for (const key in obj) {
-      result.push(obj[key]);
-    }
-    result.shift();
-    return result.filter((obj) => obj.url !== null);
-  };
-
-  // PRODUCT GALLERY
-  const filteredProductGallery = buildProductGallery(
-    productPrefix.product_info.productGallery.productGalleryInfo
+  const productGallery = buildProductGallery(
+    productPrefix.product_info.productGallery?.productGalleryInfo
   );
-  const productGallery = filteredProductGallery.map((m) => ({
-    original: m.image.sourceUrl,
-    thumbnail: m.image.sourceUrl,
-  }));
 
-  // PRODUCT REVIEWS
-  const filteredProductReviews = productPrefix.product_info.reviews
-    ? buildReviewsAndOffersList(productPrefix.product_info.reviews.reviewInfo)
-    : null;
-  const productReviews = filteredProductReviews
-    ? filteredProductReviews.map((m) => ({
-        count: m.count,
-        rate: m.rate,
-        store: m.store.title,
-        logo: m.store.storeInfo.logo.sourceUrl,
-        url: m.url,
-      }))
+  const productReviews = productPrefix.product_info.reviews
+    ? acfGroupItems<ReviewerType>(productPrefix.product_info.reviews.reviewInfo)
+        .filter((item) => item.url && item.store)
+        .map((item) => ({
+          count: item.count,
+          rate: item.rate,
+          store: item.store.title,
+          logo: item.store.storeInfo.logo.sourceUrl,
+          url: item.url,
+        }))
     : null;
 
-  // PRODUCT OFFERS
-  const filteredProductOffers = productPrefix.product_info.offers
-    ? buildReviewsAndOffersList(productPrefix.product_info.offers.offersInfo)
-    : null;
-  const productOffers = filteredProductOffers
-    ? filteredProductOffers.map((m) => ({
-        logo: m.store.storeInfo.logo.sourceUrl,
-        price: m.price,
-        store: m.store.title,
-        url: m.url,
-      }))
+  const productOffers = productPrefix.product_info.offers
+    ? acfGroupItems<OfferType>(productPrefix.product_info.offers.offersInfo)
+        .filter((item) => item.url && item.store)
+        .map((item) => ({
+          logo: item.store.storeInfo.logo.sourceUrl,
+          price: item.price,
+          store: item.store.title,
+          url: item.url,
+        }))
     : null;
 
   return (

@@ -38,6 +38,7 @@ describe("apolloClient", () => {
       headers: {
         Authorization: expectedAuthorization,
       },
+      fetchOptions: { cache: "no-store" },
     });
     expect(ApolloClient).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -48,6 +49,7 @@ describe("apolloClient", () => {
             headers: {
               Authorization: expectedAuthorization,
             },
+            fetchOptions: { cache: "no-store" },
           },
         }),
         cache: { kind: "cache" },

@@ -5,6 +5,7 @@ import { OfferType } from "types/offerType";
 
 export interface ProductType {
   id: string;
+  databaseId?: number;
   slug: string;
   title: string;
   product_info: ProductInfoType;

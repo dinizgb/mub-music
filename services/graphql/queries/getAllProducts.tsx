@@ -12,6 +12,7 @@ export default function getAllProducts(props: QueryParameters) {
       products(${formatGraphqlQueryParams(props)}) {
         nodes {
           id
+          databaseId
           slug
           title(format: RENDERED)
           product_info {

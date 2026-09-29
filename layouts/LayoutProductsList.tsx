@@ -21,6 +21,10 @@ import { ProductFilterType } from "types/productFilterType";
 import { i18n, t } from "@/i18n";
 import { AnalyticsEvents } from "lib/analytics/events";
 import { trackEvent } from "lib/analytics/track";
+import {
+  resolveProductListFilterHref,
+  resolveSubcategoryFilterHref,
+} from "utils/productListFilters";
 
 type LayoutProductsListProps = {
   productData: any;
@@ -43,14 +47,51 @@ type LayoutProductsListProps = {
 export default function LayoutProductsList(props: LayoutProductsListProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const currentSearch = searchParams.toString();
   const hasBrand = searchParams.get("brand");
+  const hasPriceAverage = searchParams.get("priceAverage");
 
-  // BRAND FILTER
-  const brandHandler = (brand: string): string => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("brand", brand);
-    params.delete("page");
-    return `${pathname}?${params.toString()}`;
+  const goTo = (href: string) => {
+    window.location.href = href;
+  };
+
+  const brandHref = (brand: string): string =>
+    resolveProductListFilterHref({
+      pathname,
+      currentSearch,
+      key: "brand",
+      value: brand,
+      selectedValue: hasBrand,
+    });
+
+  const priceAverageHref = (priceAverage: string): string =>
+    resolveProductListFilterHref({
+      pathname,
+      currentSearch,
+      key: "priceAverage",
+      value: priceAverage,
+      selectedValue: hasPriceAverage,
+    });
+
+  const subcategoryHref = (slug: string): string =>
+    resolveSubcategoryFilterHref(
+      props.productCategoryData,
+      slug,
+      props.productSubCategoryData,
+      currentSearch
+    );
+
+  const clearSelectedFilter = (
+    event: { preventDefault: () => void },
+    selectedValue: string | null,
+    slug: string,
+    href: string
+  ) => {
+    if (selectedValue !== slug) {
+      return;
+    }
+    event.preventDefault();
+    goTo(href);
   };
 
   return (
@@ -146,16 +187,14 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                             aria-labelledby="subcategory-group-label"
                             name="subcategory-group"
                             defaultValue={
-                              props.productSubCategoryData
-                                ? props.productSubCategoryData
-                                : ""
+                              props.productSubCategoryData ?? undefined
                             }
                             onValueChange={(slug) => {
                               trackEvent(AnalyticsEvents.FILTER_APPLIED, {
                                 filter_type: "subcategory",
                                 value: slug,
                               });
-                              window.location.href = `/products/${props.productCategoryData}/${slug}`;
+                              goTo(subcategoryHref(slug));
                             }}
                           >
                             {props.productSubCategories.map(
@@ -164,9 +203,29 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                                 return (
                                   <div
                                     key={slug}
-                                    className="flex items-center gap-2"
+                                    className="flex items-center gap-2
+                                      first:mt-[15px]"
+                                    onClick={(event) =>
+                                      clearSelectedFilter(
+                                        event,
+                                        props.productSubCategoryData,
+                                        slug,
+                                        subcategoryHref(slug)
+                                      )
+                                    }
                                   >
-                                    <RadioGroupItem value={slug} id={id} />
+                                    <RadioGroupItem
+                                      value={slug}
+                                      id={id}
+                                      onPointerDown={(event) =>
+                                        clearSelectedFilter(
+                                          event,
+                                          props.productSubCategoryData,
+                                          slug,
+                                          subcategoryHref(slug)
+                                        )
+                                      }
+                                    />
                                     <label
                                       htmlFor={id}
                                       className="text-text-4 cursor-pointer
@@ -192,18 +251,14 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                         <AccordionContent>
                           <RadioGroup
                             aria-labelledby="brand-group-label"
-                            defaultValue={
-                              props.productBrandsData.length == 1
-                                ? props.productBrandsData[0].slug
-                                : hasBrand || undefined
-                            }
+                            defaultValue={hasBrand || undefined}
                             name="brand-group"
                             onValueChange={(slug) => {
                               trackEvent(AnalyticsEvents.FILTER_APPLIED, {
                                 filter_type: "brand",
                                 value: slug,
                               });
-                              window.location.href = brandHandler(slug);
+                              goTo(brandHref(slug));
                             }}
                           >
                             {props.productBrandsData.map(
@@ -212,9 +267,29 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                                 return (
                                   <div
                                     key={slug}
-                                    className="flex items-center gap-2"
+                                    className="flex items-center gap-2
+                                      first:mt-[15px]"
+                                    onClick={(event) =>
+                                      clearSelectedFilter(
+                                        event,
+                                        hasBrand,
+                                        slug,
+                                        brandHref(slug)
+                                      )
+                                    }
                                   >
-                                    <RadioGroupItem value={slug} id={id} />
+                                    <RadioGroupItem
+                                      value={slug}
+                                      id={id}
+                                      onPointerDown={(event) =>
+                                        clearSelectedFilter(
+                                          event,
+                                          hasBrand,
+                                          slug,
+                                          brandHref(slug)
+                                        )
+                                      }
+                                    />
                                     <label
                                       htmlFor={id}
                                       className="text-text-4 cursor-pointer
@@ -240,12 +315,15 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                         <AccordionContent>
                           <RadioGroup
                             aria-labelledby="price-average-group-label"
-                            defaultValue={
-                              props.productPriceAverageData.length == 1
-                                ? props.productPriceAverageData[0].slug
-                                : ""
-                            }
+                            defaultValue={hasPriceAverage || undefined}
                             name="price-average-group"
+                            onValueChange={(slug) => {
+                              trackEvent(AnalyticsEvents.FILTER_APPLIED, {
+                                filter_type: "price_average",
+                                value: slug,
+                              });
+                              goTo(priceAverageHref(slug));
+                            }}
                           >
                             {props.productPriceAverageData.map(
                               ({ count, title, slug }) => {
@@ -253,9 +331,29 @@ export default function LayoutProductsList(props: LayoutProductsListProps) {
                                 return (
                                   <div
                                     key={slug}
-                                    className="flex items-center gap-2"
+                                    className="flex items-center gap-2
+                                      first:mt-[15px]"
+                                    onClick={(event) =>
+                                      clearSelectedFilter(
+                                        event,
+                                        hasPriceAverage,
+                                        slug,
+                                        priceAverageHref(slug)
+                                      )
+                                    }
                                   >
-                                    <RadioGroupItem value={slug} id={id} />
+                                    <RadioGroupItem
+                                      value={slug}
+                                      id={id}
+                                      onPointerDown={(event) =>
+                                        clearSelectedFilter(
+                                          event,
+                                          hasPriceAverage,
+                                          slug,
+                                          priceAverageHref(slug)
+                                        )
+                                      }
+                                    />
                                     <label
                                       htmlFor={id}
                                       className="text-text-4 cursor-pointer
